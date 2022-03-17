@@ -13,7 +13,7 @@ const TeamEditScreen = ({ match }) => {
   const [name, setName] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
-
+  const [newMember, setNewMember] = useState({ id: '', user: '' })
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -28,9 +28,12 @@ const TeamEditScreen = ({ match }) => {
 
   const submitHandler = (e) => {
     e.preventDefault()
-    dispatch(updateTeamDetails({ teamId, name, specialty }))
+    dispatch(updateTeamDetails({ teamId, name, specialty, members }))
   }
-
+  const handleMembers = () => {
+    setMembers([...members, newMember])
+    console.log(members)
+  }
   useEffect(() => {
     if (!userInfo) {
       history.push('/')
@@ -83,14 +86,9 @@ const TeamEditScreen = ({ match }) => {
                     ))}
                   </select>
                 </Form.Group>
-                <FormGroup>
-                  <Button type="submit" className="ml-3" variant="primary">
-                    Update
-                  </Button>
-                </FormGroup>
+                <h1>Members</h1>
                 {members.map((m) => (
                   <>
-                    <h1>Members</h1>
                     <Table className="table table-hover" key={m._id}>
                       <tbody>
                         <tr className="table-secondary">
@@ -105,6 +103,36 @@ const TeamEditScreen = ({ match }) => {
                     </Table>
                   </>
                 ))}
+
+                <div className="row">
+                  <Form.Group controlId="newMember" className="col">
+                    <Form.Label>Add new Member's email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      value={newMember.email}
+                      onChange={(e) =>
+                        setNewMember({
+                          id: Math.random(),
+                          user: e.target.value,
+                        })
+                      }></Form.Control>
+                  </Form.Group>
+                  <FormGroup>
+                    <Form.Label>.</Form.Label>
+                    <Button
+                      onClick={() => handleMembers()}
+                      type="submit"
+                      className="col"
+                      variant="primary">
+                      <i className="fas fa-plus"></i>
+                    </Button>
+                  </FormGroup>
+                </div>
+                <FormGroup>
+                  <Button type="submit" variant="primary ">
+                    Update
+                  </Button>
+                </FormGroup>
               </Form>
             </FormContainer>
           </>

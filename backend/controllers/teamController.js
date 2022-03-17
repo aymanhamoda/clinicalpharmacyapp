@@ -60,6 +60,7 @@ const updateTeamDetails = asyncHandler(async (req, res) => {
   if (team) {
     team.name = name || team.name
     team.specialty = specialty || team.specialty
+    team.members = members || team.members
 
     const updatedteam = await team.save()
     res.json(updatedteam)
