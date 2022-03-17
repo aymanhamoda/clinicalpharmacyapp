@@ -80,7 +80,7 @@ export const getDoctorDetails = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/users/doctor/${id}`, config)
+    const { data } = await axios.get(`/api/users/${id}`, config)
 
     dispatch({
       type: DOCTOR_DETAILS_SUCCESS,

@@ -2,7 +2,14 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Form, FormLabel, Button, FormGroup, Container } from 'react-bootstrap'
+import {
+  Form,
+  FormLabel,
+  Button,
+  FormGroup,
+  Container,
+  Table,
+} from 'react-bootstrap'
 import specialityList from '../data/speciality'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
@@ -13,7 +20,7 @@ const TeamListScreen = () => {
   const [admin, setAdmin] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
-  const [adminTeams, setAdminTeams] = useState([])
+  const [userTeams, setUserTeams] = useState([])
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
@@ -43,8 +50,8 @@ const TeamListScreen = () => {
       history.push('/')
     } else {
       if (!admin) {
-        setAdmin(userInfo._id)
-        setMembers([{ id: Math.random(), user: userInfo._id }])
+        setAdmin(userInfo.email)
+        setMembers([{ id: Math.random(), user: userInfo.email }])
       }
 
       try {
@@ -54,8 +61,8 @@ const TeamListScreen = () => {
           },
         }
         axios
-          .get(`/api/teams/userteams/${userInfo._id}`, config)
-          .then((res) => setAdminTeams(res.data))
+          .get(`/api/teams/?user=${userInfo.email}`, config)
+          .then((res) => setUserTeams(res.data))
       } catch (error) {
         setError(error)
         console.log(error)
@@ -100,13 +107,26 @@ const TeamListScreen = () => {
           </FormGroup>
         </Form>
       </FormContainer>
-      {adminTeams && (
+      {userTeams && (
         <FormContainer>
-          <h1>Your teams</h1>
-          {adminTeams.map((t) => (
-            <Link key={t._id} to={`/teamlist/${t._id}`}>
-              <h1 className="btn btn-outline-success btn-block">{t.name}</h1>
-            </Link>
+          <h1>Your Teams</h1>
+          {userTeams.map((t) => (
+            <>
+              <Table className="table table-hover" key={t._id}>
+                <tbody>
+                  <tr className="table-primary">
+                    <th scope="row">{t.name}</th>
+                    {t.admin === userInfo.email && (
+                      <td className="float-right">
+                        <Link key={t._id} to={`/teamlist/${t._id}`}>
+                          <i className="fas fa-edit"></i>
+                        </Link>
+                      </td>
+                    )}
+                  </tr>
+                </tbody>
+              </Table>
+            </>
           ))}
         </FormContainer>
       )}

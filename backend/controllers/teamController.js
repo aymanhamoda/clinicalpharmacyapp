@@ -23,11 +23,13 @@ const createTeam = asyncHandler(async (req, res) => {
 })
 
 const getUserTeams = asyncHandler(async (req, res) => {
-  const teams = await Team.find()
+  const userEmail = req.query
+  console.log(userEmail)
+  const team = await Team.find({})
 
-  const userTeams = teams.filter((t) =>
-    t.members.find((m) => {
-      return m.user.toString() === req.params.id.toString()
+  const userTeams = team.filter((t) =>
+    t.members.filter((m) => {
+      return m.user.email !== userEmail
     })
   )
 
@@ -50,8 +52,9 @@ const getTeamDetails = asyncHandler(async (req, res) => {
   }
 })
 
-const updateTeam = asyncHandler(async (req, res) => {
+const updateTeamDetails = asyncHandler(async (req, res) => {
   const { name, specialty, members } = req.body
+  console.log(req.body)
   const team = await Team.findById(req.params.id)
 
   if (team) {
@@ -66,4 +69,4 @@ const updateTeam = asyncHandler(async (req, res) => {
   }
 })
 
-export { createTeam, getTeamDetails, updateTeam, getUserTeams }
+export { createTeam, getTeamDetails, updateTeamDetails, getUserTeams }

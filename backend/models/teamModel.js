@@ -2,9 +2,8 @@ import mongoose from 'mongoose'
 const memberSchema = mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: 'User',
     },
   },
   {
@@ -14,9 +13,8 @@ const memberSchema = mongoose.Schema(
 const teamSchema = mongoose.Schema(
   {
     admin: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       required: true,
-      ref: 'User',
     },
     name: {
       type: String,

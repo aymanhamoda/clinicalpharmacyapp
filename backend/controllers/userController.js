@@ -64,7 +64,6 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-  console.log(req.params.id)
   const user = await User.findById(req.params.id)
   if (user) {
     res.json({
@@ -112,14 +111,39 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-// @desc    Get all users
-// @route   GET /api/users
-// @access  Private/Admin
 const getUsers = asyncHandler(async (req, res) => {
   const users = await User.find({})
   res.json(users)
 })
 
+const getUserArrayDetails = asyncHandler(async (req, res) => {
+  const userArray = req.body
+  const userArrayLength = userArray.length
+  const users = await User.find({})
+
+  // for (let index = 1; index < userArrayLength + 1; index++) {
+  let matchedUser = userArray.map((u) => {
+    return u.user
+  })
+
+  if (users) {
+    matchedUser = users.filter((u) => {
+      return u._id.toString() !== matchedUser
+    })
+  }
+  console.log(matchedUser)
+  // }
+})
+// const getUserArrayDetails = asyncHandler(async (req, res) => {
+//   // const userArray = req.body
+//   // const usersIds = userArray.map((u) => u.user)
+//   // console.log(usersIds)
+//   const users = User.find({
+//     _id: { $in: ['6231be95026c3a33cc09a5ad', '623232144435972680554b37'] },
+//   })
+//   console.log(users)
+//   return users
+// })
 // @desc    Delete user
 // @route   DELETE /api/users/:id
 // @access  Private/Admin
@@ -183,4 +207,5 @@ export {
   deleteUser,
   getUserById,
   updateUser,
+  getUserArrayDetails,
 }

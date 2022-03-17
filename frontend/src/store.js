@@ -26,7 +26,7 @@ import {
 
 import { medicationListReducer } from './reducers/medicationReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
-import { teamDetailsReducer } from './reducers/teamReducers'
+import { teamDetailsReducer, teamUpdateReducer } from './reducers/teamReducers'
 
 const reducer = combineReducers({
   medicationList: medicationListReducer,
@@ -43,6 +43,8 @@ const reducer = combineReducers({
 
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
+  teamUpdates: teamUpdateReducer,
+
   visitCreate: visitCreateReducer,
   visitUpdate: visitUpdateReducer,
 
