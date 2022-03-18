@@ -28,11 +28,7 @@ const App = () => {
           <Route path="/teamlist/:id" component={TeamEditScreen} />
 
           <Route path="/doctor/patient/:id" component={PatientEditScreen} />
-          <Route
-            path="/doctor/patientlist/:pageNumber"
-            component={PatientListScreen}
-            exact
-          />
+          <Route path="/patientlist/:id" component={PatientListScreen} exact />
           <Route path="/" component={HomeScreen} exact />
         </Container>
       </main>

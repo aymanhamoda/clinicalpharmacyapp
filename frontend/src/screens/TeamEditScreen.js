@@ -95,7 +95,7 @@ const TeamEditScreen = ({ match }) => {
                           <th scope="row">{m.user}</th>
                           {m.user !== userInfo.email && (
                             <td>
-                              <i className="fas fa-trash"></i>
+                              <i className="fas fa-trash float-right"></i>
                             </td>
                           )}
                         </tr>

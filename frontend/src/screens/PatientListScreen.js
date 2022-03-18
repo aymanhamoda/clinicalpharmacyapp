@@ -6,7 +6,9 @@ import Paginate from '../components/Paginate'
 import PatientRegister from '../components/PatientRegister'
 import PatientList from '../components/PatientList'
 
-const PatientListScreen = () => {
+const PatientListScreen = ({ match }) => {
+  const team = match.params.id
+
   const pageNumber = window.location.search.substring(1)
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -23,8 +25,8 @@ const PatientListScreen = () => {
   }, [userInfo, history])
   return (
     <>
-      <PatientRegister pageNumber={pageNumber} />
-      <PatientList />
+      <PatientRegister team={team} />
+      <PatientList pageNumber={pageNumber} />
       <Paginate pages={pages} page={page} />
     </>
   )

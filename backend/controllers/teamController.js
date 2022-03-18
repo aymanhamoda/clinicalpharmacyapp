@@ -23,16 +23,16 @@ const createTeam = asyncHandler(async (req, res) => {
 })
 
 const getUserTeams = asyncHandler(async (req, res) => {
-  const userEmail = req.query
-  console.log(userEmail)
+  const userEmail = req.query.user
+
   const team = await Team.find({})
 
   const userTeams = team.filter((t) =>
-    t.members.filter((m) => {
-      return m.user.email !== userEmail
+    t.members.find((m) => {
+      return m.user === userEmail
     })
   )
-
+  console.log(userTeams)
   if (userTeams) {
     res.json(userTeams)
   } else {

@@ -14,63 +14,46 @@ import {
   PATIENT_UPDATE_FAIL,
 } from '../../constants/userConstants/patientConstants'
 
-export const registerPatient =
-  (firstName, middleName, lastName, birthdate, phone, email, nationalID) =>
-  async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: PATIENT_REGISTER_REQUEST,
-      })
+export const registerPatient = (patient) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: PATIENT_REGISTER_REQUEST,
+    })
 
-      const {
-        userLogin: { userInfo },
-      } = getState()
+    const {
+      userLogin: { userInfo },
+    } = getState()
 
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userInfo.token}`,
-        },
-      }
-      const { data } = await axios.post(
-        `/api/users/patient/${userInfo._id}`,
-        {
-          firstName,
-          middleName,
-          lastName,
-          phone,
-          email,
-          birthdate,
-          nationalID,
-        },
-        config
-      )
-      dispatch({
-        type: PATIENT_REGISTER_SUCCESS,
-        payload: data,
-      })
-    } catch (error) {
-      dispatch({
-        type: PATIENT_REGISTER_FAIL,
-        payload:
-          error.response && error.response.data.message
-            ? error.response.data.message
-            : error.message,
-      })
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
     }
+    const { data } = await axios.post(
+      `/api/patients`,
+      {
+        patient,
+      },
+      config
+    )
+    dispatch({
+      type: PATIENT_REGISTER_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    dispatch({
+      type: PATIENT_REGISTER_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
   }
+}
 
 export const listPatient =
-  (
-    firstName,
-    middleName,
-    lastName,
-    birthdate,
-    phone,
-    email,
-    nationalID,
-    pageNumber
-  ) =>
+  (firstName, middleName, lastName, birthdate, team, pageNumber) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -88,7 +71,7 @@ export const listPatient =
         },
       }
       const { data } = await axios.get(
-        `/api/patients/${userInfo._id}?firstName=${firstName}&middleName=${middleName}&lastName=${lastName}&birthdate=${birthdate}&email=${email}&phone=${phone}&nationalID=${nationalID}&pageNumber=${pageNumber}`,
+        `/api/patients/team/${team}?firstName=${firstName}&middleName=${middleName}&lastName=${lastName}&birthdate=${birthdate}&pageNumber=${pageNumber}`,
         config
       )
       dispatch({

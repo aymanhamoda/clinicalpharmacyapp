@@ -4,6 +4,7 @@ import { ListGroupItem, Row, Col, Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import Message from './Message'
 import Loader from './Loader'
+import FormContainer from './FormContainer'
 
 const PatientList = () => {
   const patientRegister = useSelector((state) => state.patientRegister)
@@ -14,8 +15,10 @@ const PatientList = () => {
 
   return (
     <>
-      {registerError && <Message variant='danger'>{registerError}</Message>}
-      {error && <Message variant='danger'>{error}</Message>}
+      <FormContainer>
+        {registerError && <Message variant="danger">{registerError}</Message>}
+        {error && <Message variant="danger">{error}</Message>}
+      </FormContainer>
       {loadingRegister && <Loader />}
 
       {loading ? (
@@ -25,31 +28,24 @@ const PatientList = () => {
           &nbsp;
           {patients &&
             patients.map((patient) => (
-              <div key={patient._id}>
+              <FormContainer key={patient._id}>
                 <LinkContainer to={`/doctor/patient/${patient._id}`}>
-                  <ListGroupItem className='d-flex justify-content-between align-items-center border-primary'>
+                  <ListGroupItem className="d-flex justify-content-between align-items-center border-primary">
                     <Col>
                       <Row>
-                        <h3 className='text-left-right'>
-                          <span className='left-text'>{patient.firstName}</span>
-                          <span className='byline'> {patient.middleName}</span>
-                          <span className='byline'> {patient.lastName}</span>
+                        <h3 className="text-left-right">
+                          <span className="left-text">{patient.firstName}</span>
+                          <span className="byline"> {patient.middleName}</span>
+                          <span className="byline"> {patient.lastName}</span>
                         </h3>
                       </Row>
                       <Row>Birthdate: {patient.birthdate.substring(0, 10)}</Row>
-                      <Row>Phone: {patient.phone}</Row>
-                      <Row>National ID:{patient.nationalID}</Row>
-                      <Button
-                        style={{ float: 'right' }}
-                        className='btn btn-info'
-                      >
-                        Edit
-                      </Button>
+                      <Button className="btn btn-info float-right">Edit</Button>
                     </Col>
                   </ListGroupItem>
                 </LinkContainer>
                 &nbsp;
-              </div>
+              </FormContainer>
             ))}
         </>
       )}

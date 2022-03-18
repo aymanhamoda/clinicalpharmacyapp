@@ -77,7 +77,7 @@ const TeamListScreen = () => {
       <FormContainer>
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="teamName" className="col-sm-12">
-            <Form.Label>Team Name</Form.Label>
+            <Form.Label>Team Name </Form.Label>
             <Form.Control
               type="name"
               placeholder="Enter team name"
@@ -117,12 +117,19 @@ const TeamListScreen = () => {
                   <tr className="table-primary">
                     <th scope="row">{t.name}</th>
                     {t.admin === userInfo.email && (
-                      <td className="float-right">
-                        <Link key={t._id} to={`/teamlist/${t._id}`}>
-                          <i className="fas fa-edit"></i>
-                        </Link>
-                      </td>
+                      <>
+                        <td className="float-right">
+                          <Link key={t._id} to={`/teamlist/${t._id}`}>
+                            <i className="fas fa-edit"></i>
+                          </Link>
+                        </td>
+                      </>
                     )}
+                    <td className="float-right">
+                      <Link key={t._id} to={`/patientlist/${t._id}`}>
+                        <i className="far fa-address-book"></i>
+                      </Link>
+                    </td>
                   </tr>
                 </tbody>
               </Table>

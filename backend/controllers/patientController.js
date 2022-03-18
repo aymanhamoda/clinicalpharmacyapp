@@ -5,9 +5,7 @@ import Patient from '../models/patientModel.js'
 // @route   POST /api/patient/:id
 // @access  Private
 const registerPatient = asyncHandler(async (req, res) => {
-  const team = req.body.teamId
-  const { firstName, middleName, lastName, birthdate } = req.body
-
+  const { firstName, middleName, lastName, birthdate, team } = req.body.patient
   const patient = await Patient.create({
     firstName,
     middleName,
@@ -49,6 +47,7 @@ const getPatientDetails = asyncHandler(async (req, res) => {
 // @route   GET /api/users/patients/:id
 // @access  Private
 const getPatients = asyncHandler(async (req, res) => {
+  const team = req.params.id
   const pageSize = 6
   const page = Number(req.query.pageNumber) || 1
 
