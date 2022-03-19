@@ -26,14 +26,17 @@ const Header = () => {
     <header>
       <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
         <Container>
-          <LinkContainer to="/">
+          {/* <LinkContainer to="/">
             <Nav.Link>
               <Image src={'/images/logo.png'} fluid />
             </Nav.Link>
-          </LinkContainer>
+          </LinkContainer> */}
           <LinkContainer to="/">
             <Navbar.Brand>
-              <span style={{ color: 'gold' }}>Clinical Pharmacy App</span>
+              <span style={{ color: 'gold' }}>
+                {' '}
+                <i className="fas fa-home"></i> Clinical Pharmacy App
+              </span>
             </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />

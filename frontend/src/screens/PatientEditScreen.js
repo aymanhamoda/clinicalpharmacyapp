@@ -1,6 +1,5 @@
 import React from 'react'
-import PatientVisitList from '../components/PatientVisitList'
-import PatientNewVisit from '../components/PatientNewVisit'
+import PatientAdmissionList from '../components/PatientAdmissionList'
 import PatientDetails from '../components/PatientDetails'
 
 const PatientEditScreen = ({ match }) => {
@@ -8,8 +7,7 @@ const PatientEditScreen = ({ match }) => {
   return (
     <>
       <PatientDetails patientId={patientId} />
-      <PatientVisitList patientId={patientId} />
-      <PatientNewVisit />
+      <PatientAdmissionList patientId={patientId} />
     </>
   )
 }

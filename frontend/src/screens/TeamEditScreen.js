@@ -5,6 +5,7 @@ import { useHistory } from 'react-router-dom'
 import { getTeamDetails, updateTeamDetails } from '../actions/teamActions'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
+import Message from '../components/Message'
 import specialityList from '../data/speciality'
 
 const TeamEditScreen = ({ match }) => {
@@ -14,6 +15,8 @@ const TeamEditScreen = ({ match }) => {
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
   const [newMember, setNewMember] = useState({ id: '', user: '' })
+  const [message, setMessage] = useState('')
+
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -31,8 +34,23 @@ const TeamEditScreen = ({ match }) => {
     dispatch(updateTeamDetails({ teamId, name, specialty, members }))
   }
   const handleMembers = () => {
-    setMembers([...members, newMember])
-    console.log(members)
+    if (newMember) {
+      setMessage('')
+      const isRepeated = members.map((m) => m.user === newMember.user)
+      console.log(isRepeated)
+      if (isRepeated[0]) {
+        setMessage('This member already added')
+      } else {
+        setMembers([...members, newMember])
+      }
+    }
+  }
+  const deleteMember = (e) => {
+    setMembers(
+      members.filter((m) => {
+        return m.user !== e
+      })
+    )
   }
   useEffect(() => {
     if (!userInfo) {
@@ -87,6 +105,8 @@ const TeamEditScreen = ({ match }) => {
                   </select>
                 </Form.Group>
                 <h1>Members</h1>
+                {message && <Message children={message} variant="danger" />}
+
                 {members.map((m) => (
                   <>
                     <Table className="table table-hover" key={m._id}>
@@ -95,7 +115,9 @@ const TeamEditScreen = ({ match }) => {
                           <th scope="row">{m.user}</th>
                           {m.user !== userInfo.email && (
                             <td>
-                              <i className="fas fa-trash float-right"></i>
+                              <i
+                                onClick={() => deleteMember(m.user)}
+                                className="fas fa-trash float-right"></i>
                             </td>
                           )}
                         </tr>

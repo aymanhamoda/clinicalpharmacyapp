@@ -29,7 +29,7 @@ const PatientList = () => {
           {patients &&
             patients.map((patient) => (
               <FormContainer key={patient._id}>
-                <LinkContainer to={`/doctor/patient/${patient._id}`}>
+                <LinkContainer to={`/patient/${patient._id}`}>
                   <ListGroupItem className="d-flex justify-content-between align-items-center border-primary">
                     <Col>
                       <Row>

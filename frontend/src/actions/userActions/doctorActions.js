@@ -14,12 +14,18 @@ import {
   DOCTOR_UPDATE_PROFILE_REQUEST,
   DOCTOR_UPDATE_PROFILE_SUCCESS,
 } from '../../constants/userConstants/doctorConstants'
+import {
+  TEAM_DETAILS_RESET,
+  TEAM_UPDATE_RESET,
+} from '../../constants/teamConstants'
 
 export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: DOCTOR_DETAILS_RESET })
   dispatch({ type: PATIENT_LIST_RESET })
+  dispatch({ type: TEAM_DETAILS_RESET })
+  dispatch({ type: TEAM_UPDATE_RESET })
 }
 
 export const registerDoctor =

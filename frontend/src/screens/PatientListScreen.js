@@ -7,7 +7,7 @@ import PatientRegister from '../components/PatientRegister'
 import PatientList from '../components/PatientList'
 
 const PatientListScreen = ({ match }) => {
-  const team = match.params.id
+  const teamId = match.params.id
 
   const pageNumber = window.location.search.substring(1)
 
@@ -25,7 +25,7 @@ const PatientListScreen = ({ match }) => {
   }, [userInfo, history])
   return (
     <>
-      <PatientRegister team={team} />
+      <PatientRegister teamId={teamId} />
       <PatientList pageNumber={pageNumber} />
       <Paginate pages={pages} page={page} />
     </>

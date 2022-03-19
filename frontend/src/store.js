@@ -1,11 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
-import {
-  patientVisitListReducer,
-  visitCreateReducer,
-  visitUpdateReducer,
-} from './reducers/visitReducers'
+
 import {
   secretaryRegisterReducer,
   secretaryListReducer,
@@ -27,6 +23,11 @@ import {
 import { medicationListReducer } from './reducers/medicationReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
 import { teamDetailsReducer, teamUpdateReducer } from './reducers/teamReducers'
+import {
+  admissionCreateReducer,
+  admissionUpdateReducer,
+  patientadmissionListReducer,
+} from './reducers/admissionReducers'
 
 const reducer = combineReducers({
   medicationList: medicationListReducer,
@@ -39,14 +40,14 @@ const reducer = combineReducers({
   patientDetails: patientDetailsReducer,
   patientRegister: patientRegisterReducer,
   patientUpdate: patientUpdateReducer,
-  patientVisitList: patientVisitListReducer,
+  admissionList: patientadmissionListReducer,
 
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
   teamUpdates: teamUpdateReducer,
 
-  visitCreate: visitCreateReducer,
-  visitUpdate: visitUpdateReducer,
+  createdAdmission: admissionCreateReducer,
+  updatedAdmission: admissionUpdateReducer,
 
   secretaryRegister: secretaryRegisterReducer,
   secretaryList: secretaryListReducer,

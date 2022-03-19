@@ -5,10 +5,12 @@ import { useSelector } from 'react-redux'
 export const PrintPrescription = ({ match }) => {
   const _id = match.params.id
 
-  const patientVisitList = useSelector((state) => state.patientVisitList)
-  const { visits } = patientVisitList
+  const patientAdmissionList = useSelector(
+    (state) => state.patientAdmissionList
+  )
+  const { admissions } = patientAdmissionList
 
-  const visit = visits.find((visit) => {
+  const admission = admissions.find((visit) => {
     return visit._id === _id
   })
 
@@ -29,7 +31,7 @@ export const PrintPrescription = ({ match }) => {
       <Row>&nbsp;</Row>
       <Row>&nbsp;</Row>
       <Row>&nbsp;</Row>
-      {visit.prescriptions.map((prescription) => (
+      {admission.prescriptions.map((prescription) => (
         <div style={{ top: '40%', color: 'black' }} key={prescription._id}>
           <Col>
             <Row>

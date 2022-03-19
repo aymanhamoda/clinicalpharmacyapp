@@ -8,15 +8,17 @@ import {
 } from '../actions/userActions/patientActions'
 import Message from './Message'
 import Loader from './Loader'
+import FormContainer from './FormContainer'
+import { getTeamDetails } from '../actions/teamActions'
 
 const PatientDetails = ({ patientId }) => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [nationalID, setNationalID] = useState('')
+
+  const teamDetails = useSelector((state) => state.teamDetails)
+  const { team } = teamDetails
 
   const patientDetails = useSelector((state) => state.patientDetails)
   const { loading, error, patient } = patientDetails
@@ -31,154 +33,112 @@ const PatientDetails = ({ patientId }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!patient._id || patient._id !== patientId) {
+    if (!patient || patient._id !== patientId) {
       dispatch(getPatientDetails(patientId))
     } else {
       setFirstName(patient.firstName)
       setMiddleName(patient.middleName)
       setLastName(patient.lastName)
       setBirthdate(patient.birthdate.substring(0, 10))
-      setPhone(patient.phone)
-      setEmail(patient.email)
-      setNationalID(patient.nationalID)
+      dispatch(getTeamDetails(patient.team))
     }
 
     if (!userInfo) {
       history.push('/')
     }
-  }, [
-    patient._id,
-    patientId,
-    userInfo,
-    history,
-    dispatch,
-    patient.firstName,
-    patient.middleName,
-    patient.lastName,
-    patient.birthdate,
-    patient.phone,
-    patient.email,
-    patient.nationalID,
-  ])
+  }, [patientId, patient, userInfo, history, dispatch])
 
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
-      updatePatient(
-        patientId,
-        firstName,
-        middleName,
-        lastName,
-        birthdate,
-        phone,
-        email,
-        nationalID
-      )
+      updatePatient(patientId, firstName, middleName, lastName, birthdate)
     )
   }
 
   return (
     <>
-      {loading ? (
-        <Loader />
-      ) : loadingUpdate ? (
+      {team && (
+        <h1 className="text-center text-success text-inline">
+          {team.name}
+          <span className="text-white"> | Patient Edit Screen</span>
+        </h1>
+      )}
+      {loading || loadingUpdate ? (
         <Loader />
       ) : error ? (
-        <Message variant='danger'>{error}</Message>
+        <Message variant="danger">{error}</Message>
       ) : (
-        <ListGroup onSubmit={submitHandler}>
-          <h1>Edit Patient</h1>
-          <Form>
-            <Row>
-              <Col>
-                <Form.Group controlId='firstName'>
+        <FormContainer>
+          <Form onSubmit={submitHandler}>
+            <Form>
+              <Row className="form-label justify-content-center pb-2">
+                اسم المريض ثلاثي
+              </Row>
+              <Row className="flex-row-reverse">
+                <Form.Group controlId="firstName" className=" col-sm-4">
                   <Form.Control
-                    type='name'
-                    placeholder='Enter first name'
+                    type="name"
+                    className="text-center"
+                    placeholder="اسم المريض"
                     value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  ></Form.Control>
+                    onChange={(e) =>
+                      setFirstName(e.target.value)
+                    }></Form.Control>
                 </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group controlId='middleName'>
+
+                <Form.Group controlId="middleName" className="col-sm-4">
                   <Form.Control
-                    type='name'
-                    placeholder='Enter Middle name'
+                    type="name"
+                    className="text-center"
+                    placeholder="الاسم الأب"
                     value={middleName}
-                    onChange={(e) => setMiddleName(e.target.value)}
-                  ></Form.Control>
+                    onChange={(e) =>
+                      setMiddleName(e.target.value)
+                    }></Form.Control>
                 </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group controlId='lastName'>
+
+                <Form.Group controlId="lastName" className="col-sm-4">
                   <Form.Control
-                    type='name'
-                    placeholder='Enter last name'
+                    type="name"
+                    className="text-center"
+                    placeholder="اسم الجد"
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
-                  ></Form.Control>
+                    onChange={(e) =>
+                      setLastName(e.target.value)
+                    }></Form.Control>
                 </Form.Group>
-              </Col>
-            </Row>
-          </Form>
+              </Row>
+            </Form>
 
-          <Form>
-            <Row>
-              <Col>
-                <Form.Group controlId='birthdate'>
-                  <FormLabel>Birthdate</FormLabel>
-                  <Form.Control
-                    type='text'
-                    value={birthdate}
-                    onChange={(e) => setBirthdate(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Form.Group controlId='phone'>
-                  <FormLabel>Phone</FormLabel>
-                  <Form.Control
-                    type='name'
-                    placeholder='Enter phone'
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Form>
+            <Form>
+              <Row>
+                <Col>
+                  <Form.Group controlId="birthdate">
+                    <Row className="form-label justify-content-center pb-2">
+                      تاريخ الميلاد
+                    </Row>
+                    <Form.Control
+                      type="date"
+                      placeholder="Enter Birthdate"
+                      value={birthdate}
+                      onChange={(e) =>
+                        setBirthdate(e.target.value)
+                      }></Form.Control>
+                  </Form.Group>
+                </Col>
+              </Row>
+            </Form>
 
-          <Form>
-            <Form.Group controlId='email'>
-              <Form.Label>Email Address</Form.Label>
-              <Form.Control
-                type='email'
-                placeholder='Enter email'
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
+            <Form>
+              <Button
+                className="btn btn-info mb-3"
+                style={{ float: 'right' }}
+                type="submit">
+                Update Patient
+              </Button>
+            </Form>
           </Form>
-          <Form>
-            <Form.Group controlId='nationalID'>
-              <Form.Label>Enter National ID</Form.Label>
-              <Form.Control
-                type='nationalID'
-                placeholder='Enter nationalID'
-                value={nationalID}
-                onChange={(e) => setNationalID(e.target.value)}
-              ></Form.Control>
-            </Form.Group>
-            <Button
-              className='btn btn-info'
-              style={{ float: 'right' }}
-              type='submit'
-            >
-              update Patient
-            </Button>
-          </Form>
-        </ListGroup>
+        </FormContainer>
       )}
     </>
   )

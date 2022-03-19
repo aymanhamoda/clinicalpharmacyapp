@@ -3,12 +3,11 @@ import React, { useState, useEffect } from 'react'
 import { Button, Col, Form, FormGroup, Image, Modal } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { useDispatch, useSelector } from 'react-redux'
+import { updateAdmission } from '../actions/admissionActions'
 import { listMedications } from '../actions/medicationActions'
-import Message from './Message'
 import Loader from './Loader'
-import { updateVisit } from '../actions/visitActions'
 
-const PatientUpdateVisit = ({
+const PatientUpdateAdmission = ({
   id,
   visitDate,
   clinicalFindings,
@@ -16,9 +15,8 @@ const PatientUpdateVisit = ({
   prescriptions,
 }) => {
   const [show, setShow] = useState(false)
-  const [newClinicalFindings, setNewClinicalFindings] = useState(
-    clinicalFindings
-  )
+  const [newClinicalFindings, setNewClinicalFindings] =
+    useState(clinicalFindings)
   const [newImages, setNewImages] = useState(images)
   const [uploading, setUploading] = useState(false)
   const [newPrescriptions, setNewPrescriptions] = useState(prescriptions)
@@ -67,7 +65,7 @@ const PatientUpdateVisit = ({
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
-      updateVisit({
+      updateAdmission({
         id,
         visitDate,
         clinicalFindings: newClinicalFindings,
@@ -110,17 +108,16 @@ const PatientUpdateVisit = ({
   }
   return (
     <>
-      <Button variant='primary' onClick={handleShow} style={{ float: 'right' }}>
+      <Button variant="primary" onClick={handleShow} style={{ float: 'right' }}>
         Edit visit
       </Button>
 
       <Modal
-        size='lg'
+        size="lg"
         show={show}
         onHide={handleClose}
-        backdrop='static'
-        keyboard={false}
-      >
+        backdrop="static"
+        keyboard={false}>
         <Modal.Header closeButton>
           <Modal.Title>
             {patient.firstName +
@@ -132,39 +129,40 @@ const PatientUpdateVisit = ({
         </Modal.Header>
         <Modal.Body>
           <Form>
-            <Form.Group controlId='clinicalFindings'>
+            <Form.Group controlId="clinicalFindings">
               <Form.Label>
                 <h2>Clinical Details</h2>
               </Form.Label>
               <textarea
                 style={{ minHeight: '20px', width: '100%' }}
-                wrap='hard'
+                wrap="hard"
                 rows={10}
                 cols={10}
-                placeholder='Enter clinicalFindings'
+                placeholder="Enter clinicalFindings"
                 value={newClinicalFindings}
-                onChange={(e) => setNewClinicalFindings(e.target.value)}
-              ></textarea>
+                onChange={(e) =>
+                  setNewClinicalFindings(e.target.value)
+                }></textarea>
             </Form.Group>
             <h1>Images</h1>
             {newImages.map((image) => (
               <div key={image.idx}>
-                <Form.Group controlId='images'>
+                <Form.Group controlId="images">
                   {image.path && (
                     <Image src={image.path} style={{ height: '100px' }} />
                   )}
                   <Form.Control
-                    type='text'
-                    placeholder='Enter image url'
+                    type="text"
+                    placeholder="Enter image url"
                     value={image.path}
-                    onChange={(e) => (image.path = e.target.value)}
-                  ></Form.Control>
+                    onChange={(e) =>
+                      (image.path = e.target.value)
+                    }></Form.Control>
                   <Form.File
-                    id='image-file'
-                    label='Choose File'
+                    id="image-file"
+                    label="Choose File"
                     custom
-                    onChange={(e) => uploadFileHandler(e, image)}
-                  ></Form.File>
+                    onChange={(e) => uploadFileHandler(e, image)}></Form.File>
                 </Form.Group>
                 <Button onClick={() => addNewImage()}>Add another image</Button>
               </div>
@@ -172,16 +170,16 @@ const PatientUpdateVisit = ({
             {uploading && <Loader />}
             <h1>Prescriptions</h1>
             {newPrescriptions.map((prescription) => (
-              <Form key={prescription.idx} className='form-row'>
+              <Form key={prescription.idx} className="form-row">
                 {medications ? (
-                  <FormGroup className='col-sm-4'>
+                  <FormGroup className="col-sm-4">
                     <Typeahead
                       defaultInputValue={prescription.medication}
-                      placeholder='Enter Medication'
+                      placeholder="Enter Medication"
                       options={medications}
                       onChange={(e) => handleMedicationChange(e, prescription)}
-                      name='medication'
-                      id='basic-example'
+                      name="medication"
+                      id="basic-example"
                       data-id={prescription.idx}
                     />
                   </FormGroup>
@@ -190,14 +188,14 @@ const PatientUpdateVisit = ({
                 )}
 
                 {medications && (
-                  <FormGroup className='col-sm-5'>
+                  <FormGroup className="col-sm-5">
                     <input
                       defaultValue={prescription.direction}
                       onChange={(e) => handleDirectionChange(e, prescription)}
-                      type='text'
-                      className='form-control required'
-                      placeholder='Direction'
-                      name='direction'
+                      type="text"
+                      className="form-control required"
+                      placeholder="Direction"
+                      name="direction"
                       data-id={prescription.idx}
                       id={prescription.direction}
                     />
@@ -205,20 +203,18 @@ const PatientUpdateVisit = ({
                 )}
 
                 {medications && (
-                  <FormGroup className='col-sm-3'>
+                  <FormGroup className="col-sm-3">
                     {' '}
                     <Button
                       onClick={() => addNewRow()}
-                      className='btn btn-primary text-center'
-                    >
-                      <i className='fa fa-plus-circle' aria-hidden='true' />
+                      className="btn btn-primary text-center">
+                      <i className="fa fa-plus-circle" aria-hidden="true" />
                     </Button>
                     {prescription.idx !== 0 && (
                       <Button
-                        className='btn btn-danger'
-                        onClick={() => deleteRow(prescription)}
-                      >
-                        <i className='fa fa-minus' aria-hidden='true' />
+                        className="btn btn-danger"
+                        onClick={() => deleteRow(prescription)}>
+                        <i className="fa fa-minus" aria-hidden="true" />
                       </Button>
                     )}
                   </FormGroup>
@@ -228,11 +224,11 @@ const PatientUpdateVisit = ({
           </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
 
-          <Button variant='primary' type='submit' onClick={submitHandler}>
+          <Button variant="primary" type="submit" onClick={submitHandler}>
             Update Changes
           </Button>
         </Modal.Footer>
@@ -241,4 +237,4 @@ const PatientUpdateVisit = ({
   )
 }
 
-export default PatientUpdateVisit
+export default PatientUpdateAdmission

@@ -2,12 +2,13 @@ import asyncHandler from 'express-async-handler'
 import Admission from '../models/admissionModel.js'
 
 const createAdmission = asyncHandler(async (req, res) => {
-  const { patientId, admissionDate, userId } = req.body
-
+  const { patient, admissionDate, admissionDetails, team } = req.body
+  console.log(req.body)
   const admission = await Admission.create({
-    patient: patientId,
-    admissionDate,
-    user: userId,
+    patient: patient,
+    admissionDate: Date.parse(admissionDate),
+    admissionDetails,
+    team,
   })
 
   if (admission) {

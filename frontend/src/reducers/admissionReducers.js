@@ -1,0 +1,53 @@
+import {
+  ADMISSION_CREATE_REQUEST,
+  ADMISSION_CREATE_SUCCESS,
+  ADMISSION_CREATE_FAIL,
+  PATIENT_ADMISSION_LIST_SUCCESS,
+  PATIENT_ADMISSION_LIST_FAIL,
+  PATIENT_ADMISSION_LIST_REQUEST,
+  ADMISSION_UPDATE_REQUEST,
+  ADMISSION_UPDATE_SUCCESS,
+  ADMISSION_UPDATE_FAIL,
+} from '../constants/admissionConstants'
+
+export const admissionCreateReducer = (state = { admission: '' }, action) => {
+  switch (action.type) {
+    case ADMISSION_CREATE_REQUEST:
+      return { loading: true }
+    case ADMISSION_CREATE_SUCCESS:
+      return { loading: false, admission: action.payload }
+    case ADMISSION_CREATE_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const patientadmissionListReducer = (
+  state = { admissions: [] },
+  action
+) => {
+  switch (action.type) {
+    case PATIENT_ADMISSION_LIST_REQUEST:
+      return { loading: true }
+    case PATIENT_ADMISSION_LIST_SUCCESS:
+      return { loading: false, admissions: action.payload }
+    case PATIENT_ADMISSION_LIST_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const admissionUpdateReducer = (state = { admission: {} }, action) => {
+  switch (action.type) {
+    case ADMISSION_UPDATE_REQUEST:
+      return { loading: true }
+    case ADMISSION_UPDATE_SUCCESS:
+      return { loading: false, admission: action.payload }
+    case ADMISSION_UPDATE_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}

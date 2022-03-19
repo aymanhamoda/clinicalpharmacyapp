@@ -106,7 +106,7 @@ export const getPatientDetails = (id) => async (dispatch, getState) => {
       },
     }
 
-    const { data } = await axios.get(`/api/users/patient/${id}/edit`, config)
+    const { data } = await axios.get(`/api/patients/${id}`, config)
 
     dispatch({
       type: PATIENT_DETAILS_SUCCESS,
@@ -128,16 +128,7 @@ export const getPatientDetails = (id) => async (dispatch, getState) => {
 }
 
 export const updatePatient =
-  (
-    patientId,
-    firstName,
-    middleName,
-    lastName,
-    birthdate,
-    phone,
-    email,
-    nationalID
-  ) =>
+  (patientId, firstName, middleName, lastName, birthdate) =>
   async (dispatch, getState) => {
     try {
       dispatch({
@@ -155,15 +146,12 @@ export const updatePatient =
         },
       }
       const { data } = await axios.put(
-        `/api/users/patient/${patientId}/edit`,
+        `/api/patients/${patientId}/edit`,
         {
           firstName,
           middleName,
           lastName,
           birthdate,
-          phone,
-          email,
-          nationalID,
         },
         config
       )

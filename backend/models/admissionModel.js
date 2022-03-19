@@ -2,10 +2,10 @@ import mongoose from 'mongoose'
 
 const admissionSchema = mongoose.Schema(
   {
-    user: {
+    team: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'User',
+      ref: 'Team',
     },
     patient: {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,6 +14,9 @@ const admissionSchema = mongoose.Schema(
     },
     admissionDate: {
       type: Date,
+    },
+    admissionDetails: {
+      type: String,
     },
     dischargeDate: {
       type: Date,
