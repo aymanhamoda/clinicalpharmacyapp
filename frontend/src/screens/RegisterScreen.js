@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
-import { registerDoctor } from '../actions/userActions/doctorActions'
+import { registerUser } from '../actions/userActions'
 
 const RegisterScreen = () => {
   const [firstName, setFirstName] = useState('')
@@ -17,8 +17,8 @@ const RegisterScreen = () => {
 
   const dispatch = useDispatch()
 
-  const doctorRegister = useSelector((state) => state.doctorRegister)
-  const { loading, error } = doctorRegister
+  const registeredUser = useSelector((state) => state.registeredUser)
+  const { loading, error } = registeredUser
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -35,7 +35,7 @@ const RegisterScreen = () => {
     e.preventDefault()
     setMessage('')
     if (password && password === confirmPassword) {
-      dispatch(registerDoctor(firstName, lastName, email, password))
+      dispatch(registerUser(firstName, lastName, email, password))
     }
 
     if (!password) {

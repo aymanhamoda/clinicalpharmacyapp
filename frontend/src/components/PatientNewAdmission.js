@@ -10,9 +10,7 @@ import FormContainer from './FormContainer'
 import { getPatientDetails } from '../actions/userActions/patientActions'
 
 const PatientNewAdmission = ({ patientId }) => {
-  const [admissionDate, setAdmissionDate] = useState(
-    new Date().toLocaleDateString()
-  )
+  const [admissionDate, setAdmissionDate] = useState(new Date())
   const [admissionDetails, setAdmissionDetails] = useState('')
   const [message, setMessage] = useState('')
 

@@ -6,19 +6,19 @@ import {
   secretaryRegisterReducer,
   secretaryListReducer,
 } from './reducers/userReducers/secretaryReducers'
-import { userLoginReducer, userDeleteReducer } from './reducers/userReducers'
+import {
+  userLoginReducer,
+  userDeleteReducer,
+  userDetailsReducer,
+  userRegisterReducer,
+  updateUserDetailsReducer,
+} from './reducers/userReducers'
 import {
   patientListReducer,
   patientRegisterReducer,
   patientDetailsReducer,
   patientUpdateReducer,
 } from './reducers/userReducers/patientReducers'
-
-import {
-  doctorDetailsReducer,
-  doctorRegisterReducer,
-  doctorUpdateProfileReducer,
-} from './reducers/userReducers/doctorReducers'
 
 import { medicationListReducer } from './reducers/medicationReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
@@ -32,9 +32,9 @@ import {
 const reducer = combineReducers({
   medicationList: medicationListReducer,
 
-  doctorDetails: doctorDetailsReducer,
-  doctorRegister: doctorRegisterReducer,
-  doctorUpdateProfile: doctorUpdateProfileReducer,
+  userDetails: userDetailsReducer,
+  registeredUser: userRegisterReducer,
+  updatedUserDetails: updateUserDetailsReducer,
 
   patientList: patientListReducer,
   patientDetails: patientDetailsReducer,

@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import DoctorProfile from '../components/DoctorProfile'
+import UserProfile from '../components/UserProfile'
 
-const DoctorScreen = () => {
+const UserProfileScreen = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
@@ -16,8 +16,8 @@ const DoctorScreen = () => {
   }, [history, userInfo])
   return (
     <>
-      <DoctorProfile />
+      <UserProfile />
     </>
   )
 }
-export default DoctorScreen
+export default UserProfileScreen
