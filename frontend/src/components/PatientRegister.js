@@ -3,10 +3,7 @@ import { Form, Button, Row, Col, ListGroup, FormLabel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getTeamDetails } from '../actions/teamActions'
 
-import {
-  registerPatient,
-  listPatient,
-} from '../actions/userActions/patientActions'
+import { registerPatient, listPatient } from '../actions/patientActions'
 import FormContainer from './FormContainer'
 import Loader from './Loader'
 

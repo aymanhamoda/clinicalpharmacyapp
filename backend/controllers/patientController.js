@@ -33,6 +33,7 @@ const registerPatient = asyncHandler(async (req, res) => {
 // @route   Get /api/users/:id
 // @access  Private
 const getPatientDetails = asyncHandler(async (req, res) => {
+  console.log(req.params.id)
   const patient = await Patient.findById(req.params.id)
 
   if (patient) {

@@ -131,22 +131,10 @@ const getUserArrayDetails = asyncHandler(async (req, res) => {
       return u._id.toString() !== matchedUser
     })
   }
-  console.log(matchedUser)
+
   // }
 })
-// const getUserArrayDetails = asyncHandler(async (req, res) => {
-//   // const userArray = req.body
-//   // const usersIds = userArray.map((u) => u.user)
-//   // console.log(usersIds)
-//   const users = User.find({
-//     _id: { $in: ['6231be95026c3a33cc09a5ad', '623232144435972680554b37'] },
-//   })
-//   console.log(users)
-//   return users
-// })
-// @desc    Delete user
-// @route   DELETE /api/users/:id
-// @access  Private/Admin
+
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id)
 
@@ -177,8 +165,6 @@ const getUserById = asyncHandler(async (req, res) => {
 // @route   PUT /api/users/:id
 // @access  Private/Admin
 const updateUserDetails = asyncHandler(async (req, res) => {
-  console.log(req.body)
-
   const { firstName, lastName, email, password } = req.body
 
   const user = await User.findById(req.params.id)

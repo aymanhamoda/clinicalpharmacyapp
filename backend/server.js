@@ -9,12 +9,8 @@ import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import patientRoutes from './routes/patientRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
-import followupRoutes from './routes/followupRoutes.js'
+import reviewRoutes from './routes/reviewRoutes.js'
 import admissionRoutes from './routes/admissionRoutes.js'
-// import visitRoutes from './routes/visitRoutes.js'
-// import uploadRoutes from './routes/uploadRoutes.js'
-// import medicationRoutes from './routes/medicationRoutes.js'
-// import subscribtionRoutes from './routes/subscribtionRoutes.js'
 
 dotenv.config()
 
@@ -31,7 +27,7 @@ app.use(express.json())
 app.use('/api/users', userRoutes)
 app.use('/api/patients', patientRoutes)
 app.use('/api/teams', teamRoutes)
-app.use('/api/followups', followupRoutes)
+app.use('/api/reviews', reviewRoutes)
 app.use('/api/admissions', admissionRoutes)
 
 // app.use('/api/visits', visitRoutes)

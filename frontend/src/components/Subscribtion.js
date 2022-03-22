@@ -64,29 +64,28 @@ const Subscribtion = () => {
 
   return (
     <Accordion>
-      <AccordionToggle eventKey='subscribtion' as={Card.Header} variant='link'>
+      <AccordionToggle eventKey="subscribtion" as={Card.Header} variant="link">
         <h3>Your Subscribtions</h3>
       </AccordionToggle>
 
-      <AccordionCollapse eventKey='subscribtion'>
+      <AccordionCollapse eventKey="subscribtion">
         <div>
           {doctor.isActive ? (
-            <Message variant='success'>Your account is activated</Message>
+            <Message variant="success">Your account is activated</Message>
           ) : (
-            <Message variant='danger'>
+            <Message variant="danger">
               Your activation is suspended and will be regain after subscribtion
               paid
             </Message>
           )}
           <Form>
-            <Form.Group controlId='subscribtionMonths'>
+            <Form.Group controlId="subscribtionMonths">
               <FormLabel>Subscribtion Months</FormLabel>
               <select
-                className='custom-select'
-                type='name'
+                className="custom-select"
+                type="name"
                 value={subscribtionMonths}
-                onChange={(e) => setSubscribtionMonths(e.target.value)}
-              >
+                onChange={(e) => setSubscribtionMonths(e.target.value)}>
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -94,9 +93,9 @@ const Subscribtion = () => {
                 <option>12</option>
               </select>
             </Form.Group>
-            <Form.Group controlId='totalPrice'>
+            <Form.Group controlId="totalPrice">
               <Form.Label>Total Price</Form.Label>
-              <Form.Control type='totalPrice' value={totalPrice}></Form.Control>
+              <Form.Control type="totalPrice" value={totalPrice}></Form.Control>
             </Form.Group>
           </Form>
 
@@ -104,9 +103,6 @@ const Subscribtion = () => {
             <Loader />
           ) : (
             <PayPalButton
-              // amount={totalPrice.toFixed(2)}
-              // onSuccess={successPaymentHandler}
-              // catchError={(error) => console.log(error)}
               createOrder={function (data, actions) {
                 return actions.order.create({
                   purchase_units: [

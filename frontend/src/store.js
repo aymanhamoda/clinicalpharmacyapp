@@ -3,10 +3,6 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 
 import {
-  secretaryRegisterReducer,
-  secretaryListReducer,
-} from './reducers/userReducers/secretaryReducers'
-import {
   userLoginReducer,
   userDeleteReducer,
   userDetailsReducer,
@@ -18,16 +14,22 @@ import {
   patientRegisterReducer,
   patientDetailsReducer,
   patientUpdateReducer,
-} from './reducers/userReducers/patientReducers'
+} from './reducers/patientReducers'
 
 import { medicationListReducer } from './reducers/medicationReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
 import { teamDetailsReducer, teamUpdateReducer } from './reducers/teamReducers'
 import {
   admissionCreateReducer,
+  admissionDetailsReducer,
   admissionUpdateReducer,
   patientadmissionListReducer,
 } from './reducers/admissionReducers'
+import {
+  reviewCreateReducer,
+  reviewListReducer,
+  reviewUpdateReducer,
+} from './reducers/reviewReducers'
 
 const reducer = combineReducers({
   medicationList: medicationListReducer,
@@ -40,17 +42,21 @@ const reducer = combineReducers({
   patientDetails: patientDetailsReducer,
   patientRegister: patientRegisterReducer,
   patientUpdate: patientUpdateReducer,
+
   admissionList: patientadmissionListReducer,
+  admissionDetails: admissionDetailsReducer,
 
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
   teamUpdates: teamUpdateReducer,
 
+  createdReviews: reviewCreateReducer,
+  reviewList: reviewListReducer,
+  updatedReview: reviewUpdateReducer,
+
   createdAdmission: admissionCreateReducer,
   updatedAdmission: admissionUpdateReducer,
 
-  secretaryRegister: secretaryRegisterReducer,
-  secretaryList: secretaryListReducer,
   userDelete: userDeleteReducer,
 
   paySubscribtion: subscribtionPayReducer,

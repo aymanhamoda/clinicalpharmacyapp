@@ -3,7 +3,7 @@ import Admission from '../models/admissionModel.js'
 
 const createAdmission = asyncHandler(async (req, res) => {
   const { patient, admissionDate, admissionDetails, team } = req.body
-  console.log(req.body)
+
   const admission = await Admission.create({
     patient: patient,
     admissionDate: Date.parse(admissionDate),
@@ -53,4 +53,20 @@ const updatePatientAdmission = asyncHandler(async (req, res) => {
   }
 })
 
-export { createAdmission, getPatientAdmissions, updatePatientAdmission }
+const getAdmissionDetails = asyncHandler(async (req, res) => {
+  const admission = await Admission.findById(req.params.id)
+
+  if (admission) {
+    res.json(admission)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+export {
+  createAdmission,
+  getPatientAdmissions,
+  updatePatientAdmission,
+  getAdmissionDetails,
+}

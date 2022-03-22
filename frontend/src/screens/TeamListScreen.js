@@ -42,7 +42,6 @@ const TeamListScreen = () => {
       await axios.post('/api/teams', newTeam, config).then(setLoading(false))
     } catch (error) {
       setError(error)
-      console.log(error)
     }
   }
   useEffect(() => {
@@ -65,7 +64,6 @@ const TeamListScreen = () => {
           .then((res) => setUserTeams(res.data))
       } catch (error) {
         setError(error)
-        console.log(error)
       }
     }
   }, [userInfo, loading])

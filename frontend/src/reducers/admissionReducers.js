@@ -2,12 +2,15 @@ import {
   ADMISSION_CREATE_REQUEST,
   ADMISSION_CREATE_SUCCESS,
   ADMISSION_CREATE_FAIL,
-  PATIENT_ADMISSION_LIST_SUCCESS,
-  PATIENT_ADMISSION_LIST_FAIL,
-  PATIENT_ADMISSION_LIST_REQUEST,
+  ADMISSION_LIST_SUCCESS,
+  ADMISSION_LIST_FAIL,
+  ADMISSION_LIST_REQUEST,
   ADMISSION_UPDATE_REQUEST,
   ADMISSION_UPDATE_SUCCESS,
   ADMISSION_UPDATE_FAIL,
+  ADMISSION_DETAILS_REQUEST,
+  ADMISSION_DETAILS_SUCCESS,
+  ADMISSION_DETAILS_FAIL,
 } from '../constants/admissionConstants'
 
 export const admissionCreateReducer = (state = { admission: '' }, action) => {
@@ -23,16 +26,29 @@ export const admissionCreateReducer = (state = { admission: '' }, action) => {
   }
 }
 
+export const admissionDetailsReducer = (state = { admission: '' }, action) => {
+  switch (action.type) {
+    case ADMISSION_DETAILS_REQUEST:
+      return { loading: true }
+    case ADMISSION_DETAILS_SUCCESS:
+      return { loading: false, admission: action.payload }
+    case ADMISSION_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
 export const patientadmissionListReducer = (
   state = { admissions: [] },
   action
 ) => {
   switch (action.type) {
-    case PATIENT_ADMISSION_LIST_REQUEST:
+    case ADMISSION_LIST_REQUEST:
       return { loading: true }
-    case PATIENT_ADMISSION_LIST_SUCCESS:
+    case ADMISSION_LIST_SUCCESS:
       return { loading: false, admissions: action.payload }
-    case PATIENT_ADMISSION_LIST_FAIL:
+    case ADMISSION_LIST_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

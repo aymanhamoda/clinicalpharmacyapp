@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 import { Form, Button, Row, Col, ListGroup, FormLabel } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  getPatientDetails,
-  updatePatient,
-} from '../actions/userActions/patientActions'
+import { getPatientDetails, updatePatient } from '../actions/patientActions'
 import Message from './Message'
 import Loader from './Loader'
 import FormContainer from './FormContainer'
 import { getTeamDetails } from '../actions/teamActions'
 
-const PatientDetails = ({ patientId }) => {
+const PatientDetails = ({ patientId, screenLabel }) => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -26,10 +22,6 @@ const PatientDetails = ({ patientId }) => {
   const patientUpdate = useSelector((state) => state.patientUpdate)
   const { loading: loadingUpdate } = patientUpdate
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
-
-  const history = useHistory()
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -39,14 +31,10 @@ const PatientDetails = ({ patientId }) => {
       setFirstName(patient.firstName)
       setMiddleName(patient.middleName)
       setLastName(patient.lastName)
-      setBirthdate(patient.birthdate.substring(0, 10))
+      setBirthdate(patient.birthdate)
       dispatch(getTeamDetails(patient.team))
     }
-
-    if (!userInfo) {
-      history.push('/')
-    }
-  }, [patientId, patient, userInfo, history, dispatch])
+  }, [patientId, patient, patientId, dispatch])
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -60,15 +48,15 @@ const PatientDetails = ({ patientId }) => {
       {team && (
         <h1 className="text-center text-success text-inline">
           {team.name}
-          <span className="text-white"> | Patient Edit Screen</span>
+          <span className="text-white"> | {screenLabel}</span>
         </h1>
       )}
-      {loading || loadingUpdate ? (
+      {!patient ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <FormContainer>
+        <>
           <Form onSubmit={submitHandler}>
             <Form>
               <Row className="form-label justify-content-center pb-2">
@@ -138,7 +126,7 @@ const PatientDetails = ({ patientId }) => {
               </Button>
             </Form>
           </Form>
-        </FormContainer>
+        </>
       )}
     </>
   )

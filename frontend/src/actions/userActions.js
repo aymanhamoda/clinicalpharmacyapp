@@ -22,7 +22,8 @@ import {
   USER_UPDATE_DETAILS_SUCCESS,
   USER_UPDATE_DETAILS_FAIL,
 } from '../constants/userConstants'
-import { PATIENT_LIST_RESET } from '../constants/userConstants/patientConstants'
+
+import { PATIENT_LIST_RESET } from '../constants/patientConstants'
 
 export const login = (email, password) => async (dispatch) => {
   try {

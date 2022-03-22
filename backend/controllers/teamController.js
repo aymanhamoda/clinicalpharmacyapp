@@ -32,7 +32,7 @@ const getUserTeams = asyncHandler(async (req, res) => {
       return m.user === userEmail
     })
   )
-  console.log(userTeams)
+
   if (userTeams) {
     res.json(userTeams)
   } else {
@@ -54,7 +54,7 @@ const getTeamDetails = asyncHandler(async (req, res) => {
 
 const updateTeamDetails = asyncHandler(async (req, res) => {
   const { name, specialty, members } = req.body
-  console.log(req.body)
+
   const team = await Team.findById(req.params.id)
 
   if (team) {

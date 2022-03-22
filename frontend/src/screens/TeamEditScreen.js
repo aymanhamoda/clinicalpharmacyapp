@@ -37,7 +37,7 @@ const TeamEditScreen = ({ match }) => {
     if (newMember) {
       setMessage('')
       const isRepeated = members.map((m) => m.user === newMember.user)
-      console.log(isRepeated)
+
       if (isRepeated[0]) {
         setMessage('This member already added')
       } else {

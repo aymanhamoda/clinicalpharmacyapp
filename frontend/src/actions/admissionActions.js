@@ -3,9 +3,12 @@ import {
   ADMISSION_CREATE_REQUEST,
   ADMISSION_CREATE_SUCCESS,
   ADMISSION_CREATE_FAIL,
-  PATIENT_ADMISSION_LIST_SUCCESS,
-  PATIENT_ADMISSION_LIST_FAIL,
-  PATIENT_ADMISSION_LIST_REQUEST,
+  ADMISSION_DETAILS_REQUEST,
+  ADMISSION_DETAILS_SUCCESS,
+  ADMISSION_DETAILS_FAIL,
+  ADMISSION_LIST_SUCCESS,
+  ADMISSION_LIST_FAIL,
+  ADMISSION_LIST_REQUEST,
   ADMISSION_UPDATE_REQUEST,
   ADMISSION_UPDATE_SUCCESS,
   ADMISSION_UPDATE_FAIL,
@@ -93,7 +96,7 @@ export const listPatientAdmissions =
   (patientId) => async (dispatch, getState) => {
     try {
       dispatch({
-        type: PATIENT_ADMISSION_LIST_REQUEST,
+        type: ADMISSION_LIST_REQUEST,
       })
 
       const {
@@ -107,16 +110,58 @@ export const listPatientAdmissions =
       }
       const { data } = await axios.get(`/api/admissions/${patientId}`, config)
       dispatch({
-        type: PATIENT_ADMISSION_LIST_SUCCESS,
+        type: ADMISSION_LIST_SUCCESS,
         payload: data,
       })
     } catch (error) {
       dispatch({
-        type: PATIENT_ADMISSION_LIST_FAIL,
+        type: ADMISSION_LIST_FAIL,
         payload:
           error.response && error.response.data.message
             ? error.response.data.message
             : error.message,
+      })
+    }
+  }
+
+export const getAdmissionDetails =
+  (admissionId) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ADMISSION_DETAILS_REQUEST,
+      })
+
+      const {
+        userLogin: { userInfo },
+      } = getState()
+
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      }
+
+      const { data } = await axios.get(
+        `/api/admissions/${admissionId}/details`,
+        config
+      )
+
+      dispatch({
+        type: ADMISSION_DETAILS_SUCCESS,
+        payload: data,
+      })
+    } catch (error) {
+      const message =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message
+      // if (message === 'Not authorized, token failed') {
+      //   dispatch(logout())
+      // }
+      dispatch({
+        type: ADMISSION_DETAILS_FAIL,
+        payload: message,
       })
     }
   }
