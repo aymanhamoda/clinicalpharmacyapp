@@ -23,15 +23,11 @@ const ReviewList = ({ admissionId }) => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    if (newReview) {
-      dispatch({ type: REVIEW_LIST_RESET })
+    if (!admission || admission._id !== admissionId) {
+      dispatch(getAdmissionDetails(admissionId))
     } else {
-      if (!admission || admission._id !== admissionId) {
-        dispatch(getAdmissionDetails(admissionId))
-      } else {
-        dispatch(getReviewList(admission))
-        dispatch(getTeamMemberDetails(admission.team))
-      }
+      dispatch(getReviewList(admission))
+      dispatch(getTeamMemberDetails(admission.team))
     }
   }, [admissionId, newReview])
   return (

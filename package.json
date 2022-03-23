@@ -1,5 +1,5 @@
 {
-  "name": "clinicbook",
+  "name": "clinicalpharmacyapp",
   "version": "1.0.0",
   "description": "Clinic admin software",
   "main": "server.js",
