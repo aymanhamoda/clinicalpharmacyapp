@@ -115,7 +115,7 @@ const getPatients = asyncHandler(async (req, res) => {
 // @access  Private/Admin
 const updatePatient = asyncHandler(async (req, res) => {
   const { firstName, middleName, lastName, birthdate } = req.body
-
+  console.log(req.body)
   const patient = await Patient.findById(req.params.id)
 
   if (patient) {

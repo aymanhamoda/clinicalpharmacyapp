@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import { Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAdmissionDetails } from '../actions/admissionActions'
 import { getReviewList } from '../actions/reviewActions'
-import { getUserDetails } from '../actions/userActions'
-import FormContainer from './FormContainer'
+import { getTeamMemberDetails } from '../actions/teamActions'
+import { REVIEW_LIST_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 
 const ReviewList = ({ admissionId }) => {
@@ -16,14 +15,25 @@ const ReviewList = ({ admissionId }) => {
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails
 
+  const createdReviews = useSelector((state) => state.createdReviews)
+  const { newReview } = createdReviews
+
+  const teamMembers = useSelector((state) => state.teamMembers)
+  const { members } = teamMembers
+
   const dispatch = useDispatch()
   useEffect(() => {
-    if (!admission || admission._id !== admissionId) {
-      dispatch(getAdmissionDetails(admissionId))
+    if (newReview) {
+      dispatch({ type: REVIEW_LIST_RESET })
     } else {
-      dispatch(getReviewList(admission))
+      if (!admission || admission._id !== admissionId) {
+        dispatch(getAdmissionDetails(admissionId))
+      } else {
+        dispatch(getReviewList(admission))
+        dispatch(getTeamMemberDetails(admission.team))
+      }
     }
-  }, [admissionId])
+  }, [admissionId, newReview])
   return (
     <>
       {' '}
@@ -39,11 +49,19 @@ const ReviewList = ({ admissionId }) => {
                 __html: `${r.clinicalNote}`,
               }}
             />
-            <div className="row justify-content-end"> {r.user}</div>
+            <div className="row justify-content-end">
+              {' '}
+              <span>
+                {members && members.find((m) => m._id === r.user).firstName}{' '}
+                {members && members.find((m) => m._id === r.user).lastName}
+              </span>
+            </div>
+            <hr
+              style={{ backgroundColor: 'white', borderTop: '2px dashed #999' }}
+            />
           </div>
         ))
       )}
-      <hr style={{ backgroundColor: 'white' }} />
     </>
   )
 }

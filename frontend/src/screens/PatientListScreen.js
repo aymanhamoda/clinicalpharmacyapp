@@ -5,6 +5,7 @@ import Paginate from '../components/Paginate'
 
 import PatientRegister from '../components/PatientRegister'
 import PatientList from '../components/PatientList'
+import FormContainer from '../components/FormContainer'
 
 const PatientListScreen = ({ match }) => {
   const teamId = match.params.id
@@ -24,11 +25,11 @@ const PatientListScreen = ({ match }) => {
     }
   }, [userInfo, history])
   return (
-    <>
+    <FormContainer>
       <PatientRegister teamId={teamId} />
       <PatientList pageNumber={pageNumber} />
       <Paginate pages={pages} page={page} />
-    </>
+    </FormContainer>
   )
 }
 

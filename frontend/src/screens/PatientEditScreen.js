@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import AdmissionList from '../components/AdmissionList'
 import PatientDetails from '../components/PatientDetails'
+import FormContainer from '../components/FormContainer'
 
 const PatientEditScreen = ({ match }) => {
   const patientId = match.params.id
@@ -19,10 +20,10 @@ const PatientEditScreen = ({ match }) => {
   }, [history])
 
   return (
-    <>
+    <FormContainer>
       <PatientDetails patientId={patientId} screenLabel="Patient Edit Screen" />
       <AdmissionList patientId={patientId} />
-    </>
+    </FormContainer>
   )
 }
 

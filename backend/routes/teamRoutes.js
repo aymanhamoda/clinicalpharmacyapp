@@ -5,11 +5,13 @@ import {
   getUserTeams,
   getTeamDetails,
   updateTeamDetails,
+  getMemberDetails,
 } from '../controllers/teamController.js'
 const router = express.Router()
 
 router.route('/').post(createTeam)
 router.route('/:id').get(getTeamDetails)
+router.route('/:id/members').get(getMemberDetails)
 router.route('/').get(getUserTeams)
 router.route('/:id/edit').put(updateTeamDetails)
 

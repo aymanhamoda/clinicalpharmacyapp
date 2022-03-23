@@ -18,7 +18,11 @@ import {
 
 import { medicationListReducer } from './reducers/medicationReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
-import { teamDetailsReducer, teamUpdateReducer } from './reducers/teamReducers'
+import {
+  teamDetailsReducer,
+  teamMemberDetailsReducer,
+  teamUpdateReducer,
+} from './reducers/teamReducers'
 import {
   admissionCreateReducer,
   admissionDetailsReducer,
@@ -49,6 +53,7 @@ const reducer = combineReducers({
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
   teamUpdates: teamUpdateReducer,
+  teamMembers: teamMemberDetailsReducer,
 
   createdReviews: reviewCreateReducer,
   reviewList: reviewListReducer,

@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Form, FormGroup } from 'react-bootstrap'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-import FormContainer from './FormContainer'
 
 import { createReview } from '../actions/reviewActions'
+import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 
 const ReviewForm = ({ admissionId, patientId, teamId }) => {
-  const [reviewDate, setReviewDate] = useState('')
+  const [reviewDate, setReviewDate] = useState(new Date())
   const [clinicalNote, setClinicalNote] = useState('')
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -27,6 +27,9 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         clinicalNote,
       })
     )
+    dispatch({ type: REVIEW_CREATE_RESET })
+    setReviewDate('')
+    setClinicalNote('')
   }
   return (
     <>

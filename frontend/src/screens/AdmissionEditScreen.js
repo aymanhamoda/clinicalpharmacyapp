@@ -41,18 +41,14 @@ const AdmissionEditScreen = ({ match }) => {
               Admission Details
             </h4>
             <Row>
-              <Col>
-                <h6 className="lead">
-                  {admission.admissionDate.substring(0, 10)}
-                </h6>
-              </Col>
-              <Col>
-                <div
-                  dangerouslySetInnerHTML={{
-                    __html: `${admission.admissionDetails}`,
-                  }}
-                />
-              </Col>
+              <h6 className="lead">
+                {admission.admissionDate.substring(0, 10)}
+              </h6>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: `${admission.admissionDetails}`,
+                }}
+              />
             </Row>
 
             <hr style={{ backgroundColor: 'white' }} />

@@ -15,39 +15,39 @@ const PatientList = () => {
 
   return (
     <>
-      <FormContainer>
-        {registerError && <Message variant="danger">{registerError}</Message>}
-        {error && <Message variant="danger">{error}</Message>}
-      </FormContainer>
+      {registerError && <Message variant="danger">{registerError}</Message>}
+      {error && <Message variant="danger">{error}</Message>}
       {loadingRegister && <Loader />}
 
       {loading ? (
         <Loader />
       ) : (
-        <>
-          &nbsp;
+        <div className="mt-5">
           {patients &&
             patients.map((patient) => (
-              <FormContainer key={patient._id}>
+              <div key={patient._id}>
                 <LinkContainer to={`/patient/${patient._id}`}>
                   <ListGroupItem className="d-flex justify-content-between align-items-center border-primary">
                     <Col>
-                      <Row>
-                        <h3 className="text-left-right">
+                      <Row className="justify-content-end">
+                        <h3 className="row flex-row-reverse">
                           <span className="left-text">{patient.firstName}</span>
                           <span className="byline"> {patient.middleName}</span>
                           <span className="byline"> {patient.lastName}</span>
                         </h3>
+                        <br />
                       </Row>
-                      <Row>Birthdate: {patient.birthdate.substring(0, 10)}</Row>
-                      <Button className="btn btn-info float-right">Edit</Button>
+                      <h4 className="row justify-content-end">
+                        تاريخ الميلاد: {patient.birthdate.substring(0, 10)}
+                      </h4>
+                      <Button className="btn btn-info">Show</Button>
                     </Col>
                   </ListGroupItem>
                 </LinkContainer>
                 &nbsp;
-              </FormContainer>
+              </div>
             ))}
-        </>
+        </div>
       )}
     </>
   )

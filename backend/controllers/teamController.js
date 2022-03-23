@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Team from '../models/teamModel.js'
+import User from '../models/userModel.js'
 
 const createTeam = asyncHandler(async (req, res) => {
   const { name, admin, specialty, members } = req.body
@@ -52,6 +53,24 @@ const getTeamDetails = asyncHandler(async (req, res) => {
   }
 })
 
+const getMemberDetails = asyncHandler(async (req, res) => {
+  const team = await Team.findById(req.params.id)
+  const teamMembers = team.members.map((m) => {
+    return m.user
+  })
+
+  const memberDetails = await User.find({
+    email: { $in: teamMembers },
+  })
+
+  if (memberDetails) {
+    res.json(memberDetails)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
 const updateTeamDetails = asyncHandler(async (req, res) => {
   const { name, specialty, members } = req.body
 
@@ -70,4 +89,10 @@ const updateTeamDetails = asyncHandler(async (req, res) => {
   }
 })
 
-export { createTeam, getTeamDetails, updateTeamDetails, getUserTeams }
+export {
+  createTeam,
+  getTeamDetails,
+  updateTeamDetails,
+  getUserTeams,
+  getMemberDetails,
+}

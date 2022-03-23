@@ -32,12 +32,12 @@ const AdmissionList = ({ patientId }) => {
   }, [dispatch, patient, admission])
 
   return (
-    <>
+    <div className="mt-2">
       {patientLoading || loading ? (
         <Loader />
       ) : (
-        <FormContainer>
-          <h1>Admission List</h1>
+        <>
+          <h1 className="row justify-content-center">Admission List</h1>
           {admissions.map((admission) => (
             <div Key={admission._id}>
               <Accordion className="py-2">
@@ -68,11 +68,11 @@ const AdmissionList = ({ patientId }) => {
               </Accordion>
             </div>
           ))}
-        </FormContainer>
+        </>
       )}
 
       <AdmissionForm patientId={patientId} />
-    </>
+    </div>
   )
 }
 

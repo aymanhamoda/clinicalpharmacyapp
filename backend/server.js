@@ -9,6 +9,7 @@ import connectDB from './config/db.js'
 import userRoutes from './routes/userRoutes.js'
 import patientRoutes from './routes/patientRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
+
 import reviewRoutes from './routes/reviewRoutes.js'
 import admissionRoutes from './routes/admissionRoutes.js'
 
@@ -27,6 +28,7 @@ app.use(express.json())
 app.use('/api/users', userRoutes)
 app.use('/api/patients', patientRoutes)
 app.use('/api/teams', teamRoutes)
+
 app.use('/api/reviews', reviewRoutes)
 app.use('/api/admissions', admissionRoutes)
 

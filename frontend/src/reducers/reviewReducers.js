@@ -15,7 +15,7 @@ export const reviewCreateReducer = (state = { review: '' }, action) => {
     case REVIEW_CREATE_REQUEST:
       return { loading: true }
     case REVIEW_CREATE_SUCCESS:
-      return { loading: false, review: action.payload }
+      return { loading: false, newReview: action.payload }
     case REVIEW_CREATE_FAIL:
       return { loading: false, error: action.payload }
     default:
