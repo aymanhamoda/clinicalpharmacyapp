@@ -1,5 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Form, FormGroup, FormLabel, Button, Table } from 'react-bootstrap'
+import {
+  Form,
+  FormGroup,
+  FormLabel,
+  Button,
+  Container,
+  Row,
+  ListGroup,
+  ListGroupItem,
+} from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import { getTeamDetails, updateTeamDetails } from '../actions/teamActions'
@@ -7,6 +16,7 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import specialityList from '../data/speciality'
+import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 
 const TeamEditScreen = ({ match }) => {
   const teamId = match.params.id
@@ -14,7 +24,13 @@ const TeamEditScreen = ({ match }) => {
   const [name, setName] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
-  const [newMember, setNewMember] = useState({ id: '', user: '' })
+  const [newMember, setNewMember] = useState({
+    id: '',
+    user: '',
+    canRead: 'true',
+    canEdit: 'true',
+    disabled: 'false',
+  })
   const [message, setMessage] = useState('')
 
   const dispatch = useDispatch()
@@ -34,23 +50,45 @@ const TeamEditScreen = ({ match }) => {
     dispatch(updateTeamDetails({ teamId, name, specialty, members }))
   }
   const handleMembers = () => {
-    if (newMember) {
+    if (newMember.user !== '') {
       setMessage('')
       const isRepeated = members.map((m) => m.user === newMember.user)
-
-      if (isRepeated[0]) {
+      console.log(isRepeated)
+      if (!isRepeated[0]) {
         setMessage('This member already added')
       } else {
         setMembers([...members, newMember])
       }
+    } else {
+      setMessage('User email is required')
     }
   }
+
+  const editChange = (e) => {
+    setMembers([
+      ...members.filter((m) => {
+        return m.user !== e.user
+      }),
+      {
+        id: e._id,
+        user: e.user,
+        canEdit: !e.canEdit,
+        disabled: false,
+      },
+    ])
+  }
   const deleteMember = (e) => {
-    setMembers(
-      members.filter((m) => {
-        return m.user !== e
-      })
-    )
+    setMembers([
+      ...members.filter((m) => {
+        return m.user !== e.user
+      }),
+      {
+        id: e._id,
+        user: e.user,
+        canEdit: false,
+        disabled: !e.disabled,
+      },
+    ])
   }
   useEffect(() => {
     if (!userInfo) {
@@ -80,7 +118,7 @@ const TeamEditScreen = ({ match }) => {
           <>
             <FormContainer>
               <h1 className="ml-3">Update Team Details</h1>
-              <Form onSubmit={submitHandler}>
+              <Form>
                 <Form.Group controlId="teamName" className="col-sm-12">
                   <Form.Label>Team Name</Form.Label>
                   <Form.Control
@@ -108,22 +146,35 @@ const TeamEditScreen = ({ match }) => {
                 {message && <Message children={message} variant="danger" />}
 
                 {members.map((m) => (
-                  <>
-                    <Table className="table table-hover" key={m._id}>
-                      <tbody>
-                        <tr className="table-secondary">
-                          <th scope="row">{m.user}</th>
+                  <ListGroup>
+                    <ListGroupItem className="m-3">
+                      <Container key={m._id}>
+                        <Row>
+                          <h1 className="lead">{m.user}</h1>
+                        </Row>
+                        <Row>
                           {m.user !== userInfo.email && (
-                            <td>
-                              <i
-                                onClick={() => deleteMember(m.user)}
-                                className="fas fa-trash float-right"></i>
-                            </td>
+                            <>
+                              <FormGroup className="col-sm-6">
+                                <FormCheckInput
+                                  checked={m.canEdit}
+                                  onChange={() => editChange(m)}
+                                  type="checkbox"></FormCheckInput>{' '}
+                                <FormLabel>Can Edit</FormLabel>{' '}
+                              </FormGroup>
+                              <FormGroup className="col-sm-6">
+                                <FormCheckInput
+                                  checked={m.disabled}
+                                  onChange={() => deleteMember(m)}
+                                  type="checkbox"></FormCheckInput>{' '}
+                                <FormLabel>Disabled</FormLabel>
+                              </FormGroup>
+                            </>
                           )}
-                        </tr>
-                      </tbody>
-                    </Table>
-                  </>
+                        </Row>{' '}
+                      </Container>
+                    </ListGroupItem>
+                  </ListGroup>
                 ))}
 
                 <div className="row">
@@ -136,6 +187,8 @@ const TeamEditScreen = ({ match }) => {
                         setNewMember({
                           id: Math.random(),
                           user: e.target.value,
+                          canEdit: true,
+                          disabled: false,
                         })
                       }></Form.Control>
                   </Form.Group>
@@ -143,7 +196,6 @@ const TeamEditScreen = ({ match }) => {
                     <Form.Label>.</Form.Label>
                     <Button
                       onClick={() => handleMembers()}
-                      type="submit"
                       className="col"
                       variant="primary">
                       <i className="fas fa-plus"></i>
@@ -151,7 +203,7 @@ const TeamEditScreen = ({ match }) => {
                   </FormGroup>
                 </div>
                 <FormGroup>
-                  <Button type="submit" variant="primary ">
+                  <Button onClick={(e) => submitHandler(e)} variant="primary ">
                     Update
                   </Button>
                 </FormGroup>

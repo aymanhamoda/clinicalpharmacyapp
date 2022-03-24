@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  Form,
-  Button,
-  Row,
-  Col,
-  ListGroup,
-  FormLabel,
-  Container,
-  FormGroup,
-} from 'react-bootstrap'
+import { Form, Button, Row, Col, FormGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getPatientDetails, updatePatient } from '../actions/patientActions'
 import Message from './Message'
@@ -27,9 +18,6 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   const patientDetails = useSelector((state) => state.patientDetails)
   const { error, patient } = patientDetails
 
-  const patientUpdate = useSelector((state) => state.patientUpdate)
-  const { loading } = patientUpdate
-
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
@@ -40,7 +28,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   }
 
   useEffect(() => {
-    if (!patient || patient._id !== patientId || loading) {
+    if (!patient || patient._id !== patientId) {
       dispatch(getPatientDetails(patientId))
     } else {
       setFirstName(patient.firstName)
@@ -49,7 +37,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
       setBirthdate(patient.birthdate)
       dispatch(getTeamDetails(patient.team))
     }
-  }, [patientId, patient, patientId, dispatch, loading])
+  }, [patientId, patient, patientId, dispatch])
 
   return (
     <>

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useHistory } from 'react-router-dom'
 import { getAdmissionDetails } from '../actions/admissionActions'
 import PatientDetails from '../components/PatientDetails'
 import { useDispatch, useSelector } from 'react-redux'
@@ -16,9 +17,17 @@ const AdmissionEditScreen = ({ match }) => {
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails
 
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
+  const history = useHistory()
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (!userInfo) {
+      history.push('/')
+    }
+
     if (!admission || admission._id !== admissionId) {
       dispatch(getAdmissionDetails(admissionId))
     } else {

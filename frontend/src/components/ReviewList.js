@@ -7,8 +7,6 @@ import { REVIEW_LIST_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 
 const ReviewList = ({ admissionId }) => {
-  const [labeledReview, setLabeledReview] = useState([])
-
   const reviewList = useSelector((state) => state.reviewList)
   const { reviews } = reviewList
 

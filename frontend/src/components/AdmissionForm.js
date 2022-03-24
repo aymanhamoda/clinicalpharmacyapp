@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import Message from './Message'
-import Loader from './Loader'
 import { createAdmission } from '../actions/admissionActions'
-import FormContainer from './FormContainer'
 import { getPatientDetails } from '../actions/patientActions'
-import { PATIENT_DETAILS_RESET } from '../constants/patientConstants'
 
 const AdmissionForm = ({ patientId }) => {
   const [admissionDate, setAdmissionDate] = useState(new Date())

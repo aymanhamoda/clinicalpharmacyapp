@@ -105,7 +105,7 @@ const TeamListScreen = () => {
           </FormGroup>
         </Form>
       </FormContainer>
-      {userTeams && (
+      {userInfo && userTeams && (
         <FormContainer>
           <h1>Your Teams</h1>
           {userTeams.map((t) => (

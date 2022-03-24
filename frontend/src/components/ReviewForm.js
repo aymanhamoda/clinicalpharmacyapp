@@ -45,7 +45,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         </Form.Group>
         <Form.Group controlId="clinicalNote">
           <Form.Label>
-            <h2>clinical Notes</h2>
+            <h2>Clinical Notes</h2>
           </Form.Label>
           <div className="text-dark">
             {' '}
@@ -60,7 +60,10 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
           </div>
         </Form.Group>
         <div className="row justify-content-end">
-          <Button className="btn-primary" onClick={(e) => submitHandler(e)}>
+          <Button
+            className="btn-primary"
+            type="submit"
+            onClick={(e) => submitHandler(e)}>
             Add Review
           </Button>
         </div>

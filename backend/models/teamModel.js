@@ -5,6 +5,18 @@ const memberSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    canEdit: {
+      type: Boolean,
+      default: true,
+    },
+    canRead: {
+      type: Boolean,
+      default: true,
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
