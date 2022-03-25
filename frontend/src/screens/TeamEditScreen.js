@@ -52,9 +52,9 @@ const TeamEditScreen = ({ match }) => {
   const handleMembers = () => {
     if (newMember.user !== '') {
       setMessage('')
-      const isRepeated = members.map((m) => m.user === newMember.user)
-      console.log(isRepeated)
-      if (!isRepeated[0]) {
+      const isRepeated = members.find((m) => m.user === newMember.user)
+
+      if (isRepeated) {
         setMessage('This member already added')
       } else {
         setMembers([...members, newMember])
@@ -107,7 +107,7 @@ const TeamEditScreen = ({ match }) => {
       setSpecialty(team.specialty)
       setMembers(team.members)
     }
-  }, [userInfo, teamId, team])
+  }, [userInfo, teamId, team, history])
 
   return (
     <>
@@ -148,10 +148,10 @@ const TeamEditScreen = ({ match }) => {
                 {members.map((m) => (
                   <ListGroup>
                     <ListGroupItem className="m-3">
-                      <Container key={m._id}>
-                        <Row>
-                          <h1 className="lead">{m.user}</h1>
-                        </Row>
+                      <div className="container" key={m._id}>
+                        <div className="row">
+                          <p className="col">{m.user}</p>
+                        </div>
                         <Row>
                           {m.user !== userInfo.email && (
                             <>
@@ -172,7 +172,7 @@ const TeamEditScreen = ({ match }) => {
                             </>
                           )}
                         </Row>{' '}
-                      </Container>
+                      </div>
                     </ListGroupItem>
                   </ListGroup>
                 ))}

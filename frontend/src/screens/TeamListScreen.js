@@ -2,15 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import {
-  Form,
-  FormLabel,
-  Button,
-  FormGroup,
-  Container,
-  Table,
-} from 'react-bootstrap'
+import { Form, FormLabel, Button, FormGroup, Table } from 'react-bootstrap'
 import specialityList from '../data/speciality'
+import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
@@ -20,7 +14,7 @@ const TeamListScreen = () => {
   const [admin, setAdmin] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
-  const [userTeams, setUserTeams] = useState([])
+  const [userTeams, setUserTeams] = useState()
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
@@ -66,13 +60,12 @@ const TeamListScreen = () => {
         setError(error)
       }
     }
-  }, [userInfo, loading])
+  }, [userInfo, history])
   return (
-    <Container>
-      {message && <Message children={message} varient="danger" />}
-      {error && <Message children={error} varient="danger" />}
-
-      <FormContainer>
+    <FormContainer>
+      <>
+        {message && <Message children={message} varient="danger" />}
+        {error && <Message children={error} varient="danger" />}
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="teamName" className="col-sm-12">
             <Form.Label>Team Name </Form.Label>
@@ -104,9 +97,11 @@ const TeamListScreen = () => {
             </Button>
           </FormGroup>
         </Form>
-      </FormContainer>
-      {userInfo && userTeams && (
-        <FormContainer>
+      </>
+      {loading || !userInfo || !userTeams ? (
+        <Loader />
+      ) : (
+        <>
           <h1>Your Teams</h1>
           {userTeams.map((t) => (
             <>
@@ -117,15 +112,21 @@ const TeamListScreen = () => {
                     {t.admin === userInfo.email && (
                       <>
                         <td className="float-right">
-                          <Link key={t._id} to={`/teamlist/${t._id}`}>
-                            <i className="fas fa-edit"></i>
+                          <Link
+                            className="text-white"
+                            key={t._id}
+                            to={`/teamlist/${t._id}`}>
+                            <i className="fas fa-edit"></i> Admin
                           </Link>
                         </td>
                       </>
                     )}
                     <td className="float-right">
-                      <Link key={t._id} to={`/patientlist/${t._id}`}>
-                        <i className="far fa-address-book"></i>
+                      <Link
+                        className="text-white"
+                        key={t._id}
+                        to={`/patientlist/${t._id}`}>
+                        <i className="far fa-address-book"></i> Patients
                       </Link>
                     </td>
                   </tr>
@@ -133,9 +134,9 @@ const TeamListScreen = () => {
               </Table>
             </>
           ))}
-        </FormContainer>
+        </>
       )}
-    </Container>
+    </FormContainer>
   )
 }
 

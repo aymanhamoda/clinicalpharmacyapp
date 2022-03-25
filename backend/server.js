@@ -10,6 +10,9 @@ import userRoutes from './routes/userRoutes.js'
 import patientRoutes from './routes/patientRoutes.js'
 import teamRoutes from './routes/teamRoutes.js'
 
+import errTypeRoutes from './routes/errTypeRoutes.js'
+import drugRoutes from './routes/drugRoutes.js'
+
 import reviewRoutes from './routes/reviewRoutes.js'
 import admissionRoutes from './routes/admissionRoutes.js'
 
@@ -28,6 +31,9 @@ app.use(express.json())
 app.use('/api/users', userRoutes)
 app.use('/api/patients', patientRoutes)
 app.use('/api/teams', teamRoutes)
+
+app.use('/api/drugs', drugRoutes)
+app.use('/api/errtypes', errTypeRoutes)
 
 app.use('/api/reviews', reviewRoutes)
 app.use('/api/admissions', admissionRoutes)

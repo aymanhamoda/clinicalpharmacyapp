@@ -5,14 +5,14 @@ const Meta = ({ title, description, keywords }) => {
   return (
     <Helmet>
       <title>{title}</title>
-      <meta name='description' content={description} />
-      <meta name='keyword' content={keywords} />
+      <meta name="description" content={description} />
+      <meta name="keyword" content={keywords} />
     </Helmet>
   )
 }
 
 Meta.defaultProps = {
-  title: 'Welcome To Clinic Book',
+  title: 'Clinic Pharm App',
   description: 'Admin your clinic details',
   keywords: 'free clinic software',
 }

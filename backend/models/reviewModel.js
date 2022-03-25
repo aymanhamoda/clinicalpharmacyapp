@@ -1,5 +1,24 @@
 import mongoose from 'mongoose'
-
+const errSchema = mongoose.Schema(
+  {
+    errType: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'ErrType',
+    },
+    errDrug: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Drug',
+    },
+    errNote: {
+      type: String,
+    },
+  },
+  {
+    timestamps: true,
+  }
+)
 const reviewModelSchema = mongoose.Schema(
   {
     team: {
@@ -28,6 +47,7 @@ const reviewModelSchema = mongoose.Schema(
     clinicalNote: {
       type: String,
     },
+    error: [errSchema],
   },
   {
     timestamps: true,

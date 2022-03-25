@@ -20,8 +20,8 @@ const AdmissionList = ({ patientId }) => {
   const createdAdmission = useSelector((state) => state.createdAdmission)
   const { admission } = createdAdmission
 
-  const updatedAdmission = useSelector((state) => state.updatedAdmission)
-  const { admission: upAdmission } = updatedAdmission
+  // const updatedAdmission = useSelector((state) => state.updatedAdmission)
+  // const { admission: upAdmission } = updatedAdmission
 
   useEffect(() => {
     if (!patient || patient._id !== patientId) {
@@ -38,30 +38,31 @@ const AdmissionList = ({ patientId }) => {
       ) : (
         <>
           <h1 className="row justify-content-center">Admission List</h1>
-          {admissions.map((admission) => (
-            <div Key={admission._id}>
+          {admissions.map((adm) => (
+            <div Key={adm._id}>
               <Accordion className="py-2">
                 <Accordion.Toggle
-                  eventKey={admission._id}
+                  eventKey={adm._id}
                   as={Card.Header}
                   variant="link">
                   <h6>
-                    Admission Date: {admission.admissionDate.substring(0, 10)}
+                    <i className="fas fa-angle-double-down"></i> Admission Date:{' '}
+                    {adm.admissionDate.substring(0, 10)}
                   </h6>
                 </Accordion.Toggle>
-                <Accordion.Collapse eventKey={admission._id}>
+                <Accordion.Collapse eventKey={adm._id}>
                   <div className="container">
                     <Row>
                       <div
                         dangerouslySetInnerHTML={{
-                          __html: `${admission.admissionDetails}`,
+                          __html: `${adm.admissionDetails}`,
                         }}
                       />
                     </Row>
                     <Link
-                      className="row float-right text-warning"
-                      to={`/admissions/${admission._id}`}>
-                      <i className="fas fa-edit"></i> Edit
+                      className="row text-warning btn btn-outline-success"
+                      to={`/admissions/${adm._id}`}>
+                      See Reviews
                     </Link>
                   </div>
                 </Accordion.Collapse>

@@ -52,68 +52,62 @@ const PatientDetails = ({ patientId, screenLabel }) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <div>
-          <Form onSubmit={submitHandler}>
-            <Row className="justify-content-end mr-2 pb-2">
-              <p>اسم المريض ثلاثي</p>{' '}
-            </Row>
-            <Row className="flex-row-reverse">
-              <Form.Group controlId="firstName" className=" col-sm-4">
-                <Form.Control
-                  type="name"
-                  className="text-center"
-                  placeholder="اسم المريض"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}></Form.Control>
-              </Form.Group>
+        <Form onSubmit={submitHandler}>
+          <Row className="justify-content-end mr-2 pb-2">
+            <p>اسم المريض ثلاثي</p>{' '}
+          </Row>
+          <Row className="flex-row-reverse">
+            <Form.Group controlId="firstName" className=" col-sm-4">
+              <Form.Control
+                type="name"
+                className="text-center"
+                placeholder="اسم المريض"
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}></Form.Control>
+            </Form.Group>
 
-              <Form.Group controlId="middleName" className="col-sm-4">
-                <Form.Control
-                  type="name"
-                  className="text-center"
-                  placeholder="الاسم الأب"
-                  value={middleName}
-                  onChange={(e) =>
-                    setMiddleName(e.target.value)
-                  }></Form.Control>
-              </Form.Group>
+            <Form.Group controlId="middleName" className="col-sm-4">
+              <Form.Control
+                type="name"
+                className="text-center"
+                placeholder="الاسم الأب"
+                value={middleName}
+                onChange={(e) => setMiddleName(e.target.value)}></Form.Control>
+            </Form.Group>
 
-              <Form.Group controlId="lastName" className="col-sm-4">
-                <Form.Control
-                  type="name"
-                  className="text-center"
-                  placeholder="اسم الجد"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}></Form.Control>
-              </Form.Group>
-            </Row>
+            <Form.Group controlId="lastName" className="col-sm-4">
+              <Form.Control
+                type="name"
+                className="text-center"
+                placeholder="اسم الجد"
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}></Form.Control>
+            </Form.Group>
+          </Row>
 
-            <Row>
-              <Col>
-                <Form.Group controlId="birthdate">
-                  <Row className="form-label justify-content-end mr-2 pb-2">
-                    تاريخ الميلاد
-                  </Row>
-                  <Form.Control
-                    className="text-center"
-                    type="date"
-                    value={birthdate.substring(0, 10)}
-                    onChange={(e) =>
-                      setBirthdate(e.target.value)
-                    }></Form.Control>
-                </Form.Group>
-              </Col>
-            </Row>
-            <FormGroup>
-              <Button
-                className="btn btn-info mb-3"
-                style={{ float: 'right' }}
-                type="submit">
-                Update Patient
-              </Button>
-            </FormGroup>
-          </Form>
-        </div>
+          <Row>
+            <Col>
+              <Form.Group controlId="birthdate">
+                <Row className="form-label justify-content-end mr-2 pb-2">
+                  تاريخ الميلاد
+                </Row>
+                <Form.Control
+                  className="text-center"
+                  type="date"
+                  value={birthdate.substring(0, 10)}
+                  onChange={(e) => setBirthdate(e.target.value)}></Form.Control>
+              </Form.Group>
+            </Col>
+          </Row>
+          <FormGroup>
+            <Button
+              className="btn btn-info mb-3"
+              style={{ float: 'right' }}
+              type="submit">
+              Update Patient
+            </Button>
+          </FormGroup>
+        </Form>
       )}
     </>
   )

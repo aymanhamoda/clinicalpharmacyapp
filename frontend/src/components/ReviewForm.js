@@ -33,7 +33,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   }
   return (
     <>
-      <Form>
+      <Form onSubmit={submitHandler}>
         <Form.Group controlId="reviewDate">
           <Form.Label>
             <h2>Review Date</h2>
@@ -60,10 +60,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
           </div>
         </Form.Group>
         <div className="row justify-content-end">
-          <Button
-            className="btn-primary"
-            type="submit"
-            onClick={(e) => submitHandler(e)}>
+          <Button className="btn-primary" type="submit">
             Add Review
           </Button>
         </div>
