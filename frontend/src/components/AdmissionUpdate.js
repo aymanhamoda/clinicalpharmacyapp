@@ -4,7 +4,7 @@ import { Button, Col, Form, FormGroup, Image, Modal } from 'react-bootstrap'
 import { Typeahead } from 'react-bootstrap-typeahead'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateAdmission } from '../actions/admissionActions'
-import { listMedications } from '../actions/medicationActions'
+import { listMedications } from '../actions/drugActions'
 import Loader from './Loader'
 
 const AdmissionUpdate = ({

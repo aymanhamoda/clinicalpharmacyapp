@@ -186,7 +186,7 @@ const TeamEditScreen = ({ match }) => {
                       onChange={(e) =>
                         setNewMember({
                           id: Math.random(),
-                          user: e.target.value,
+                          user: e.target.value.toLowerCase(),
                           canEdit: true,
                           disabled: false,
                         })

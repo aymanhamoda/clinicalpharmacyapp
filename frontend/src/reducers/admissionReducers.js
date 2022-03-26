@@ -5,6 +5,7 @@ import {
   ADMISSION_LIST_SUCCESS,
   ADMISSION_LIST_FAIL,
   ADMISSION_LIST_REQUEST,
+  ADMISSION_LIST_RESET,
   ADMISSION_UPDATE_REQUEST,
   ADMISSION_UPDATE_SUCCESS,
   ADMISSION_UPDATE_FAIL,
@@ -50,6 +51,8 @@ export const patientadmissionListReducer = (
       return { loading: false, admissions: action.payload }
     case ADMISSION_LIST_FAIL:
       return { loading: false, error: action.payload }
+    case ADMISSION_LIST_RESET:
+      return {}
     default:
       return state
   }

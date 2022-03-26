@@ -35,7 +35,7 @@ const RegisterScreen = () => {
     e.preventDefault()
     setMessage('')
     if (password && password === confirmPassword) {
-      dispatch(registerUser(firstName, lastName, email, password))
+      dispatch(registerUser(firstName, lastName, email.toLowerCase(), password))
     }
 
     if (!password) {

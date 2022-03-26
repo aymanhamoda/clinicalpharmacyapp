@@ -13,6 +13,7 @@ const errSchema = mongoose.Schema(
     },
     errNote: {
       type: String,
+      required: true,
     },
   },
   {
@@ -47,7 +48,7 @@ const reviewModelSchema = mongoose.Schema(
     clinicalNote: {
       type: String,
     },
-    error: [errSchema],
+    drugErrs: [errSchema],
   },
   {
     timestamps: true,

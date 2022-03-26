@@ -33,7 +33,7 @@ const AdmissionEditScreen = ({ match }) => {
     } else {
       setPatientId(admission.patient)
     }
-  }, [dispatch, admissionId, admission, patientId, history])
+  }, [dispatch, admissionId, admission, patientId, history, userInfo])
   return (
     <>
       {!admission ? (

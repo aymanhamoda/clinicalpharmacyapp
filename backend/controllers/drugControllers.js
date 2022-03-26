@@ -17,15 +17,16 @@ const addDrug = asyncHandler(async (req, res) => {
   }
 })
 
-// const getErrTypes = asyncHandler(async (req, res) => {
-//   const errTypes = await ErrType.find({})
+const getTradeLabels = asyncHandler(async (req, res) => {
+  const drugs = await Drug.find({})
+  const trades = drugs.map((d) => d.tradeLabels).flat()
 
-//   if (errTypes) {
-//     res.status(201).json(errTypes)
-//   } else {
-//     res.status(400)
-//     throw new Error('No error found')
-//   }
-// })
+  if (trades) {
+    res.status(201).json(trades)
+  } else {
+    res.status(400)
+    throw new Error('No error found')
+  }
+})
 
-export { addDrug }
+export { addDrug, getTradeLabels }

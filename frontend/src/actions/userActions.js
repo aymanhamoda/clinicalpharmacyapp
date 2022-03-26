@@ -1,6 +1,7 @@
 import axios from 'axios'
 import {
   TEAM_DETAILS_RESET,
+  TEAM_MEMBER_DETAILS_RESET,
   TEAM_UPDATE_RESET,
 } from '../constants/teamConstants'
 import {
@@ -23,7 +24,15 @@ import {
   USER_UPDATE_DETAILS_FAIL,
 } from '../constants/userConstants'
 
-import { PATIENT_LIST_RESET } from '../constants/patientConstants'
+import {
+  PATIENT_DETAILS_RESET,
+  PATIENT_LIST_RESET,
+  PATIENT_REGISTER_RESET,
+} from '../constants/patientConstants'
+import {
+  ADMISSION_DETAILS_RESET,
+  ADMISSION_LIST_RESET,
+} from '../constants/admissionConstants'
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -175,9 +184,14 @@ export const logout = () => (dispatch) => {
   localStorage.removeItem('userInfo')
   dispatch({ type: USER_LOGOUT })
   dispatch({ type: USER_DETAILS_RESET })
+  dispatch({ type: ADMISSION_LIST_RESET })
+  dispatch({ type: ADMISSION_DETAILS_RESET })
   dispatch({ type: PATIENT_LIST_RESET })
+  dispatch({ type: PATIENT_DETAILS_RESET })
+  dispatch({ type: PATIENT_REGISTER_RESET })
   dispatch({ type: TEAM_DETAILS_RESET })
   dispatch({ type: TEAM_UPDATE_RESET })
+  dispatch({ type: TEAM_MEMBER_DETAILS_RESET })
 }
 
 export const updateUserProfile = (user) => async (dispatch, getState) => {

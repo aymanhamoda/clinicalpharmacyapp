@@ -16,7 +16,7 @@ import {
   patientUpdateReducer,
 } from './reducers/patientReducers'
 
-import { medicationListReducer } from './reducers/medicationReducers'
+import { drugListReducer } from './reducers/drugReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
 import {
   teamDetailsReducer,
@@ -34,9 +34,11 @@ import {
   reviewListReducer,
   reviewUpdateReducer,
 } from './reducers/reviewReducers'
+import { errTypeListReducer } from './reducers/errTypeReducers'
 
 const reducer = combineReducers({
-  medicationList: medicationListReducer,
+  drugList: drugListReducer,
+  errTypes: errTypeListReducer,
 
   userDetails: userDetailsReducer,
   registeredUser: userRegisterReducer,
