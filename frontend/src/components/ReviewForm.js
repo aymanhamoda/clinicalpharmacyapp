@@ -16,7 +16,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const [clinicalNote, setClinicalNote] = useState('')
   const [drugErrs, setDrugErrs] = useState([
     {
-      idx: 0,
+      idx: 1,
       errDrug: '',
       errType: '',
       errNote: '',
@@ -63,6 +63,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     }
   }
   const copyTemplate = (dgErr, t) => {
+    console.log(dgErr)
     dgErr.errNote = t.label
     setShowTemplates(false)
   }
@@ -90,16 +91,20 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   }
 
   const handleTemplates = (dgErr) => {
-    const templateRoot = drugRoot.find((r) =>
-      r.tradeLabels.find((t) => t._id.toString() == dgErr.errDrug)
-    )
-
-    setTemplates(
-      templateRoot.errTemps.filter(
-        (t) => t.errType.toString() === dgErr.errType
+    if (dgErr.errDrug !== '' && dgErr.errType !== '') {
+      const templateRoot = drugRoot.find((r) =>
+        r.tradeLabels.find((t) => t._id.toString() == dgErr.errDrug)
       )
-    )
-    setShowTemplates(true)
+
+      setTemplates(
+        templateRoot.errTemps.filter(
+          (t) => t.errType.toString() === dgErr.errType
+        )
+      )
+      setShowTemplates(!showTemplates)
+    } else {
+      alert('Kindly, specify the drug and error type')
+    }
   }
   useEffect(() => {
     if (!drugs) {
@@ -115,7 +120,34 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   return (
     <>
       {message && <Message children={message} />}
-
+      <div
+        className="modal"
+        size="lg"
+        show={showTemplates}
+        onHide={() => setShowTemplates(false)}
+        backdrop="static"
+        keyboard={false}>
+        <Modal.Header closeButton>
+          <Modal.Title>Templates</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <>
+            {templates.map((t) => (
+              <div
+                onClick={() => copyTemplate(dgErr, t)}
+                className="row btn btn-block py-2 justify-content-center btn-outline-warning"
+                key={t._id}>
+                {t.label}{' '}
+              </div>
+            ))}
+          </>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowTemplates(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </div>
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="reviewDate">
           <Form.Label>
@@ -147,7 +179,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         ) : (
           <>
             {drugErrs.map((dgErr) => (
-              <div className="row py-3">
+              <div key={dgErr.idx} className="row py-3">
                 <Form.Group className="col-sm-6">
                   <Form.Label>Drug Of Err</Form.Label>
                   <Typeahead
@@ -184,55 +216,20 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                   <Button onClick={() => addNewRow()}>
                     <i className="fa fa-plus-circle" aria-hidden="true" />
                   </Button>
-                  {dgErr.errDrug !== '' && dgErr.errType !== '' && (
+                  <Button
+                    className="ml-3"
+                    variant="warning"
+                    onClick={() => handleTemplates(dgErr)}>
+                    Show Templates
+                  </Button>
+                  {dgErr.idx !== 1 && (
                     <Button
-                      className="ml-3"
-                      variant="warning"
-                      onClick={() => handleTemplates(dgErr)}>
-                      Show Templates
-                    </Button>
-                  )}
-                  {dgErr.idx !== 0 && (
-                    <Button
-                      className="btn btn-danger"
+                      className="btn btn-danger ml-3"
                       onClick={() => deleteRow(dgErr)}>
                       <i className="fa fa-minus" aria-hidden="true" />
                     </Button>
                   )}
                 </ButtonToolbar>
-                <Modal
-                  size="lg"
-                  show={showTemplates}
-                  onHide={() => setShowTemplates(false)}
-                  backdrop="static"
-                  keyboard={false}>
-                  <Modal.Header closeButton>
-                    <Modal.Title>Templates</Modal.Title>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <>
-                      {!templates ? (
-                        <Loader />
-                      ) : (
-                        templates.map((t) => (
-                          <div
-                            onClick={() => copyTemplate(dgErr, t)}
-                            className="btn btn-outline-white"
-                            key={t._id}>
-                            {t.label}{' '}
-                          </div>
-                        ))
-                      )}
-                    </>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button
-                      variant="secondary"
-                      onClick={() => setShowTemplates(false)}>
-                      Close
-                    </Button>
-                  </Modal.Footer>
-                </Modal>
               </div>
             ))}
           </>
