@@ -28,6 +28,7 @@ import {
   PATIENT_DETAILS_RESET,
   PATIENT_LIST_RESET,
   PATIENT_REGISTER_RESET,
+  PATIENT_UPDATE_RESET,
 } from '../constants/patientConstants'
 import {
   ADMISSION_DETAILS_RESET,
@@ -192,6 +193,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: TEAM_DETAILS_RESET })
   dispatch({ type: TEAM_UPDATE_RESET })
   dispatch({ type: TEAM_MEMBER_DETAILS_RESET })
+  dispatch({ type: PATIENT_UPDATE_RESET })
 }
 
 export const updateUserProfile = (user) => async (dispatch, getState) => {

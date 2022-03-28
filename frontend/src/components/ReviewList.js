@@ -4,7 +4,7 @@ import { getAdmissionDetails } from '../actions/admissionActions'
 import { getReviewList } from '../actions/reviewActions'
 import { getTeamMemberDetails } from '../actions/teamActions'
 import Loader from './Loader'
-import { listDrugs } from '../actions/drugActions'
+
 import { listDrugErrTypes } from '../actions/errTypeActions'
 
 const ReviewList = ({ admissionId }) => {
@@ -34,26 +34,25 @@ const ReviewList = ({ admissionId }) => {
       dispatch(getReviewList(admission))
       dispatch(getTeamMemberDetails(admission.team))
     }
-    if (!drugs) {
-      dispatch(listDrugs())
-    }
+
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
     }
-  }, [admissionId, newReview, drugs, errTypeList])
+  }, [admissionId, newReview, errTypeList])
   return (
     <div>
       {' '}
-      <h4 className="lead row justify-content-center">Reviews</h4>
-      {!reviews ? (
+      <h4 className="lead row justify-content-center">DAILY REVIEW DETAILS</h4>
+      <hr style={{ backgroundColor: 'gold' }} />
+      {!reviews || !drugs ? (
         <Loader />
       ) : (
         reviews.map((r) => (
           <div key={r._id}>
             Review Date: {r.reviewDate.substring(0, 10)}
-            <div className="container">
+            <div>
               {' '}
-              Progress Notes:{' '}
+              Clinical Notes:{' '}
               <div
                 className="text-warning"
                 dangerouslySetInnerHTML={{
@@ -61,9 +60,11 @@ const ReviewList = ({ admissionId }) => {
                 }}
               />
             </div>
-            <h4 className="lead row justify-content-center">Errors</h4>
+            <hr style={{ backgroundColor: 'red' }} />
+            <h4 className="lead row justify-content-center">NOTE OF ERRORS </h4>
+            <hr style={{ backgroundColor: 'red' }} />
             {r.drugErrs.map((drugErr) => (
-              <div className="container" key={drugErr._id}>
+              <div key={drugErr._id}>
                 <div className="row ">
                   <div className="col-sm-6">
                     {errTypeList &&
@@ -71,8 +72,7 @@ const ReviewList = ({ admissionId }) => {
                         .label}{' '}
                   </div>
                   <div className="col-sm-6">
-                    {drugs &&
-                      drugs.find((i) => i._id === drugErr.errDrug).label}{' '}
+                    {drugs.find((i) => i._id === drugErr.errDrug).label}{' '}
                   </div>
                 </div>
 

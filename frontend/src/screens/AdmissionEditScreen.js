@@ -7,7 +7,6 @@ import Loader from '../components/Loader'
 import ReviewList from '../components/ReviewList'
 import FormContainer from '../components/FormContainer'
 import ReviewForm from '../components/ReviewForm'
-import { Col, Row } from 'react-bootstrap'
 
 const AdmissionEditScreen = ({ match }) => {
   const admissionId = match.params.id
@@ -24,14 +23,14 @@ const AdmissionEditScreen = ({ match }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!userInfo) {
-      history.push('/')
-    }
-
-    if (!admission || admission._id !== admissionId) {
-      dispatch(getAdmissionDetails(admissionId))
+    if (userInfo) {
+      if (!admission || admission._id !== admissionId) {
+        dispatch(getAdmissionDetails(admissionId))
+      } else {
+        setPatientId(admission.patient)
+      }
     } else {
-      setPatientId(admission.patient)
+      history.push('/')
     }
   }, [dispatch, admissionId, admission, patientId, history, userInfo])
   return (
@@ -47,20 +46,20 @@ const AdmissionEditScreen = ({ match }) => {
           <div className="pt-5">
             <hr style={{ backgroundColor: 'white' }} />
             <h4 className="lead row justify-content-center">
-              Admission Details
+              ADMISSION DETAILS
             </h4>
-            <Row>
-              <h6 className="lead">
-                {admission.admissionDate.substring(0, 10)}
-              </h6>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: `${admission.admissionDetails}`,
-                }}
-              />
-            </Row>
 
-            <hr style={{ backgroundColor: 'white' }} />
+            <h6 className="row lead pl-3">
+              {admission.admissionDate.substring(0, 10)}
+            </h6>
+            <div
+              className="text-warning"
+              dangerouslySetInnerHTML={{
+                __html: `${admission.admissionDetails}`,
+              }}
+            />
+
+            <hr style={{ backgroundColor: 'gold' }} />
           </div>
           <ReviewList admissionId={admissionId} />
           <ReviewForm

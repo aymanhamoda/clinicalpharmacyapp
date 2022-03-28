@@ -29,4 +29,15 @@ const getTradeLabels = asyncHandler(async (req, res) => {
   }
 })
 
-export { addDrug, getTradeLabels }
+const getDrugs = asyncHandler(async (req, res) => {
+  const drugs = await Drug.find({})
+
+  if (drugs) {
+    res.status(201).json(drugs)
+  } else {
+    res.status(400)
+    throw new Error('No error found')
+  }
+})
+
+export { addDrug, getTradeLabels, getDrugs }

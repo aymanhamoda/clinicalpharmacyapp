@@ -38,7 +38,7 @@ export const patientDetailsReducer = (state = { patient: {} }, action) => {
     case PATIENT_DETAILS_FAIL:
       return { loading: false, error: action.payload }
     case PATIENT_DETAILS_RESET:
-      return { patient: {} }
+      return {}
     default:
       return state
   }

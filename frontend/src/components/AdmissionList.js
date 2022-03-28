@@ -33,7 +33,7 @@ const AdmissionList = ({ patientId }) => {
 
   return (
     <div className="mt-2">
-      {patientLoading || loading ? (
+      {patientLoading || loading || !admissions ? (
         <Loader />
       ) : (
         <>

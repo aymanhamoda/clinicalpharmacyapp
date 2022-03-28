@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button, ButtonToolbar, Form, FormGroup } from 'react-bootstrap'
+import { Button, ButtonToolbar, Form, FormGroup, Modal } from 'react-bootstrap'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { Typeahead } from 'react-bootstrap-typeahead'
@@ -8,7 +8,7 @@ import { createReview } from '../actions/reviewActions'
 import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
-import { listDrugs } from '../actions/drugActions'
+import { listDrugLabels, listDrugRoots } from '../actions/drugActions'
 import { listDrugErrTypes } from '../actions/errTypeActions'
 
 const ReviewForm = ({ admissionId, patientId, teamId }) => {
@@ -23,6 +23,8 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     },
   ])
   const [message, setMessage] = useState('')
+  const [showTemplates, setShowTemplates] = useState(false)
+  const [templates, setTemplates] = useState([])
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -30,12 +32,14 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
+  const drugRoots = useSelector((state) => state.drugRoots)
+  const { drugRoot } = drugRoots
+
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
 
   const dispatch = useDispatch()
   const submitHandler = (e) => {
-    console.log(drugErrs)
     if (!reviewDate || !clinicalNote || drugErrs.length === 0) {
       alert('all cells are required')
     }
@@ -54,10 +58,13 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     dispatch({ type: REVIEW_CREATE_RESET })
   }
   const handleDrug = (e, dgErr) => {
-    console.log(e)
     if (e.length !== 0) {
       dgErr.errDrug = e['0']._id
     }
+  }
+  const copyTemplate = (dgErr, t) => {
+    dgErr.errNote = t.label
+    setShowTemplates(false)
   }
   const handleErrType = (e, dgErr) => {
     if (e.length !== 0) {
@@ -82,17 +89,33 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     setDrugErrs(drugErrs.filter((e) => e !== dgErr))
   }
 
+  const handleTemplates = (dgErr) => {
+    const templateRoot = drugRoot.find((r) =>
+      r.tradeLabels.find((t) => t._id.toString() == dgErr.errDrug)
+    )
+
+    setTemplates(
+      templateRoot.errTemps.filter(
+        (t) => t.errType.toString() === dgErr.errType
+      )
+    )
+    setShowTemplates(true)
+  }
   useEffect(() => {
     if (!drugs) {
-      dispatch(listDrugs())
+      dispatch(listDrugLabels())
     }
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
     }
-  }, [drugs, errTypeList])
+    if (!drugRoot) {
+      dispatch(listDrugRoots())
+    }
+  }, [drugs, errTypeList, drugRoot])
   return (
     <>
       {message && <Message children={message} />}
+
       <Form onSubmit={submitHandler}>
         <Form.Group controlId="reviewDate">
           <Form.Label>
@@ -119,12 +142,12 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
             />
           </div>
         </Form.Group>
-        {!drugs || !errTypeList ? (
+        {!drugs || !errTypeList || !drugRoot ? (
           <Loader />
         ) : (
           <>
             {drugErrs.map((dgErr) => (
-              <div className="row">
+              <div className="row py-3">
                 <Form.Group className="col-sm-6">
                   <Form.Label>Drug Of Err</Form.Label>
                   <Typeahead
@@ -161,6 +184,14 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                   <Button onClick={() => addNewRow()}>
                     <i className="fa fa-plus-circle" aria-hidden="true" />
                   </Button>
+                  {dgErr.errDrug !== '' && dgErr.errType !== '' && (
+                    <Button
+                      className="ml-3"
+                      variant="warning"
+                      onClick={() => handleTemplates(dgErr)}>
+                      Show Templates
+                    </Button>
+                  )}
                   {dgErr.idx !== 0 && (
                     <Button
                       className="btn btn-danger"
@@ -169,6 +200,39 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                     </Button>
                   )}
                 </ButtonToolbar>
+                <Modal
+                  size="lg"
+                  show={showTemplates}
+                  onHide={() => setShowTemplates(false)}
+                  backdrop="static"
+                  keyboard={false}>
+                  <Modal.Header closeButton>
+                    <Modal.Title>Templates</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <>
+                      {!templates ? (
+                        <Loader />
+                      ) : (
+                        templates.map((t) => (
+                          <div
+                            onClick={() => copyTemplate(dgErr, t)}
+                            className="btn btn-outline-white"
+                            key={t._id}>
+                            {t.label}{' '}
+                          </div>
+                        ))
+                      )}
+                    </>
+                  </Modal.Body>
+                  <Modal.Footer>
+                    <Button
+                      variant="secondary"
+                      onClick={() => setShowTemplates(false)}>
+                      Close
+                    </Button>
+                  </Modal.Footer>
+                </Modal>
               </div>
             ))}
           </>

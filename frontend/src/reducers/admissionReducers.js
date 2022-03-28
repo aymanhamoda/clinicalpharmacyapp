@@ -12,6 +12,7 @@ import {
   ADMISSION_DETAILS_REQUEST,
   ADMISSION_DETAILS_SUCCESS,
   ADMISSION_DETAILS_FAIL,
+  ADMISSION_DETAILS_RESET,
 } from '../constants/admissionConstants'
 
 export const admissionCreateReducer = (state = { admission: '' }, action) => {
@@ -35,6 +36,8 @@ export const admissionDetailsReducer = (state = { admission: '' }, action) => {
       return { loading: false, admission: action.payload }
     case ADMISSION_DETAILS_FAIL:
       return { loading: false, error: action.payload }
+    case ADMISSION_DETAILS_RESET:
+      return {}
     default:
       return state
   }

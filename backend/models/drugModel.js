@@ -3,7 +3,6 @@ const labelSchema = mongoose.Schema(
   {
     label: {
       type: String,
-      required: true,
     },
   },
   {
@@ -15,9 +14,9 @@ const errTempSchema = mongoose.Schema(
     errType: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: 'MedicationErrorType',
+      ref: 'ErrType',
     },
-    errTempNote: {
+    label: {
       type: String,
     },
     isAdult: {
@@ -33,7 +32,6 @@ const drugSchema = mongoose.Schema(
   {
     label: {
       type: String,
-      required: true,
     },
     tradeLabels: [labelSchema],
     errTemps: [errTempSchema],
