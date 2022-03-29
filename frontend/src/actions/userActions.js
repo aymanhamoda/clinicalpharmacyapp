@@ -34,6 +34,10 @@ import {
   ADMISSION_DETAILS_RESET,
   ADMISSION_LIST_RESET,
 } from '../constants/admissionConstants'
+import {
+  REVIEW_CREATE_RESET,
+  REVIEW_LIST_RESET,
+} from '../constants/reviewConstants'
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -194,6 +198,8 @@ export const logout = () => (dispatch) => {
   dispatch({ type: TEAM_UPDATE_RESET })
   dispatch({ type: TEAM_MEMBER_DETAILS_RESET })
   dispatch({ type: PATIENT_UPDATE_RESET })
+  dispatch({ type: REVIEW_LIST_RESET })
+  dispatch({ type: REVIEW_CREATE_RESET })
 }
 
 export const updateUserProfile = (user) => async (dispatch, getState) => {

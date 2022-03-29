@@ -9,47 +9,52 @@ import {
 } from '../constants/drugConstants'
 
 export const listDrugLabels = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: DRUG_LIST_REQUEST,
-    })
+  if (!localStorage.drugList) {
+    try {
+      dispatch({
+        type: DRUG_LIST_REQUEST,
+      })
 
-    const { data } = await axios.get(`/api/drugs/trades`)
-    dispatch({
-      type: DRUG_LIST_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    console.log(error)
-    // dispatch({
-    //   type: DRUG_LIST_FAIL,
-    //   payload:
-    //     error.response && error.response.data.message
-    //       ? error.response.data.message
-    //       : error.message,
-    // })
+      const { data } = await axios.get(`/api/drugs/trades`)
+      dispatch({
+        type: DRUG_LIST_SUCCESS,
+        payload: data,
+      })
+      localStorage.setItem('drugList', JSON.stringify(data))
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: DRUG_LIST_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
   }
 }
 
 export const listDrugRoots = () => async (dispatch) => {
-  try {
-    dispatch({
-      type: DRUG_ROOT_REQUEST,
-    })
+  if (!localStorage.drugRoots) {
+    try {
+      dispatch({
+        type: DRUG_ROOT_REQUEST,
+      })
 
-    const { data } = await axios.get(`/api/drugs/`)
-    dispatch({
-      type: DRUG_ROOT_SUCCESS,
-      payload: data,
-    })
-  } catch (error) {
-    console.log(error)
-    // dispatch({
-    //   type: DRUG_ROOT_FAIL,
-    //   payload:
-    //     error.response && error.response.data.message
-    //       ? error.response.data.message
-    //       : error.message,
-    // })
+      const { data } = await axios.get(`/api/drugs/`)
+      dispatch({
+        type: DRUG_ROOT_SUCCESS,
+        payload: data,
+      })
+      localStorage.setItem('drugRoots', JSON.stringify(data))
+    } catch (error) {
+      dispatch({
+        type: DRUG_ROOT_FAIL,
+        payload:
+          error.response && error.response.data.message
+            ? error.response.data.message
+            : error.message,
+      })
+    }
   }
 }

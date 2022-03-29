@@ -74,15 +74,19 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
-// const drugLabelsFromStorage = localStorage.getItem('drugList')
-//   ? JSON.parse(localStorage.getItem('drugList'))
-//   : null
+const drugLabelsFromStorage = localStorage.getItem('drugList')
+  ? JSON.parse(localStorage.getItem('drugList'))
+  : null
+const drugRootsFromStorage = localStorage.getItem('drugList')
+  ? JSON.parse(localStorage.getItem('drugRoots'))
+  : null
 
 const initialState = {
   userLogin: {
     userInfo: userInfoFromStorage,
-    // drugList: drugLabelsFromStorage
   },
+  drugList: { drugs: drugLabelsFromStorage },
+  drugRoots: { drugRoot: drugRootsFromStorage },
 }
 
 const middleware = [thunk]

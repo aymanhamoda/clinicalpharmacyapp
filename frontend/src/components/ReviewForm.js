@@ -8,7 +8,7 @@ import { createReview } from '../actions/reviewActions'
 import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
-import TemplateModal from './TemplateModal'
+import ReviewModal from './ReviewModal'
 import { listDrugLabels } from '../actions/drugActions'
 import { listDrugErrTypes } from '../actions/errTypeActions'
 
@@ -25,7 +25,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   ])
   const [message, setMessage] = useState('')
   const [showTemplates, setShowTemplates] = useState(false)
-  const [selectedDgErr, setSelectedDgErr] = useState({})
+  const [selectedDgErr, setSelectedDgErr] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -39,7 +39,6 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
-    console.log(drugErrs)
     e.preventDefault()
     if (!reviewDate || !clinicalNote || drugErrs.length === 0) {
       alert('all cells are required')
@@ -101,7 +100,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   return (
     <>
       {message && <Message children={message} />}
-      <TemplateModal
+      <ReviewModal
         showTemplates={showTemplates}
         setShowTemplates={() => setShowTemplates()}
         selectedDgErr={selectedDgErr}
