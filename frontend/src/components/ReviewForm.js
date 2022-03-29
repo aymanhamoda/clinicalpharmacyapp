@@ -8,8 +8,7 @@ import { createReview } from '../actions/reviewActions'
 import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
-import { listDrugLabels, listDrugRoots } from '../actions/drugActions'
-import { listDrugErrTypes } from '../actions/errTypeActions'
+import TemplateModal from './TemplateModal'
 
 const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const [reviewDate, setReviewDate] = useState(new Date())
@@ -24,16 +23,13 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   ])
   const [message, setMessage] = useState('')
   const [showTemplates, setShowTemplates] = useState(false)
-  const [templates, setTemplates] = useState([])
+  const [selectedDgErr, setSelectedDgErr] = useState({})
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
-
-  const drugRoots = useSelector((state) => state.drugRoots)
-  const { drugRoot } = drugRoots
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
@@ -62,11 +58,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
       dgErr.errDrug = e['0']._id
     }
   }
-  const copyTemplate = (dgErr, t) => {
-    console.log(dgErr)
-    dgErr.errNote = t.label
-    setShowTemplates(false)
-  }
+
   const handleErrType = (e, dgErr) => {
     if (e.length !== 0) {
       dgErr.errType = e['0']._id
@@ -90,65 +82,20 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     setDrugErrs(drugErrs.filter((e) => e !== dgErr))
   }
 
-  const handleTemplates = (dgErr) => {
-    if (dgErr.errDrug !== '' && dgErr.errType !== '') {
-      const templateRoot = drugRoot.find((r) =>
-        r.tradeLabels.find((t) => t._id.toString() == dgErr.errDrug)
-      )
-
-      setTemplates(
-        templateRoot.errTemps.filter(
-          (t) => t.errType.toString() === dgErr.errType
-        )
-      )
-      setShowTemplates(!showTemplates)
-    } else {
-      alert('Kindly, specify the drug and error type')
-    }
+  const modalTemplates = (e) => {
+    setShowTemplates(!showTemplates)
+    setSelectedDgErr(e)
   }
-  useEffect(() => {
-    if (!drugs) {
-      dispatch(listDrugLabels())
-    }
-    if (!errTypeList) {
-      dispatch(listDrugErrTypes())
-    }
-    if (!drugRoot) {
-      dispatch(listDrugRoots())
-    }
-  }, [drugs, errTypeList, drugRoot])
+
   return (
     <>
       {message && <Message children={message} />}
-      <div
-        className="modal"
-        size="lg"
-        show={showTemplates}
-        onHide={() => setShowTemplates(false)}
-        backdrop="static"
-        keyboard={false}>
-        <Modal.Header closeButton>
-          <Modal.Title>Templates</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <>
-            {templates.map((t) => (
-              <div
-                onClick={() => copyTemplate(dgErr, t)}
-                className="row btn btn-block py-2 justify-content-center btn-outline-warning"
-                key={t._id}>
-                {t.label}{' '}
-              </div>
-            ))}
-          </>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowTemplates(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </div>
-      <Form onSubmit={submitHandler}>
+      <TemplateModal
+        showTemplates={showTemplates}
+        setShowTemplates={() => setShowTemplates()}
+        selectedDgErr={selectedDgErr}
+      />
+      <Form>
         <Form.Group controlId="reviewDate">
           <Form.Label>
             <h2>Review Date</h2>
@@ -174,7 +121,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
             />
           </div>
         </Form.Group>
-        {!drugs || !errTypeList || !drugRoot ? (
+        {!drugs || !errTypeList ? (
           <Loader />
         ) : (
           <>
@@ -219,7 +166,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                   <Button
                     className="ml-3"
                     variant="warning"
-                    onClick={() => handleTemplates(dgErr)}>
+                    onClick={() => modalTemplates(dgErr)}>
                     Show Templates
                   </Button>
                   {dgErr.idx !== 1 && (
@@ -235,7 +182,10 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
           </>
         )}
         <div className="row justify-content-end">
-          <Button className="btn-primary" type="submit">
+          <Button
+            onClick={() => submitHandler()}
+            className="btn-primary"
+            type="submit">
             Add Review
           </Button>
         </div>

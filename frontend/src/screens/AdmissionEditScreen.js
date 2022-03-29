@@ -7,6 +7,8 @@ import Loader from '../components/Loader'
 import ReviewList from '../components/ReviewList'
 import FormContainer from '../components/FormContainer'
 import ReviewForm from '../components/ReviewForm'
+import { listDrugLabels } from '../actions/drugActions'
+import { listDrugErrTypes } from '../actions/errTypeActions'
 
 const AdmissionEditScreen = ({ match }) => {
   const admissionId = match.params.id
@@ -18,6 +20,12 @@ const AdmissionEditScreen = ({ match }) => {
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+
+  const drugList = useSelector((state) => state.drugList)
+  const { drugs } = drugList
+
+  const errTypes = useSelector((state) => state.errTypes)
+  const { errTypeList } = errTypes
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -32,7 +40,22 @@ const AdmissionEditScreen = ({ match }) => {
     } else {
       history.push('/')
     }
-  }, [dispatch, admissionId, admission, patientId, history, userInfo])
+    if (!drugs) {
+      dispatch(listDrugLabels())
+    }
+    if (!errTypeList) {
+      dispatch(listDrugErrTypes())
+    }
+  }, [
+    dispatch,
+    admissionId,
+    admission,
+    patientId,
+    history,
+    userInfo,
+    errTypeList,
+    drugs,
+  ])
   return (
     <>
       {!admission ? (

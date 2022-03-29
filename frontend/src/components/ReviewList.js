@@ -34,11 +34,7 @@ const ReviewList = ({ admissionId }) => {
       dispatch(getReviewList(admission))
       dispatch(getTeamMemberDetails(admission.team))
     }
-
-    if (!errTypeList) {
-      dispatch(listDrugErrTypes())
-    }
-  }, [admissionId, newReview, errTypeList])
+  }, [admissionId, newReview])
   return (
     <div>
       {' '}
