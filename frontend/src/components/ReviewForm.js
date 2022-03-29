@@ -35,11 +35,13 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const { errTypeList } = errTypes
 
   const dispatch = useDispatch()
+
   const submitHandler = (e) => {
+    console.log(drugErrs)
+    e.preventDefault()
     if (!reviewDate || !clinicalNote || drugErrs.length === 0) {
       alert('all cells are required')
     }
-    e.preventDefault()
     dispatch(
       createReview({
         admissionId,
@@ -182,10 +184,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
           </>
         )}
         <div className="row justify-content-end">
-          <Button
-            onClick={() => submitHandler()}
-            className="btn-primary"
-            type="submit">
+          <Button onClick={(e) => submitHandler(e)} className="btn-primary">
             Add Review
           </Button>
         </div>

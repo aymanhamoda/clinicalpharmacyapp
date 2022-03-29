@@ -20,13 +20,14 @@ export const listDrugLabels = () => async (dispatch) => {
       payload: data,
     })
   } catch (error) {
-    dispatch({
-      type: DRUG_LIST_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
+    console.log(error)
+    // dispatch({
+    //   type: DRUG_LIST_FAIL,
+    //   payload:
+    //     error.response && error.response.data.message
+    //       ? error.response.data.message
+    //       : error.message,
+    // })
   }
 }
 
@@ -42,12 +43,13 @@ export const listDrugRoots = () => async (dispatch) => {
       payload: data,
     })
   } catch (error) {
-    dispatch({
-      type: DRUG_ROOT_FAIL,
-      payload:
-        error.response && error.response.data.message
-          ? error.response.data.message
-          : error.message,
-    })
+    console.log(error)
+    // dispatch({
+    //   type: DRUG_ROOT_FAIL,
+    //   payload:
+    //     error.response && error.response.data.message
+    //       ? error.response.data.message
+    //       : error.message,
+    // })
   }
 }
