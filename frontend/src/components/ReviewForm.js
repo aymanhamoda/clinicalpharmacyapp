@@ -9,6 +9,8 @@ import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
 import TemplateModal from './TemplateModal'
+import { listDrugLabels } from '../actions/drugActions'
+import { listDrugErrTypes } from '../actions/errTypeActions'
 
 const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const [reviewDate, setReviewDate] = useState(new Date())
@@ -88,7 +90,14 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     setShowTemplates(!showTemplates)
     setSelectedDgErr(e)
   }
-
+  useEffect(() => {
+    if (!drugs) {
+      dispatch(listDrugLabels())
+    }
+    if (!errTypeList) {
+      dispatch(listDrugErrTypes())
+    }
+  }, [])
   return (
     <>
       {message && <Message children={message} />}
