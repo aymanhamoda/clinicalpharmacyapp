@@ -65,7 +65,7 @@ export const updateReview = (review) => async (dispatch, getState) => {
       },
     }
     const { data } = await axios.put(
-      `/api/reviews/${review.id}/edit`,
+      `/api/reviews/${review.reviewId}/edit`,
       review,
       config
     )

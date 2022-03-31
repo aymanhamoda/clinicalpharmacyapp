@@ -8,7 +8,7 @@ import ReviewList from '../components/ReviewList'
 import FormContainer from '../components/FormContainer'
 import ReviewForm from '../components/ReviewForm'
 
-const AdmissionEditScreen = ({ match }) => {
+const ReviewListScreen = ({ match }) => {
   const admissionId = match.params.id
 
   const [patientId, setPatientId] = useState('')
@@ -61,7 +61,11 @@ const AdmissionEditScreen = ({ match }) => {
 
             <hr style={{ backgroundColor: 'gold' }} />
           </div>
-          <ReviewList admissionId={admissionId} />
+          <ReviewList
+            admissionId={admissionId}
+            patientId={patientId}
+            teamId={admission.team}
+          />
           <ReviewForm
             admissionId={admissionId}
             patientId={patientId}
@@ -73,4 +77,4 @@ const AdmissionEditScreen = ({ match }) => {
   )
 }
 
-export default AdmissionEditScreen
+export default ReviewListScreen

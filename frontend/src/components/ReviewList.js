@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAdmissionDetails } from '../actions/admissionActions'
 import { getReviewList } from '../actions/reviewActions'
 import { getTeamMemberDetails } from '../actions/teamActions'
+import { REVIEW_UPDATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
+import ReviewUpdateModal from './ReviewUpdateModal'
 
-import { listDrugErrTypes } from '../actions/errTypeActions'
+const ReviewList = ({ admissionId, patientId, teamId }) => {
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
+  const [selectedReview, setSelectedReview] = useState()
 
-const ReviewList = ({ admissionId }) => {
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
   const reviewList = useSelector((state) => state.reviewList)
   const { reviews } = reviewList
 
@@ -23,21 +30,43 @@ const ReviewList = ({ admissionId }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
+  const updatedReview = useSelector((state) => state.updatedReview)
+  const { review } = updatedReview
+
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
 
+  const handleUpdate = (r) => {
+    setSelectedReview(r)
+  }
   const dispatch = useDispatch()
   useEffect(() => {
+    if (selectedReview) {
+      setShowUpdateModal(true)
+    }
     if (!admission || admission._id !== admissionId) {
       dispatch(getAdmissionDetails(admissionId))
     } else {
-      dispatch(getReviewList(admission))
-      dispatch(getTeamMemberDetails(admission.team))
+      if (!reviews || review) {
+        dispatch(getReviewList(admission))
+        dispatch({ type: REVIEW_UPDATE_RESET })
+      }
+      if (!members) {
+        dispatch(getTeamMemberDetails(admission.team))
+      }
     }
-  }, [admissionId, newReview])
+  }, [admissionId, newReview, selectedReview, review])
   return (
     <div>
-      {' '}
+      <ReviewUpdateModal
+        setSelectedReview={setSelectedReview}
+        selectedReview={selectedReview}
+        showUpdateModal={showUpdateModal}
+        setShowUpdateModal={setShowUpdateModal}
+        admissionId={admissionId}
+        patientId={patientId}
+        teamId={teamId}
+      />{' '}
       <h4 className="lead row justify-content-center">DAILY REVIEW DETAILS</h4>
       <hr style={{ backgroundColor: 'gold' }} />
       {!reviews || !drugs ? (
@@ -90,6 +119,11 @@ const ReviewList = ({ admissionId }) => {
                 Edited by:{' '}
                 {members && members.find((m) => m._id === r.user).firstName}{' '}
                 {members && members.find((m) => m._id === r.user).lastName}
+                {userInfo._id === r.user && (
+                  <i
+                    onClick={() => handleUpdate(r)}
+                    className="ml-2 fas fa-edit text-warning"></i>
+                )}
               </span>
             </div>
             <hr style={{ backgroundColor: 'white' }} />

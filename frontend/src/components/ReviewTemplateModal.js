@@ -3,9 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Button, Modal } from 'react-bootstrap'
 import { listDrugRoots } from '../actions/drugActions'
 import Loader from './Loader'
+import Message from './Message'
 
-const TemplateModal = ({ showTemplates, setShowTemplates, selectedDgErr }) => {
+const ReviewTemplateModal = ({
+  showTemplates,
+  setShowTemplates,
+  selectedDgErr,
+}) => {
   const [templates, setTemplates] = useState([])
+  const [message, setMesaage] = useState('')
 
   const drugRoots = useSelector((state) => state.drugRoots)
   const { drugRoot } = drugRoots
@@ -33,6 +39,10 @@ const TemplateModal = ({ showTemplates, setShowTemplates, selectedDgErr }) => {
               (t) => t.errType.toString() === selectedDgErr.errType
             )
           )
+        } else {
+          setMesaage(
+            'Specify the drug and type of error  to show the corresponding templates'
+          )
         }
       }
     }
@@ -51,15 +61,18 @@ const TemplateModal = ({ showTemplates, setShowTemplates, selectedDgErr }) => {
           </Modal.Header>
           <Modal.Body>
             <>
+              {message && <Message children={message} varient="warning" />}
               {!drugRoot ? (
                 <Loader />
               ) : (
                 templates.map((t) => (
-                  <div
-                    onClick={() => copyTemplate(t)}
-                    className="row btn btn-block py-2 justify-content-center btn-outline-warning"
-                    key={t._id}>
-                    {t.label}{' '}
+                  <div key={t._id} className="row justify-content-center">
+                    <div
+                      onClick={() => copyTemplate(t)}
+                      className="row btn btn-block m-2  btn-outline-warning"
+                      key={t._id}>
+                      {t.label}{' '}
+                    </div>
                   </div>
                 ))
               )}
@@ -76,4 +89,4 @@ const TemplateModal = ({ showTemplates, setShowTemplates, selectedDgErr }) => {
   )
 }
 
-export default TemplateModal
+export default ReviewTemplateModal

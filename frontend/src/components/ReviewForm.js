@@ -8,7 +8,7 @@ import { createReview } from '../actions/reviewActions'
 import { REVIEW_CREATE_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
-import ReviewModal from './ReviewModal'
+import ReviewTemplateModal from './ReviewTemplateModal'
 import { listDrugLabels } from '../actions/drugActions'
 import { listDrugErrTypes } from '../actions/errTypeActions'
 
@@ -100,41 +100,42 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   return (
     <>
       {message && <Message children={message} />}
-      <ReviewModal
+      <ReviewTemplateModal
         showTemplates={showTemplates}
         setShowTemplates={() => setShowTemplates()}
         selectedDgErr={selectedDgErr}
       />
       <Form>
-        <Form.Group controlId="reviewDate">
-          <Form.Label>
-            <h2>Review Date</h2>
-          </Form.Label>
-          <Form.Control
-            type="date"
-            value={reviewDate}
-            onChange={(e) => setReviewDate(e.target.value)}></Form.Control>
-        </Form.Group>
-        <Form.Group controlId="clinicalNote">
-          <Form.Label>
-            <h2>Clinical Notes</h2>
-          </Form.Label>
-          <div className="text-dark">
-            {' '}
-            <CKEditor
-              editor={ClassicEditor}
-              data={clinicalNote}
-              onChange={(event, editor) => {
-                const data = editor.getData()
-                setClinicalNote(data)
-              }}
-            />
-          </div>
-        </Form.Group>
         {!drugs || !errTypeList ? (
           <Loader />
         ) : (
           <>
+            <Form.Group controlId="reviewDate">
+              <Form.Label>
+                <h2>Review Date</h2>
+              </Form.Label>
+              <Form.Control
+                type="date"
+                value={reviewDate}
+                onChange={(e) => setReviewDate(e.target.value)}></Form.Control>
+            </Form.Group>
+            <Form.Group controlId="clinicalNote">
+              <Form.Label>
+                <h2>Clinical Notes</h2>
+              </Form.Label>
+              <div className="text-dark">
+                {' '}
+                <CKEditor
+                  editor={ClassicEditor}
+                  data={clinicalNote}
+                  onChange={(event, editor) => {
+                    const data = editor.getData()
+                    setClinicalNote(data)
+                  }}
+                />
+              </div>
+            </Form.Group>
+
             {drugErrs.map((dgErr) => (
               <div key={dgErr.idx} className="row py-3">
                 <Form.Group className="col-sm-6">
