@@ -7,6 +7,7 @@ import Loader from '../components/Loader'
 import ReviewList from '../components/ReviewList'
 import FormContainer from '../components/FormContainer'
 import ReviewForm from '../components/ReviewForm'
+import { getReviewList } from '../actions/reviewActions'
 
 const ReviewListScreen = ({ match }) => {
   const admissionId = match.params.id
@@ -32,6 +33,7 @@ const ReviewListScreen = ({ match }) => {
         dispatch(getAdmissionDetails(admissionId))
       } else {
         setPatientId(admission.patient)
+        getReviewList(admission)
       }
       //check edit
       if (team) {
