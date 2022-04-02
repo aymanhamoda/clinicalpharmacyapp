@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAdmissionDetails } from '../actions/admissionActions'
 import { getReviewList } from '../actions/reviewActions'
 import { getTeamMemberDetails } from '../actions/teamActions'
 import { REVIEW_UPDATE_RESET } from '../constants/reviewConstants'
@@ -44,16 +42,13 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
     if (selectedReview) {
       setShowUpdateModal(true)
     }
-    if (!admission || admission._id !== admissionId) {
-      dispatch(getAdmissionDetails(admissionId))
-    } else {
-      if (!reviews || review) {
-        dispatch(getReviewList(admission))
-        dispatch({ type: REVIEW_UPDATE_RESET })
-      }
-      if (!members) {
-        dispatch(getTeamMemberDetails(admission.team))
-      }
+
+    if (!admission || admission._id !== admissionId || review) {
+      dispatch(getReviewList(admission))
+      dispatch({ type: REVIEW_UPDATE_RESET })
+    }
+    if (!members) {
+      dispatch(getTeamMemberDetails(admission.team))
     }
   }, [admissionId, newReview, selectedReview, review])
   return (

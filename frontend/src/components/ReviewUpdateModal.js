@@ -12,10 +12,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import { Typeahead } from 'react-bootstrap-typeahead'
 
-import {
-  REVIEW_CREATE_RESET,
-  REVIEW_LIST_RESET,
-} from '../constants/reviewConstants'
+import { REVIEW_LIST_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
 import ReviewTemplateModal from './ReviewTemplateModal'
@@ -244,6 +241,11 @@ const ReviewUpdateModal = ({
                   onClick={(e) => submitHandler(e)}
                   className="btn-primary">
                   Update Review
+                </Button>
+                <Button
+                  className="btn-secondary mx-2"
+                  onClick={() => setShowUpdateModal(false)}>
+                  Close
                 </Button>
               </div>
             </Form>

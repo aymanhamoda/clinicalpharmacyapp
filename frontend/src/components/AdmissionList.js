@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react'
-import { Card, Accordion, Col, Button, Row } from 'react-bootstrap'
+import { Card, Accordion, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from './Loader'
 import { getPatientDetails } from '../actions/patientActions'
 import { listPatientAdmissions } from '../actions/admissionActions'
-import FormContainer from './FormContainer'
 import AdmissionForm from './AdmissionForm'
 import { Link } from 'react-router-dom'
 

@@ -12,12 +12,16 @@ const ReviewListScreen = ({ match }) => {
   const admissionId = match.params.id
 
   const [patientId, setPatientId] = useState('')
+  const [editPermission, setEditPermission] = useState()
 
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
+
+  const teamDetails = useSelector((state) => state.teamDetails)
+  const { team } = teamDetails
 
   const history = useHistory()
   const dispatch = useDispatch()
@@ -29,10 +33,25 @@ const ReviewListScreen = ({ match }) => {
       } else {
         setPatientId(admission.patient)
       }
+      //check edit
+      if (team) {
+        setEditPermission(
+          team.members.find((m) => m.user === userInfo.email).canEdit
+        )
+      }
     } else {
       history.push('/')
     }
-  }, [dispatch, admissionId, admission, patientId, history, userInfo])
+  }, [
+    dispatch,
+    admissionId,
+    admission,
+    patientId,
+    history,
+    userInfo,
+    team,
+    editPermission,
+  ])
   return (
     <>
       {!admission ? (
@@ -66,11 +85,13 @@ const ReviewListScreen = ({ match }) => {
             patientId={patientId}
             teamId={admission.team}
           />
-          <ReviewForm
-            admissionId={admissionId}
-            patientId={patientId}
-            teamId={admission.team}
-          />
+          {editPermission && (
+            <ReviewForm
+              admissionId={admissionId}
+              patientId={patientId}
+              teamId={admission.team}
+            />
+          )}
         </FormContainer>
       )}
     </>

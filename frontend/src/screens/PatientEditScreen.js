@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import AdmissionList from '../components/AdmissionList'
 import PatientDetails from '../components/PatientDetails'
 import FormContainer from '../components/FormContainer'

@@ -8,7 +8,6 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
-import { Typeahead } from 'react-bootstrap-typeahead'
 
 const TeamListScreen = () => {
   const [name, setName] = useState('')
