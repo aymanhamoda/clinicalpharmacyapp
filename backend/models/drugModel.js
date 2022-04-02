@@ -13,7 +13,7 @@ const errTempSchema = mongoose.Schema(
   {
     errType: {
       type: mongoose.Schema.Types.ObjectId,
-      required: true,
+      // required: true,
       ref: 'ErrType',
     },
     label: {

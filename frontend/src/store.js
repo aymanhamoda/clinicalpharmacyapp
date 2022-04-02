@@ -77,7 +77,7 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
 const drugLabelsFromStorage = localStorage.getItem('drugList')
   ? JSON.parse(localStorage.getItem('drugList'))
   : null
-const drugRootsFromStorage = localStorage.getItem('drugList')
+const drugRootsFromStorage = localStorage.getItem('drugRoots')
   ? JSON.parse(localStorage.getItem('drugRoots'))
   : null
 

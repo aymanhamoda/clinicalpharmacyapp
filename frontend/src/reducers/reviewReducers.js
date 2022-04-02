@@ -10,6 +10,7 @@ import {
   REVIEW_UPDATE_FAIL,
   REVIEW_LIST_RESET,
   REVIEW_UPDATE_RESET,
+  REVIEW_CREATE_RESET,
 } from '../constants/reviewConstants'
 
 export const reviewCreateReducer = (state = { review: '' }, action) => {
@@ -20,6 +21,8 @@ export const reviewCreateReducer = (state = { review: '' }, action) => {
       return { loading: false, newReview: action.payload }
     case REVIEW_CREATE_FAIL:
       return { loading: false, error: action.payload }
+    case REVIEW_CREATE_RESET:
+      return {}
     default:
       return state
   }

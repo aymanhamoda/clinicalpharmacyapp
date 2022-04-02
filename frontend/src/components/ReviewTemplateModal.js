@@ -71,7 +71,11 @@ const ReviewTemplateModal = ({
                       onClick={() => copyTemplate(t)}
                       className="row btn btn-block m-2  btn-outline-warning"
                       key={t._id}>
-                      {t.label}{' '}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: `${t.label}`,
+                        }}
+                      />
                     </div>
                   </div>
                 ))
