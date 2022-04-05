@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Accordion, Row } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from './Loader'
@@ -10,6 +10,11 @@ import { Link } from 'react-router-dom'
 const AdmissionList = ({ patientId }) => {
   const dispatch = useDispatch()
 
+  const [editPermission, setEditPermission] = useState()
+
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
   const patientDetails = useSelector((state) => state.patientDetails)
   const { loading: patientLoading, patient } = patientDetails
 
@@ -18,6 +23,9 @@ const AdmissionList = ({ patientId }) => {
 
   const createdAdmission = useSelector((state) => state.createdAdmission)
   const { admission } = createdAdmission
+
+  const teamDetails = useSelector((state) => state.teamDetails)
+  const { team } = teamDetails
 
   // const updatedAdmission = useSelector((state) => state.updatedAdmission)
   // const { admission: upAdmission } = updatedAdmission
@@ -28,7 +36,12 @@ const AdmissionList = ({ patientId }) => {
     } else {
       dispatch(listPatientAdmissions(patient._id))
     }
-  }, [dispatch, patient, admission])
+    if (team) {
+      setEditPermission(
+        team.members.find((m) => m.user === userInfo.email).canEdit
+      )
+    }
+  }, [dispatch, patient, admission, team])
 
   return (
     <div className="mt-2">
@@ -71,7 +84,7 @@ const AdmissionList = ({ patientId }) => {
         </>
       )}
 
-      <AdmissionForm patientId={patientId} />
+      {editPermission && <AdmissionForm patientId={patientId} />}
     </div>
   )
 }

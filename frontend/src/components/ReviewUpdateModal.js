@@ -242,10 +242,10 @@ const ReviewUpdateModal = ({
                 </>
               )}
 
-              <div className="row justify-content-end">
+              <div className="row justify-content-center">
                 <Button
                   onClick={() => deleteHandler()}
-                  className="mr-5 btn-danger">
+                  className="mx-5 btn-danger">
                   Delete Review
                 </Button>
                 <Button
@@ -254,9 +254,9 @@ const ReviewUpdateModal = ({
                   Update Review
                 </Button>
                 <Button
-                  className="btn-secondary mx-2"
+                  className="btn-secondary mx-5"
                   onClick={() => setShowUpdateModal(false)}>
-                  Close
+                  Ignore changes
                 </Button>
               </div>
             </Form>
