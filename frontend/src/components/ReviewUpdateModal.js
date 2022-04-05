@@ -242,22 +242,30 @@ const ReviewUpdateModal = ({
                 </>
               )}
 
-              <div className="row justify-content-center">
-                <Button
-                  onClick={() => deleteHandler()}
-                  className="mx-5 btn-danger">
-                  Delete Review
-                </Button>
-                <Button
-                  onClick={(e) => submitHandler(e)}
-                  className="btn-primary">
-                  Update Review
-                </Button>
-                <Button
-                  className="btn-secondary mx-5"
-                  onClick={() => setShowUpdateModal(false)}>
-                  Ignore changes
-                </Button>
+              <div className="container">
+                <div className="row justify-content-around ">
+                  <div className="col-6  ">
+                    <Button
+                      onClick={() => deleteHandler()}
+                      className="btn-danger">
+                      Delete Review
+                    </Button>
+                  </div>
+                  <div className="col-3 ">
+                    <Button
+                      onClick={(e) => submitHandler(e)}
+                      className="btn-primary">
+                      Update Review
+                    </Button>
+                  </div>
+                  <div className="col-3">
+                    <Button
+                      className="btn-secondary "
+                      onClick={() => setSelectedReview()}>
+                      Ignore changes
+                    </Button>
+                  </div>
+                </div>
               </div>
             </Form>
           </ModalBody>

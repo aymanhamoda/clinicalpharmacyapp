@@ -75,6 +75,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
     members,
     teamId,
     deleteLoading,
+    showUpdateModal,
   ])
   return (
     <div>
