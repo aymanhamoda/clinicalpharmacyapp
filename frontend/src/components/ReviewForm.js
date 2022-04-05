@@ -33,6 +33,9 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
+  const createdReviews = useSelector((state) => state.createdReviews)
+  const { loading } = createdReviews
+
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
 
@@ -54,7 +57,6 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         drugErrs,
       })
     )
-    dispatch({ type: REVIEW_CREATE_RESET })
   }
   const handleDrug = (e, dgErr) => {
     if (e.length !== 0) {
@@ -106,7 +108,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         selectedDgErr={selectedDgErr}
       />
       <Form>
-        {!drugs || !errTypeList ? (
+        {!drugs || !errTypeList || loading ? (
           <Loader />
         ) : (
           <>

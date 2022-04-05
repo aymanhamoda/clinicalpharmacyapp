@@ -5,6 +5,10 @@ import { getPatientDetails, updatePatient } from '../actions/patientActions'
 import Message from './Message'
 import Loader from './Loader'
 import { getTeamDetails } from '../actions/teamActions'
+import {
+  PATIENT_DETAILS_RESET,
+  PATIENT_UPDATE_RESET,
+} from '../constants/patientConstants'
 
 const PatientDetails = ({ patientId, screenLabel }) => {
   const [firstName, setFirstName] = useState('')
@@ -18,6 +22,9 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   const patientDetails = useSelector((state) => state.patientDetails)
   const { loading, error, patient } = patientDetails
 
+  const patientUpdate = useSelector((state) => state.patientUpdate)
+  const { updatedPatient } = patientUpdate
+
   const dispatch = useDispatch()
 
   const submitHandler = (e) => {
@@ -28,6 +35,10 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   }
 
   useEffect(() => {
+    if (updatedPatient) {
+      dispatch({ type: PATIENT_DETAILS_RESET })
+      dispatch({ type: PATIENT_UPDATE_RESET })
+    }
     if (!patient || patient._id !== patientId) {
       dispatch(getPatientDetails(patientId))
     } else {
@@ -37,7 +48,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
       setBirthdate(patient.birthdate)
       dispatch(getTeamDetails(patient.team))
     }
-  }, [patientId, patient, patientId, dispatch])
+  }, [patientId, patient, patientId, dispatch, updatedPatient])
 
   return (
     <>

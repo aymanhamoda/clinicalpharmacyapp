@@ -64,12 +64,12 @@ export const patientListReducer = (state = { patients: [] }, action) => {
   }
 }
 
-export const patientUpdateReducer = (state = { patient: {} }, action) => {
+export const patientUpdateReducer = (state = {}, action) => {
   switch (action.type) {
     case PATIENT_UPDATE_REQUEST:
       return { loading: true }
     case PATIENT_UPDATE_SUCCESS:
-      return { loading: false, success: true }
+      return { loading: false, updatedPatient: action.payload }
     case PATIENT_UPDATE_FAIL:
       return { loading: false, error: action.payload }
     case PATIENT_UPDATE_RESET:

@@ -23,7 +23,7 @@ const ReviewUpdateModal = ({
   selectedReview,
   setShowUpdateModal,
   showUpdateModal,
-  admissionId,
+
   patientId,
   teamId,
 }) => {

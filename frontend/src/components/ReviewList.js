@@ -52,7 +52,13 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       setShowUpdateModal(true)
     }
 
-    if (!admission || admission._id !== admissionId || review || newReview) {
+    if (
+      !admission ||
+      admission._id !== admissionId ||
+      review ||
+      newReview ||
+      deleteLoading
+    ) {
       dispatch(getReviewList(admissionId))
       dispatch({ type: REVIEW_UPDATE_RESET })
       dispatch({ type: REVIEW_CREATE_RESET })
@@ -83,7 +89,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       />{' '}
       <h4 className="lead row justify-content-center">DAILY REVIEW DETAILS</h4>
       <hr style={{ backgroundColor: 'gold' }} />
-      {!reviews || !drugs || createLoading || updateLoading || deleteLoading ? (
+      {!reviews || !drugs ? (
         <Loader />
       ) : (
         reviews.map((r) => (
