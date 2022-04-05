@@ -35,7 +35,7 @@ const ReviewListScreen = ({ match }) => {
         setPatientId(admission.patient)
         getReviewList(admission)
       }
-      //check edit
+      //check edit permission
       if (team) {
         setEditPermission(
           team.members.find((m) => m.user === userInfo.email).canEdit

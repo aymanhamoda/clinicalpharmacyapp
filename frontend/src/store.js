@@ -31,6 +31,7 @@ import {
 } from './reducers/admissionReducers'
 import {
   reviewCreateReducer,
+  reviewDeleteReducer,
   reviewListReducer,
   reviewUpdateReducer,
 } from './reducers/reviewReducers'
@@ -61,6 +62,7 @@ const reducer = combineReducers({
   createdReviews: reviewCreateReducer,
   reviewList: reviewListReducer,
   updatedReview: reviewUpdateReducer,
+  deletedReview: reviewDeleteReducer,
 
   createdAdmission: admissionCreateReducer,
   updatedAdmission: admissionUpdateReducer,

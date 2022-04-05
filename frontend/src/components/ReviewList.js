@@ -22,8 +22,14 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails
 
+  const teamDetails = useSelector((state) => state.teamDetails)
+  const { team } = teamDetails
+
   const createdReviews = useSelector((state) => state.createdReviews)
-  const { newReview } = createdReviews
+  const { loading: createLoading, newReview } = createdReviews
+
+  const deletedReview = useSelector((state) => state.deletedReview)
+  const { loading: deleteLoading } = deletedReview
 
   const teamMembers = useSelector((state) => state.teamMembers)
   const { members } = teamMembers
@@ -32,7 +38,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const { drugs } = drugList
 
   const updatedReview = useSelector((state) => state.updatedReview)
-  const { review } = updatedReview
+  const { loading: updateLoading, review } = updatedReview
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
@@ -47,14 +53,23 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
     }
 
     if (!admission || admission._id !== admissionId || review || newReview) {
-      dispatch(getReviewList(admission))
+      dispatch(getReviewList(admissionId))
       dispatch({ type: REVIEW_UPDATE_RESET })
       dispatch({ type: REVIEW_CREATE_RESET })
     }
-    if (!members) {
+    if (!team || team._id !== teamId) {
       dispatch(getTeamMemberDetails(admission.team))
     }
-  }, [admissionId, newReview, selectedReview, review, reviews])
+  }, [
+    admissionId,
+    newReview,
+    selectedReview,
+    review,
+    reviews,
+    members,
+    teamId,
+    deleteLoading,
+  ])
   return (
     <div>
       <ReviewUpdateModal
@@ -68,7 +83,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       />{' '}
       <h4 className="lead row justify-content-center">DAILY REVIEW DETAILS</h4>
       <hr style={{ backgroundColor: 'gold' }} />
-      {!reviews || !drugs ? (
+      {!reviews || !drugs || createLoading || updateLoading || deleteLoading ? (
         <Loader />
       ) : (
         reviews.map((r) => (

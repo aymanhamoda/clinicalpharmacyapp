@@ -16,7 +16,7 @@ import { REVIEW_LIST_RESET } from '../constants/reviewConstants'
 import Loader from './Loader'
 import Message from './Message'
 import ReviewTemplateModal from './ReviewTemplateModal'
-import { updateReview } from '../actions/reviewActions'
+import { deleteReview, updateReview } from '../actions/reviewActions'
 
 const ReviewUpdateModal = ({
   setSelectedReview,
@@ -107,10 +107,15 @@ const ReviewUpdateModal = ({
     setSelectedDgErr(e)
   }
 
+  const deleteHandler = () => {
+    if (reviewId) {
+      dispatch(deleteReview(reviewId))
+      setSelectedReview()
+    }
+  }
   useEffect(() => {
     if (selectedReview) {
       if (selectedReview._id !== reviewId) {
-        console.log(selectedReview)
         setReviewId(selectedReview._id)
         setReviewDate(selectedReview.reviewDate)
         setClinicalNote(selectedReview.clinicalNote)
@@ -236,7 +241,13 @@ const ReviewUpdateModal = ({
                   ))}
                 </>
               )}
+
               <div className="row justify-content-end">
+                <Button
+                  onClick={() => deleteHandler()}
+                  className="mr-5 btn-danger">
+                  Delete Review
+                </Button>
                 <Button
                   onClick={(e) => submitHandler(e)}
                   className="btn-primary">

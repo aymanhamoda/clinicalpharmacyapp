@@ -9,6 +9,10 @@ import {
   REVIEW_UPDATE_REQUEST,
   REVIEW_UPDATE_SUCCESS,
   REVIEW_UPDATE_FAIL,
+  REVIEW_DELETE_REQUEST,
+  REVIEW_DELETE_RESET,
+  REVIEW_DELETE_SUCCESS,
+  REVIEW_DELETE_FAIL,
 } from '../constants/reviewConstants'
 
 export const createReview = (review) => async (dispatch, getState) => {
@@ -89,7 +93,7 @@ export const updateReview = (review) => async (dispatch, getState) => {
   }
 }
 
-export const getReviewList = (admission) => async (dispatch, getState) => {
+export const getReviewList = (admissionId) => async (dispatch, getState) => {
   try {
     dispatch({
       type: REVIEW_LIST_REQUEST,
@@ -104,10 +108,7 @@ export const getReviewList = (admission) => async (dispatch, getState) => {
         Authorization: `Bearer ${userInfo.token}`,
       },
     }
-    const { data } = await axios.get(
-      `/api/reviews/${admission.patient}?admissionId=${admission._id}`,
-      config
-    )
+    const { data } = await axios.get(`/api/reviews/${admissionId}`, config)
     dispatch({
       type: REVIEW_LIST_SUCCESS,
       payload: data,
@@ -119,6 +120,43 @@ export const getReviewList = (admission) => async (dispatch, getState) => {
         error.response && error.response.data.message
           ? error.response.data.message
           : error.message,
+    })
+  }
+}
+
+export const deleteReview = (reviewId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: REVIEW_DELETE_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.delete(`/api/reviews/${reviewId}`, config)
+
+    dispatch({
+      type: REVIEW_DELETE_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout())
+    // }
+    dispatch({
+      type: REVIEW_DELETE_FAIL,
+      payload: message,
     })
   }
 }

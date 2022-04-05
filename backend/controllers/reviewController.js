@@ -39,9 +39,9 @@ const createPatientReview = asyncHandler(async (req, res) => {
 })
 
 const getPatientReviews = asyncHandler(async (req, res) => {
-  const patient = req.params.id
-  const admission = req.query.admissionId
-  const review = await Review.find({ patient, admission })
+  const admission = req.params.id
+
+  const review = await Review.find({ admission })
 
   if (review) {
     res.json(review)
@@ -69,4 +69,21 @@ const updatePatientReview = asyncHandler(async (req, res) => {
   }
 })
 
-export { createPatientReview, getPatientReviews, updatePatientReview }
+const deleteReview = asyncHandler(async (req, res) => {
+  const review = await Review.findById(req.params.id)
+
+  if (review) {
+    await review.remove()
+    res.json({ message: 'review removed' })
+  } else {
+    res.status(404)
+    throw new Error('review not found')
+  }
+})
+
+export {
+  createPatientReview,
+  getPatientReviews,
+  updatePatientReview,
+  deleteReview,
+}

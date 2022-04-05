@@ -16,7 +16,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   const { team } = teamDetails
 
   const patientDetails = useSelector((state) => state.patientDetails)
-  const { error, patient } = patientDetails
+  const { loading, error, patient } = patientDetails
 
   const dispatch = useDispatch()
 
@@ -47,7 +47,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
           <span className="text-white"> | {screenLabel}</span>
         </h1>
       )}
-      {!patient ? (
+      {!patient || loading ? (
         <Loader />
       ) : error ? (
         <Message variant="danger">{error}</Message>
