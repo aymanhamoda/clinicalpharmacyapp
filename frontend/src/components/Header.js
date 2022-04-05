@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
@@ -10,7 +10,7 @@ import {
   NavbarBrand,
 } from 'react-bootstrap'
 
-import { logout } from '../actions/userActions'
+import { getUserDetails, logout } from '../actions/userActions'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -18,9 +18,19 @@ const Header = () => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const userDetails = useSelector((state) => state.userDetails)
+  const { user } = userDetails
+
   const logoutHandler = () => {
     dispatch(logout())
   }
+  useEffect(() => {
+    if (!user) {
+      if (userInfo) {
+        dispatch(getUserDetails(userInfo._id))
+      }
+    }
+  }, [dispatch, userInfo, user])
 
   return (
     <header>
@@ -39,9 +49,9 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              {userInfo ? (
+              {user ? (
                 <NavDropdown
-                  title={`${userInfo.firstName} ${userInfo.lastName}`}
+                  title={`${user.firstName} ${user.lastName}`}
                   id="username">
                   <LinkContainer to="/profile">
                     <NavDropdown.Item>Profile</NavDropdown.Item>

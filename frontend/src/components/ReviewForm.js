@@ -192,13 +192,13 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                 </ButtonToolbar>
               </div>
             ))}
+            <div className="row justify-content-end">
+              <Button onClick={(e) => submitHandler(e)} className="btn-primary">
+                Add Review
+              </Button>
+            </div>
           </>
         )}
-        <div className="row justify-content-end">
-          <Button onClick={(e) => submitHandler(e)} className="btn-primary">
-            Add Review
-          </Button>
-        </div>
       </Form>
     </>
   )

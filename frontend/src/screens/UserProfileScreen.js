@@ -52,13 +52,15 @@ const UserProfile = () => {
     if (updatedUser) {
       dispatch({ type: USER_DETAILS_RESET })
     }
-    if (userInfo && !user) {
-      dispatch(getUserDetails(userInfo._id))
-    }
+
     if (user) {
       setFirstName(user.firstName)
       setLastName(user.lastName)
       setEmail(user.email)
+    } else {
+      if (userInfo) {
+        dispatch(getUserDetails(userInfo._id))
+      }
     }
   }, [dispatch, userInfo, user, loading, updatedUser, history])
 

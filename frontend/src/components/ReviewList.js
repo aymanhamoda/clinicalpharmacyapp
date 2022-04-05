@@ -50,6 +50,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   useEffect(() => {
     if (selectedReview) {
       setShowUpdateModal(true)
+    } else {
+      setShowUpdateModal(false)
     }
 
     if (

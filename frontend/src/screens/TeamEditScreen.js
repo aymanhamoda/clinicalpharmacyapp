@@ -93,12 +93,6 @@ const TeamEditScreen = ({ match }) => {
   useEffect(() => {
     if (!userInfo) {
       history.push('/')
-    } else {
-      if (team) {
-        if (team.admin !== userInfo.email) {
-          history.push('/')
-        }
-      }
     }
     if (!team) {
       dispatch(getTeamDetails(teamId))
@@ -177,31 +171,33 @@ const TeamEditScreen = ({ match }) => {
                   </ListGroup>
                 ))}
 
-                <div className="row">
-                  <Form.Group controlId="newMember" className="col">
-                    <Form.Label>Add new Member's email</Form.Label>
-                    <Form.Control
-                      type="email"
-                      value={newMember.email}
-                      onChange={(e) =>
-                        setNewMember({
-                          id: Math.random(),
-                          user: e.target.value.toLowerCase(),
-                          canEdit: true,
-                          disabled: false,
-                        })
-                      }></Form.Control>
-                  </Form.Group>
-                  <FormGroup>
-                    <Form.Label>.</Form.Label>
-                    <Button
-                      onClick={() => handleMembers()}
-                      className="col"
-                      variant="primary">
-                      <i className="fas fa-plus"></i>
-                    </Button>
-                  </FormGroup>
-                </div>
+                {team.admin !== userInfo.email && (
+                  <div className="row">
+                    <Form.Group controlId="newMember" className="col">
+                      <Form.Label>Add new Member's email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        value={newMember.email}
+                        onChange={(e) =>
+                          setNewMember({
+                            id: Math.random(),
+                            user: e.target.value.toLowerCase(),
+                            canEdit: true,
+                            disabled: false,
+                          })
+                        }></Form.Control>
+                    </Form.Group>
+                    <FormGroup>
+                      <Form.Label className="text-dark">.</Form.Label>
+                      <Button
+                        onClick={() => handleMembers()}
+                        className="col"
+                        variant="primary">
+                        <i className="fas fa-plus"></i>
+                      </Button>
+                    </FormGroup>
+                  </div>
+                )}
                 <FormGroup>
                   <Button onClick={(e) => submitHandler(e)} variant="primary ">
                     Update

@@ -131,146 +131,142 @@ const ReviewUpdateModal = ({
         setShowTemplates={() => setShowTemplates()}
         selectedDgErr={selectedDgErr}
       />
-      {selectedReview && (
-        <Modal
-          size="lg"
-          show={showUpdateModal}
-          onHide={() => setShowUpdateModal(false)}
-          backdrop="static"
-          keyboard={false}>
-          <ModalBody>
-            <Form>
-              {!drugs || !errTypeList ? (
-                <Loader />
-              ) : (
-                <>
-                  <Form.Group>
-                    <Form.Label>
-                      <h2>Review Date</h2>
-                    </Form.Label>
 
-                    <Form.Control
-                      type="date"
-                      value={reviewDate}
-                      onChange={(e) =>
-                        setReviewDate(e.target.value)
-                      }></Form.Control>
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Label>
-                      <h2>Clinical Notes</h2>
-                    </Form.Label>
-                    <div className="text-dark">
-                      {' '}
-                      <CKEditor
-                        editor={ClassicEditor}
-                        data={clinicalNote}
-                        onChange={(event, editor) => {
-                          const data = editor.getData()
-                          setClinicalNote(data)
-                        }}
+      <Modal
+        size="lg"
+        show={showUpdateModal}
+        onHide={() => setShowUpdateModal(false)}
+        backdrop="static"
+        keyboard={false}>
+        <ModalBody>
+          <Form>
+            {!drugs || !errTypeList ? (
+              <Loader />
+            ) : (
+              <>
+                <Form.Group>
+                  <Form.Label>
+                    <h2>Review Date</h2>
+                  </Form.Label>
+
+                  <Form.Control
+                    type="date"
+                    value={reviewDate}
+                    onChange={(e) =>
+                      setReviewDate(e.target.value)
+                    }></Form.Control>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label>
+                    <h2>Clinical Notes</h2>
+                  </Form.Label>
+                  <div className="text-dark">
+                    {' '}
+                    <CKEditor
+                      editor={ClassicEditor}
+                      data={clinicalNote}
+                      onChange={(event, editor) => {
+                        const data = editor.getData()
+                        setClinicalNote(data)
+                      }}
+                    />
+                  </div>
+                </Form.Group>
+
+                {drugErrs.map((dgErr) => (
+                  <div key={dgErr._id} className="row py-3">
+                    <Form.Group className="col-sm-6">
+                      <Form.Label>Drug Of Err</Form.Label>
+
+                      <Typeahead
+                        defaultInputValue={
+                          dgErr.errDrug &&
+                          drugs.find(
+                            (d) => d._id.toString() === dgErr.errDrug.toString()
+                          ).label
+                        }
+                        options={drugs}
+                        onChange={(e) => handleDrug(e, dgErr)}
                       />
-                    </div>
-                  </Form.Group>
-
-                  {drugErrs.map((dgErr) => (
-                    <div key={dgErr._id} className="row py-3">
-                      <Form.Group className="col-sm-6">
-                        <Form.Label>Drug Of Err</Form.Label>
-
-                        <Typeahead
-                          defaultInputValue={
-                            dgErr.errDrug &&
-                            drugs.find(
-                              (d) =>
-                                d._id.toString() === dgErr.errDrug.toString()
-                            ).label
-                          }
-                          options={drugs}
-                          onChange={(e) => handleDrug(e, dgErr)}
+                    </Form.Group>
+                    <FormGroup className="col-sm-6">
+                      <Form.Label>Type Of Err</Form.Label>
+                      <Typeahead
+                        defaultInputValue={
+                          dgErr.errType &&
+                          errTypeList.find(
+                            (e) => e._id.toString() === dgErr.errType.toString()
+                          ).label
+                        }
+                        placeholder="Enter Medication"
+                        options={errTypeList}
+                        onChange={(e) => handleErrType(e, dgErr)}
+                      />
+                    </FormGroup>
+                    <Form.Group className="col-sm-12">
+                      <Form.Label>Error Notes</Form.Label>
+                      <div className="text-dark">
+                        {' '}
+                        <CKEditor
+                          editor={ClassicEditor}
+                          data={dgErr.errNote}
+                          onChange={(event, editor) => {
+                            const data = editor.getData()
+                            handleErrNote(data, dgErr)
+                          }}
                         />
-                      </Form.Group>
-                      <FormGroup className="col-sm-6">
-                        <Form.Label>Type Of Err</Form.Label>
-                        <Typeahead
-                          defaultInputValue={
-                            dgErr.errType &&
-                            errTypeList.find(
-                              (e) =>
-                                e._id.toString() === dgErr.errType.toString()
-                            ).label
-                          }
-                          placeholder="Enter Medication"
-                          options={errTypeList}
-                          onChange={(e) => handleErrType(e, dgErr)}
-                        />
-                      </FormGroup>
-                      <Form.Group className="col-sm-12">
-                        <Form.Label>Error Notes</Form.Label>
-                        <div className="text-dark">
-                          {' '}
-                          <CKEditor
-                            editor={ClassicEditor}
-                            data={dgErr.errNote}
-                            onChange={(event, editor) => {
-                              const data = editor.getData()
-                              handleErrNote(data, dgErr)
-                            }}
-                          />
-                        </div>
-                      </Form.Group>
-                      <ButtonToolbar className="container justify-content-center">
-                        <Button onClick={() => addNewRow()}>
-                          <i className="fa fa-plus-circle" aria-hidden="true" />
-                        </Button>
+                      </div>
+                    </Form.Group>
+                    <ButtonToolbar className="container justify-content-center">
+                      <Button onClick={() => addNewRow()}>
+                        <i className="fa fa-plus-circle" aria-hidden="true" />
+                      </Button>
+                      <Button
+                        className="ml-3"
+                        variant="warning"
+                        onClick={() => modalTemplates(dgErr)}>
+                        Show Templates
+                      </Button>
+                      {dgErr.idx !== 1 && (
                         <Button
-                          className="ml-3"
-                          variant="warning"
-                          onClick={() => modalTemplates(dgErr)}>
-                          Show Templates
+                          className="btn btn-danger ml-3"
+                          onClick={() => deleteRow(dgErr)}>
+                          <i className="fa fa-minus" aria-hidden="true" />
                         </Button>
-                        {dgErr.idx !== 1 && (
-                          <Button
-                            className="btn btn-danger ml-3"
-                            onClick={() => deleteRow(dgErr)}>
-                            <i className="fa fa-minus" aria-hidden="true" />
-                          </Button>
-                        )}
-                      </ButtonToolbar>
-                    </div>
-                  ))}
-                </>
-              )}
+                      )}
+                    </ButtonToolbar>
+                  </div>
+                ))}
+              </>
+            )}
 
-              <div className="container">
-                <div className="row justify-content-around ">
-                  <div className="col-6  ">
-                    <Button
-                      onClick={() => deleteHandler()}
-                      className="btn-danger">
-                      Delete Review
-                    </Button>
-                  </div>
-                  <div className="col-3 ">
-                    <Button
-                      onClick={(e) => submitHandler(e)}
-                      className="btn-primary">
-                      Update Review
-                    </Button>
-                  </div>
-                  <div className="col-3">
-                    <Button
-                      className="btn-secondary "
-                      onClick={() => setSelectedReview()}>
-                      Ignore changes
-                    </Button>
-                  </div>
+            <div className="container">
+              <div className="row justify-content-around ">
+                <div className="col-6  ">
+                  <Button
+                    onClick={() => deleteHandler()}
+                    className="btn-danger">
+                    Delete Review
+                  </Button>
+                </div>
+                <div className="col-6 row justify-content-end ">
+                  <Button
+                    onClick={(e) => submitHandler(e)}
+                    className="btn-primary mr-2">
+                    Update Review
+                  </Button>
+
+                  <Button
+                    className="btn-secondary "
+                    onClick={() => setSelectedReview()}>
+                    Ignore changes
+                  </Button>
                 </div>
               </div>
-            </Form>
-          </ModalBody>
-        </Modal>
-      )}
+            </div>
+          </Form>
+        </ModalBody>
+      </Modal>
     </>
   )
 }
