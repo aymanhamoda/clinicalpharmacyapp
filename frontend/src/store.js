@@ -59,10 +59,10 @@ const reducer = combineReducers({
   teamUpdates: teamUpdateReducer,
   teamMembers: teamMemberDetailsReducer,
 
-  createdReviews: reviewCreateReducer,
-  reviewList: reviewListReducer,
-  updatedReview: reviewUpdateReducer,
-  deletedReview: reviewDeleteReducer,
+  createdReviewStore: reviewCreateReducer,
+  reviewListStore: reviewListReducer,
+  updatedReviewStore: reviewUpdateReducer,
+  deletedReviewStore: reviewDeleteReducer,
 
   createdAdmission: admissionCreateReducer,
   updatedAdmission: admissionUpdateReducer,

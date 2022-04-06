@@ -4,6 +4,8 @@ import { getReviewList } from '../actions/reviewActions'
 import { getTeamMemberDetails } from '../actions/teamActions'
 import {
   REVIEW_CREATE_RESET,
+  REVIEW_DELETE_RESET,
+  REVIEW_LIST_RESET,
   REVIEW_UPDATE_RESET,
 } from '../constants/reviewConstants'
 import Loader from './Loader'
@@ -16,20 +18,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const reviewList = useSelector((state) => state.reviewList)
-  const { reviews } = reviewList
-
-  const admissionDetails = useSelector((state) => state.admissionDetails)
-  const { admission } = admissionDetails
-
   const teamDetails = useSelector((state) => state.teamDetails)
   const { team } = teamDetails
-
-  const createdReviews = useSelector((state) => state.createdReviews)
-  const { loading: createLoading, newReview } = createdReviews
-
-  const deletedReview = useSelector((state) => state.deletedReview)
-  const { loading: deleteLoading } = deletedReview
 
   const teamMembers = useSelector((state) => state.teamMembers)
   const { members } = teamMembers
@@ -37,16 +27,29 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
-  const updatedReview = useSelector((state) => state.updatedReview)
-  const { loading: updateLoading, review } = updatedReview
-
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
+
+  const admissionDetails = useSelector((state) => state.admissionDetails)
+  const { admission } = admissionDetails
+
+  const reviewListStore = useSelector((state) => state.reviewListStore)
+  const { reviews } = reviewListStore
+
+  const createdReviewStore = useSelector((state) => state.createdReviewStore)
+  const { newReview } = createdReviewStore
+
+  const deletedReviewStore = useSelector((state) => state.deletedReviewStore)
+  const { deletedReview } = deletedReviewStore
+
+  const updatedReviewStore = useSelector((state) => state.updatedReviewStore)
+  const { updatedReview } = updatedReviewStore
 
   const handleUpdate = (r) => {
     setSelectedReview(r)
   }
   const dispatch = useDispatch()
+
   useEffect(() => {
     if (selectedReview) {
       setShowUpdateModal(true)
@@ -54,30 +57,33 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       setShowUpdateModal(false)
     }
 
-    if (
-      !admission ||
-      admission._id !== admissionId ||
-      review ||
-      newReview ||
-      deleteLoading
-    ) {
+    if (!admission || admission._id !== admissionId || !reviews) {
       dispatch(getReviewList(admissionId))
-      dispatch({ type: REVIEW_UPDATE_RESET })
-      dispatch({ type: REVIEW_CREATE_RESET })
     }
+
+    if (updatedReview || deletedReview || newReview) {
+      dispatch({ type: REVIEW_DELETE_RESET })
+      dispatch({ type: REVIEW_CREATE_RESET })
+      dispatch({ type: REVIEW_UPDATE_RESET })
+
+      dispatch({ type: REVIEW_LIST_RESET })
+    }
+
     if (!team || team._id !== teamId) {
       dispatch(getTeamMemberDetails(admission.team))
     }
   }, [
+    reviews,
+    dispatch,
     admissionId,
     newReview,
     selectedReview,
-    review,
+    updatedReview,
     reviews,
     members,
     teamId,
     team,
-    deleteLoading,
+    deletedReview,
     showUpdateModal,
   ])
   return (

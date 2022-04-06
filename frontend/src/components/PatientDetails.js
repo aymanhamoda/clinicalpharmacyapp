@@ -48,7 +48,7 @@ const PatientDetails = ({ patientId, screenLabel }) => {
       setBirthdate(patient.birthdate)
       dispatch(getTeamDetails(patient.team))
     }
-  }, [patientId, patient, patientId, dispatch, updatedPatient])
+  }, [patientId, patient, dispatch, updatedPatient])
 
   return (
     <>

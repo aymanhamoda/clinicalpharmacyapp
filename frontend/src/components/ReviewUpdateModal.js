@@ -187,6 +187,7 @@ const ReviewUpdateModal = ({
                         }
                         options={drugs}
                         onChange={(e) => handleDrug(e, dgErr)}
+                        id={dgErr.errDrug}
                       />
                     </Form.Group>
                     <FormGroup className="col-sm-6">
@@ -241,26 +242,26 @@ const ReviewUpdateModal = ({
             )}
 
             <div className="container">
-              <div className="row">
-                <div className="col-4  ">
+              <div className="row justify-content-center">
+                <div className="col-4">
                   <Button
                     onClick={() => deleteHandler()}
                     className="btn-danger">
-                    Delete Review
+                    Delete
                   </Button>
                 </div>
-                <div className="col- ">
+                <div className="col-4">
                   <Button
                     onClick={(e) => submitHandler(e)}
                     className="btn-primary">
-                    Update Review
+                    Update
                   </Button>
                 </div>
                 <div className="col-4">
                   <Button
                     className="btn-secondary "
                     onClick={() => setSelectedReview()}>
-                    Ignore changes
+                    Ignore
                   </Button>
                 </div>
               </div>

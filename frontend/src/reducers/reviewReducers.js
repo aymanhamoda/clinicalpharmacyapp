@@ -47,12 +47,12 @@ export const reviewListReducer = (state = {}, action) => {
   }
 }
 
-export const reviewUpdateReducer = (state = { review: {} }, action) => {
+export const reviewUpdateReducer = (state = {}, action) => {
   switch (action.type) {
     case REVIEW_UPDATE_REQUEST:
       return { loading: true }
     case REVIEW_UPDATE_SUCCESS:
-      return { loading: false, review: action.payload }
+      return { loading: false, updatedReview: action.payload }
     case REVIEW_UPDATE_FAIL:
       return { loading: false, error: action.payload }
     case REVIEW_UPDATE_RESET:

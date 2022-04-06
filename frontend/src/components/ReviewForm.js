@@ -33,8 +33,8 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
-  const createdReviews = useSelector((state) => state.createdReviews)
-  const { loading } = createdReviews
+  const createdReviewStore = useSelector((state) => state.createdReviewStore)
+  const { loading, newReview } = createdReviewStore
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
@@ -98,10 +98,15 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
     }
-  }, [])
+    if (newReview) {
+      setMessage('The review saved')
+      // setReviewDate(' ')
+      // setClinicalNote(' ')
+      // setDrugErrs([{ idx: 1, errDrug: '', errType: '', errNote: ' ' }])
+    }
+  }, [newReview])
   return (
     <>
-      {message && <Message children={message} />}
       <ReviewTemplateModal
         showTemplates={showTemplates}
         setShowTemplates={() => setShowTemplates()}
@@ -146,7 +151,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                     placeholder="Enter Medication"
                     options={drugs}
                     onChange={(e) => handleDrug(e, dgErr)}
-                    data-id={dgErr.idx}
+                    id={dgErr.errDrug}
                   />
                 </Form.Group>
                 <FormGroup className="col-sm-6">
@@ -200,6 +205,9 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
           </>
         )}
       </Form>
+      {message && (
+        <Message setMessgae={setMessage} variant="success" children={message} />
+      )}
     </>
   )
 }
