@@ -241,21 +241,22 @@ const ReviewUpdateModal = ({
             )}
 
             <div className="container">
-              <div className="row justify-content-around ">
-                <div className="col-6  ">
+              <div className="row">
+                <div className="col-4  ">
                   <Button
                     onClick={() => deleteHandler()}
                     className="btn-danger">
                     Delete Review
                   </Button>
                 </div>
-                <div className="col-6 row justify-content-end ">
+                <div className="col- ">
                   <Button
                     onClick={(e) => submitHandler(e)}
-                    className="btn-primary mr-2">
+                    className="btn-primary">
                     Update Review
                   </Button>
-
+                </div>
+                <div className="col-4">
                   <Button
                     className="btn-secondary "
                     onClick={() => setSelectedReview()}>

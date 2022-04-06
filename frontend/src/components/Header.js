@@ -11,6 +11,7 @@ import {
 } from 'react-bootstrap'
 
 import { getUserDetails, logout } from '../actions/userActions'
+import { useHistory } from 'react-router-dom'
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -24,13 +25,16 @@ const Header = () => {
   const logoutHandler = () => {
     dispatch(logout())
   }
+  const history = useHistory()
   useEffect(() => {
     if (!user) {
       if (userInfo) {
         dispatch(getUserDetails(userInfo._id))
+      } else {
+        history.push('/')
       }
     }
-  }, [dispatch, userInfo, user])
+  }, [dispatch, userInfo, user, history])
 
   return (
     <header>

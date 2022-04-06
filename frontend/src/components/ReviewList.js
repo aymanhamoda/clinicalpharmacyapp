@@ -76,6 +76,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
     reviews,
     members,
     teamId,
+    team,
     deleteLoading,
     showUpdateModal,
   ])
@@ -140,8 +141,12 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
             <div className="row justify-content-end pr-5">
               <span>
                 Edited by:{' '}
-                {members && members.find((m) => m._id === r.user).firstName}{' '}
-                {members && members.find((m) => m._id === r.user).lastName}
+                {members &&
+                  members.find((m) => m._id === r.user) &&
+                  members.find((m) => m._id === r.user).firstName}{' '}
+                {members &&
+                  members.find((m) => m._id === r.user) &&
+                  members.find((m) => m._id === r.user).lastName}
                 {userInfo._id === r.user && (
                   <i
                     onClick={() => handleUpdate(r)}
