@@ -56,8 +56,8 @@ const reducer = combineReducers({
 
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
-  teamUpdates: teamUpdateReducer,
-  teamMembers: teamMemberDetailsReducer,
+  teamUpdateStore: teamUpdateReducer,
+  teamMemberStore: teamMemberDetailsReducer,
 
   createdReviewStore: reviewCreateReducer,
   reviewListStore: reviewListReducer,

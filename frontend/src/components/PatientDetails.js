@@ -46,7 +46,6 @@ const PatientDetails = ({ patientId, screenLabel }) => {
       setMiddleName(patient.middleName)
       setLastName(patient.lastName)
       setBirthdate(patient.birthdate)
-      dispatch(getTeamDetails(patient.team))
     }
   }, [patientId, patient, dispatch, updatedPatient])
 

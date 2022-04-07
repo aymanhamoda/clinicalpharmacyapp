@@ -42,8 +42,8 @@ const TeamEditScreen = ({ match }) => {
   const teamDetails = useSelector((state) => state.teamDetails)
   const { team } = teamDetails
 
-  const teamUpdates = useSelector((state) => state.teamUpdates)
-  const { team: updatedTeam, loading } = teamUpdates
+  const teamUpdateStore = useSelector((state) => state.teamUpdateStore)
+  const { loading } = teamUpdateStore
 
   const submitHandler = (e) => {
     e.preventDefault()
@@ -51,6 +51,7 @@ const TeamEditScreen = ({ match }) => {
   }
   const handleMembers = () => {
     if (newMember.user !== '') {
+      //clear the message
       setMessage('')
       const isRepeated = members.find((m) => m.user === newMember.user)
 
@@ -93,13 +94,14 @@ const TeamEditScreen = ({ match }) => {
   useEffect(() => {
     if (!userInfo) {
       history.push('/')
-    }
-    if (!team) {
-      dispatch(getTeamDetails(teamId))
     } else {
-      setName(team.name)
-      setSpecialty(team.specialty)
-      setMembers(team.members)
+      if (!team || team._id !== teamId) {
+        dispatch(getTeamDetails(teamId))
+      } else {
+        setName(team.name)
+        setSpecialty(team.specialty)
+        setMembers(team.members)
+      }
     }
   }, [userInfo, teamId, team, history])
 

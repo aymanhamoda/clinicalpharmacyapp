@@ -8,6 +8,7 @@ import ReviewList from '../components/ReviewList'
 import FormContainer from '../components/FormContainer'
 import ReviewForm from '../components/ReviewForm'
 import { getReviewList } from '../actions/reviewActions'
+import { getTeamDetails, getTeamMemberDetails } from '../actions/teamActions'
 
 const ReviewListScreen = ({ match }) => {
   const admissionId = match.params.id
@@ -32,28 +33,17 @@ const ReviewListScreen = ({ match }) => {
       if (!admission || admission._id !== admissionId) {
         dispatch(getAdmissionDetails(admissionId))
       } else {
-        setPatientId(admission.patient)
+        dispatch(getTeamDetails(admission.team))
+        dispatch(getTeamMemberDetails(admission.team))
         getReviewList(admission)
-      }
-      //check edit permission
-      if (team) {
-        setEditPermission(
-          team.members.find((m) => m.user === userInfo.email).canEdit
-        )
+
+        setPatientId(admission.patient)
       }
     } else {
       history.push('/')
     }
-  }, [
-    dispatch,
-    admissionId,
-    admission,
-    patientId,
-    history,
-    userInfo,
-    team,
-    editPermission,
-  ])
+    //check edit permission
+  }, [dispatch, admissionId, admission, patientId, history, userInfo])
   return (
     <>
       {!admission ? (
@@ -87,13 +77,14 @@ const ReviewListScreen = ({ match }) => {
             patientId={patientId}
             teamId={admission.team}
           />
-          {editPermission && (
-            <ReviewForm
-              admissionId={admissionId}
-              patientId={patientId}
-              teamId={admission.team}
-            />
-          )}
+          {team &&
+            team.members.find((m) => m.user === userInfo.email).canEdit && (
+              <ReviewForm
+                admissionId={admissionId}
+                patientId={patientId}
+                teamId={admission.team}
+              />
+            )}
         </FormContainer>
       )}
     </>

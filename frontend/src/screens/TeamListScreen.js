@@ -109,33 +109,27 @@ const TeamListScreen = () => {
                 <tbody>
                   <tr className="table-primary">
                     <th scope="row">{t.name}</th>
-
                     <>
                       <td className="float-right">
                         <Link
                           className="text-white"
                           key={t._id}
-                          to={`/teamlist/${t._id}`}>
-                          {t.admin === userInfo.email ? (
-                            <>
-                              <i className="fas fa-edit"></i> Admin
-                            </>
-                          ) : (
-                            <>
-                              <i className="fas fa-user-friends"></i> Team
-                            </>
-                          )}{' '}
+                          to={`/patientlist/${t._id}`}>
+                          <i className="far fa-address-book"></i> Patients
                         </Link>
                       </td>
                     </>
-
                     <td className="float-right">
-                      <Link
-                        className="text-white"
-                        key={t._id}
-                        to={`/patientlist/${t._id}`}>
-                        <i className="far fa-address-book"></i> Patients
-                      </Link>
+                      {t.admin === userInfo.email && (
+                        <>
+                          <Link
+                            className="text-white"
+                            key={t._id}
+                            to={`/teamlist/${t._id}`}>
+                            <i className="fas fa-edit"></i> Admin
+                          </Link>
+                        </>
+                      )}{' '}
                     </td>
                   </tr>
                 </tbody>

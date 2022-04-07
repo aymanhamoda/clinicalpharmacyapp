@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getReviewList } from '../actions/reviewActions'
-import { getTeamMemberDetails } from '../actions/teamActions'
 import {
   REVIEW_CREATE_RESET,
   REVIEW_DELETE_RESET,
@@ -21,8 +20,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const teamDetails = useSelector((state) => state.teamDetails)
   const { team } = teamDetails
 
-  const teamMembers = useSelector((state) => state.teamMembers)
-  const { members } = teamMembers
+  const teamMemberStore = useSelector((state) => state.teamMemberStore)
+  const { members } = teamMemberStore
 
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
@@ -57,7 +56,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       setShowUpdateModal(false)
     }
 
-    if (!admission || admission._id !== admissionId || !reviews) {
+    if (!reviews || admission._id !== admissionId) {
       dispatch(getReviewList(admissionId))
     }
 
@@ -68,23 +67,18 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
 
       dispatch({ type: REVIEW_LIST_RESET })
     }
-
-    if (!team || team._id !== teamId) {
-      dispatch(getTeamMemberDetails(admission.team))
-    }
   }, [
-    reviews,
     dispatch,
-    admissionId,
-    newReview,
-    selectedReview,
-    updatedReview,
     reviews,
-    members,
+    admission,
+    selectedReview,
+    showUpdateModal,
+    reviews,
+    newReview,
+    updatedReview,
+    deletedReview,
     teamId,
     team,
-    deletedReview,
-    showUpdateModal,
   ])
   return (
     <div>
