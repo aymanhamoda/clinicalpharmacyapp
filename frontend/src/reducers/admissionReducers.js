@@ -13,16 +13,19 @@ import {
   ADMISSION_DETAILS_SUCCESS,
   ADMISSION_DETAILS_FAIL,
   ADMISSION_DETAILS_RESET,
+  ADMISSION_CREATE_RESET,
 } from '../constants/admissionConstants'
 
-export const admissionCreateReducer = (state = { admission: '' }, action) => {
+export const admissionCreateReducer = (state = {}, action) => {
   switch (action.type) {
     case ADMISSION_CREATE_REQUEST:
       return { loading: true }
     case ADMISSION_CREATE_SUCCESS:
-      return { loading: false, admission: action.payload }
+      return { loading: false, newAdmission: action.payload }
     case ADMISSION_CREATE_FAIL:
       return { loading: false, error: action.payload }
+    case ADMISSION_CREATE_RESET:
+      return {}
     default:
       return state
   }

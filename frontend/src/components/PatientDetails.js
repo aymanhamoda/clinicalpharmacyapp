@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { getPatientDetails, updatePatient } from '../actions/patientActions'
 import Message from './Message'
 import Loader from './Loader'
-import { getTeamDetails } from '../actions/teamActions'
+
 import {
   PATIENT_DETAILS_RESET,
   PATIENT_UPDATE_RESET,

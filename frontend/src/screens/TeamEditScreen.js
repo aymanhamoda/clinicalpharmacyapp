@@ -173,7 +173,7 @@ const TeamEditScreen = ({ match }) => {
                   </ListGroup>
                 ))}
 
-                {team.admin !== userInfo.email && (
+                {team.admin === userInfo.email && (
                   <div className="row">
                     <Form.Group controlId="newMember" className="col">
                       <Form.Label>Add new Member's email</Form.Label>

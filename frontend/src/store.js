@@ -53,6 +53,8 @@ const reducer = combineReducers({
 
   admissionList: patientadmissionListReducer,
   admissionDetails: admissionDetailsReducer,
+  newAdmissionStore: admissionCreateReducer,
+  updatedAdmissionStore: admissionUpdateReducer,
 
   userLogin: userLoginReducer,
   teamDetails: teamDetailsReducer,
@@ -63,9 +65,6 @@ const reducer = combineReducers({
   reviewListStore: reviewListReducer,
   updatedReviewStore: reviewUpdateReducer,
   deletedReviewStore: reviewDeleteReducer,
-
-  createdAdmission: admissionCreateReducer,
-  updatedAdmission: admissionUpdateReducer,
 
   userDelete: userDeleteReducer,
 

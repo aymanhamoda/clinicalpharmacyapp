@@ -29,11 +29,11 @@ const AdmissionForm = ({ patientId }) => {
     )
   }
 
-  useEffect(() => {
-    if (!patient) {
-      dispatch(getPatientDetails(patientId))
-    }
-  }, [dispatch, patient])
+  // useEffect(() => {
+  //   if (!patient) {
+  //     dispatch(getPatientDetails(patientId))
+  //   }
+  // }, [dispatch, patient])
 
   return (
     <>
