@@ -37,13 +37,14 @@ const getPatientAdmissions = asyncHandler(async (req, res) => {
 })
 
 const updatePatientAdmission = asyncHandler(async (req, res) => {
-  const { admissionDate, dischargeDate } = req.body
+  const { admissionDate, admissionDetails, dischargeDate } = req.body
 
   const admission = await Admission.findById(req.params.id)
 
   if (admission) {
-    admission.admissionDate = admissionDate || admission.admissionDate
-    admission.dischargeDate = dischargeDate || admission.dischargeDate
+    admission.admissionDate = admissionDate
+    admission.admissionDetails = admissionDetails
+    admission.dischargeDate = dischargeDate
 
     const updatedAdmission = await admission.save()
     res.json(updatedAdmission)

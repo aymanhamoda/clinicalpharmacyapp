@@ -68,7 +68,7 @@ export const updateAdmission = (admission) => async (dispatch, getState) => {
       },
     }
     const { data } = await axios.put(
-      `/api/visits/${admission.id}`,
+      `/api/admissions/${admission._id}/edit`,
       admission,
       config
     )

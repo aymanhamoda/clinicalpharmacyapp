@@ -14,6 +14,7 @@ import {
   ADMISSION_DETAILS_FAIL,
   ADMISSION_DETAILS_RESET,
   ADMISSION_CREATE_RESET,
+  ADMISSION_UPDATE_RESET,
 } from '../constants/admissionConstants'
 
 export const admissionCreateReducer = (state = {}, action) => {
@@ -64,14 +65,16 @@ export const patientadmissionListReducer = (
   }
 }
 
-export const admissionUpdateReducer = (state = { admission: {} }, action) => {
+export const admissionUpdateReducer = (state = {}, action) => {
   switch (action.type) {
     case ADMISSION_UPDATE_REQUEST:
       return { loading: true }
     case ADMISSION_UPDATE_SUCCESS:
-      return { loading: false, admission: action.payload }
+      return { loading: false, updatedAdmission: action.payload }
     case ADMISSION_UPDATE_FAIL:
       return { loading: false, error: action.payload }
+    case ADMISSION_UPDATE_RESET:
+      return {}
     default:
       return state
   }

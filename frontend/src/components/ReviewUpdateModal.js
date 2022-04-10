@@ -21,9 +21,6 @@ import { deleteReview, updateReview } from '../actions/reviewActions'
 const ReviewUpdateModal = ({
   setSelectedReview,
   selectedReview,
-  setShowUpdateModal,
-  showUpdateModal,
-
   patientId,
   teamId,
 }) => {
@@ -32,7 +29,7 @@ const ReviewUpdateModal = ({
   const [reviewDate, setReviewDate] = useState('')
   const [drugErrs, setDrugErrs] = useState([
     {
-      _id: '',
+      _id: 0,
       errDrug: '',
       errType: '',
       errNote: '',
@@ -40,6 +37,7 @@ const ReviewUpdateModal = ({
   ])
   const [message, setMessage] = useState('')
   const [showTemplates, setShowTemplates] = useState(false)
+  const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [selectedDgErr, setSelectedDgErr] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -115,12 +113,24 @@ const ReviewUpdateModal = ({
   }
   useEffect(() => {
     if (selectedReview) {
-      if (selectedReview._id !== reviewId) {
-        setReviewId(selectedReview._id)
-        setReviewDate(selectedReview.reviewDate)
-        setClinicalNote(selectedReview.clinicalNote)
-        setDrugErrs(selectedReview.drugErrs)
-      }
+      setReviewId(selectedReview._id)
+      setReviewDate(selectedReview.reviewDate.substring(0, 10))
+      setClinicalNote(selectedReview.clinicalNote)
+      setDrugErrs(selectedReview.drugErrs)
+      setShowUpdateModal(true)
+    } else {
+      setShowUpdateModal(false)
+      setReviewId('')
+      setReviewDate('')
+      setClinicalNote('')
+      setDrugErrs([
+        {
+          _id: 0,
+          errDrug: '',
+          errType: '',
+          errNote: '',
+        },
+      ])
     }
   }, [selectedReview, showUpdateModal])
   return (

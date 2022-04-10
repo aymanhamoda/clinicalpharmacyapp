@@ -5,7 +5,7 @@ import AdmissionList from '../components/AdmissionList'
 import PatientDetails from '../components/PatientDetails'
 import FormContainer from '../components/FormContainer'
 
-const PatientEditScreen = ({ match }) => {
+const AdmissionListScreen = ({ match }) => {
   const patientId = match.params.id
 
   const history = useHistory()
@@ -27,4 +27,4 @@ const PatientEditScreen = ({ match }) => {
   )
 }
 
-export default PatientEditScreen
+export default AdmissionListScreen

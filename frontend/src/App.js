@@ -8,7 +8,7 @@ import RegisterScreen from './screens/RegisterScreen'
 import UserProfileScreen from './screens/UserProfileScreen'
 
 import PatientListScreen from './screens/PatientListScreen'
-import PatientEditScreen from './screens/PatientEditScreen'
+import AdmissionListScreen from './screens/AdmissionListScreen'
 import ReviewListScreen from './screens/ReviewListScreen'
 import { PrintPrescription } from './components/printPrescription'
 import TeamListScreen from './screens/TeamListScreen'
@@ -27,7 +27,7 @@ const App = () => {
           <Route path="/teamlist" component={TeamListScreen} exact />
           <Route path="/teamlist/:id" component={TeamEditScreen} />
 
-          <Route path="/patient/:id" component={PatientEditScreen} />
+          <Route path="/patient/:id" component={AdmissionListScreen} />
           <Route path="/patientlist/:id" component={PatientListScreen} exact />
           <Route path="/admissions/:id" component={ReviewListScreen} exact />
           <Route path="/" component={HomeScreen} exact />

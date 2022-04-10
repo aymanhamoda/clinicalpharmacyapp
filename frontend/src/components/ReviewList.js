@@ -11,7 +11,6 @@ import Loader from './Loader'
 import ReviewUpdateModal from './ReviewUpdateModal'
 
 const ReviewList = ({ admissionId, patientId, teamId }) => {
-  const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [selectedReview, setSelectedReview] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
@@ -50,12 +49,6 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (selectedReview) {
-      setShowUpdateModal(true)
-    } else {
-      setShowUpdateModal(false)
-    }
-
     if (!reviews || admission._id !== admissionId) {
       dispatch(getReviewList(admissionId))
     }
@@ -72,7 +65,6 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
     reviews,
     admission,
     selectedReview,
-    showUpdateModal,
     reviews,
     newReview,
     updatedReview,
@@ -85,8 +77,6 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       <ReviewUpdateModal
         setSelectedReview={setSelectedReview}
         selectedReview={selectedReview}
-        showUpdateModal={showUpdateModal}
-        setShowUpdateModal={setShowUpdateModal}
         admissionId={admissionId}
         patientId={patientId}
         teamId={teamId}

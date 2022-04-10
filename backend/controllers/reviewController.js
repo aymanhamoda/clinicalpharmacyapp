@@ -52,12 +52,12 @@ const getPatientReviews = asyncHandler(async (req, res) => {
 })
 
 const updatePatientReview = asyncHandler(async (req, res) => {
-  const { date, clinicalNote, drugErrs, userId } = req.body
+  const { reviewDate, clinicalNote, drugErrs, userId } = req.body
 
   const review = await Review.findById(req.params.id)
 
   if (review && review.user.toString() === userId.toString()) {
-    review.date = date
+    review.reviewDate = reviewDate
     review.clinicalNote = clinicalNote
     review.drugErrs = drugErrs
 
