@@ -28,7 +28,7 @@ const PatientListScreen = ({ match }) => {
     <FormContainer>
       <PatientRegister teamId={teamId} />
       <PatientList pageNumber={pageNumber} />
-      <Paginate pages={pages} page={page} />
+      {/* <Paginate pages={pages} page={page} /> */}
     </FormContainer>
   )
 }
