@@ -8,10 +8,12 @@ import {
   REVIEW_UPDATE_RESET,
 } from '../constants/reviewConstants'
 import Loader from './Loader'
+import ReviewPrint from './ReviewPrint'
 import ReviewUpdateModal from './ReviewUpdateModal'
 
 const ReviewList = ({ admissionId, patientId, teamId }) => {
   const [selectedReview, setSelectedReview] = useState()
+  const [printedReview, setPrintedReview] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -46,6 +48,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const handleUpdate = (r) => {
     setSelectedReview(r)
   }
+
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -74,6 +77,10 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   ])
   return (
     <div>
+      <ReviewPrint
+        printedReview={printedReview}
+        setPrintedReview={setPrintedReview}
+      />
       <ReviewUpdateModal
         setSelectedReview={setSelectedReview}
         selectedReview={selectedReview}
@@ -128,21 +135,32 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
                 <hr style={{ backgroundColor: 'red' }} />
               </div>
             ))}
-            <div className="row justify-content-end pr-5">
-              <span>
-                Edited by:{' '}
-                {members &&
-                  members.find((m) => m._id === r.user) &&
-                  members.find((m) => m._id === r.user).firstName}{' '}
-                {members &&
-                  members.find((m) => m._id === r.user) &&
-                  members.find((m) => m._id === r.user).lastName}
-                {userInfo._id === r.user && (
-                  <i
-                    onClick={() => handleUpdate(r)}
-                    className="ml-2 fas fa-edit text-warning"></i>
-                )}
-              </span>
+            <div className="row">
+              <div className="col">
+                <div
+                  className="btn btn-outline-success"
+                  onClick={() => setPrintedReview(r)}>
+                  Print
+                </div>
+              </div>
+              <div className="col">
+                <div className="row justify-content-end pr-5">
+                  <span>
+                    Edited by:{' '}
+                    {members &&
+                      members.find((m) => m._id === r.user) &&
+                      members.find((m) => m._id === r.user).firstName}{' '}
+                    {members &&
+                      members.find((m) => m._id === r.user) &&
+                      members.find((m) => m._id === r.user).lastName}
+                    {userInfo._id === r.user && (
+                      <i
+                        onClick={() => handleUpdate(r)}
+                        className="ml-2 fas fa-edit text-warning"></i>
+                    )}
+                  </span>
+                </div>
+              </div>
             </div>
             <hr style={{ backgroundColor: 'white' }} />
           </div>
