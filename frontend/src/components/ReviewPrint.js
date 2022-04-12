@@ -1,88 +1,23 @@
 import React, { useEffect, useState } from 'react'
-import {
-  Document,
-  Font,
-  Page,
-  Text,
-  View,
-  StyleSheet,
-  PDFViewer,
-} from '@react-pdf/renderer'
-import { Button, Modal, ModalTitle } from 'react-bootstrap'
-import Header from './pdfComponents/Header'
-import Form from './pdfComponents/Form'
-import List from './pdfComponents/List'
-import { useSelector } from 'react-redux'
-import Subtitle from './pdfComponents/Subtitle'
 
-const styles = StyleSheet.create({
-  page: {
-    padding: 30,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    '@media max-width: 400': {
-      flexDirection: 'column',
-    },
-  },
-  image: {
-    marginBottom: 10,
-  },
-  leftColumn: {
-    flexDirection: 'column',
-    width: 170,
-    paddingTop: 30,
-    paddingRight: 15,
-    '@media max-width: 400': {
-      width: '100%',
-      paddingRight: 0,
-    },
-    '@media orientation: landscape': {
-      width: 200,
-    },
-  },
-  viewer: {
-    height: window.innerHeight,
-  },
-})
+import { useDispatch, useSelector } from 'react-redux'
+import { getAdmissionDetails } from '../actions/admissionActions'
+import { getPatientDetails } from '../actions/patientActions'
+import { getReviewDetails } from '../actions/reviewActions'
+import { getTeamDetails, getTeamMemberDetails } from '../actions/teamActions'
+import { Col, Container, Row } from 'react-bootstrap'
+import { listDrugErrTypes } from '../actions/errTypeActions'
 
-Font.register({
-  family: 'Open Sans',
-  src: `https://fonts.gstatic.com/s/opensans/v17/mem8YaGs126MiZpBA-UFVZ0e.ttf`,
-})
+const ReviewPrint = ({ match }) => {
+  const reviewId = match.params.id
 
-Font.register({
-  family: 'Lato',
-  src: `https://fonts.gstatic.com/s/lato/v16/S6uyw4BMUTPHjx4wWw.ttf`,
-})
-
-Font.register({
-  family: 'Lato Bold',
-  src: `https://fonts.gstatic.com/s/lato/v16/S6u9w4BMUTPHh6UVSwiPHA.ttf`,
-})
-
-Font.register({
-  family: 'Amiri',
-  src: `/fonts/Tajawal-Medium.ttf`,
-})
-
-const ReviewPrint = ({ printedReview, setPrintedReview }) => {
-  const [showPrint, setShowPrint] = useState(false)
-  const [reviewDate, setReviewDate] = useState('')
   const [reviewer, setReviewer] = useState('')
-  const [clinicalNote, setClinicalNote] = useState('')
-  const [drugErrs, setDrugErrs] = useState([
-    {
-      idx: 1,
-      errDrug: '',
-      errType: '',
-      errNote: '',
-    },
-  ])
 
   const patientDetails = useSelector((state) => state.patientDetails)
   const { patient } = patientDetails
+
+  const reviewDetailsStore = useSelector((state) => state.reviewDetailsStore)
+  const { review } = reviewDetailsStore
 
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails
@@ -99,104 +34,125 @@ const ReviewPrint = ({ printedReview, setPrintedReview }) => {
   const drugList = useSelector((state) => state.drugList)
   const { drugs } = drugList
 
-  useEffect(() => {
-    if (printedReview) {
-      console.log(printedReview)
-      setReviewDate(printedReview.reviewDate)
-      setClinicalNote(printedReview.clinicalNote)
-      setDrugErrs(printedReview.drugErrs)
-      if (members) {
-        setReviewer(
-          `${members.find((m) => m._id === printedReview.user).firstName} ${
-            members.find((m) => m._id === printedReview.user).lastName
-          }`
-        )
-      }
-      setShowPrint(true)
-    } else {
-      setShowPrint(false)
-      setReviewDate('')
-      setClinicalNote('')
-      setDrugErrs('')
-    }
-  }, [printedReview])
-  return (
-    <Modal size="lg" show={showPrint}>
-      <ModalTitle>
-        <div className="row justify-content-end pr-4 py-2">
-          <Button onClick={() => setPrintedReview()}>Close</Button>
-        </div>
-      </ModalTitle>
+  const dispatch = useDispatch()
 
-      <PDFViewer style={styles.viewer}>
-        {/* Start of the document*/}
-        <Document title="Print Review">
-          {/*render a single page*/}
-          <Page size="A4" style={styles.page} wrap={false}>
-            <Header
-              title="CLINICAL PHARMACY RECOMMENDETIONS"
-              team={team && team.name}
-              reviewer={reviewer}
-              editDate={reviewDate.substring(0, 10)}
-            />
-            <Subtitle children="Patient Details:" />
-            <Form
-              label="Patient Name: "
-              arabicValue={
-                patient &&
-                ` ${patient.firstName} ${patient.middleName} ${patient.lastName}`
-              }
-            />
-            <Form
-              label="Birthdate: "
-              value={
-                patient &&
-                patient.birthdate &&
-                patient.birthdate.substring(0, 10)
-              }
-            />
-            <Form
-              label="Admission Date: "
-              value={admission.admissionDate.substring(0, 10)}
-            />
-            <Subtitle children="Recommendation(s):" />
-            {drugErrs &&
-              drugErrs.map((drugErr) => (
-                <>
-                  <Form
-                    label="Type Of Error: "
-                    value={
-                      errTypeList &&
-                      errTypeList.find((i) => i._id === drugErr.errType).label
-                    }
-                  />
-                  <Form
-                    label="Drug Of Error: "
-                    value={
-                      drugs &&
+  useEffect(() => {
+    if (!review || review._id !== reviewId) {
+      dispatch(getReviewDetails(reviewId))
+    } else {
+      if (!team || team._id !== review.team) {
+        dispatch(getTeamDetails(review.team))
+        dispatch(getTeamMemberDetails(review.team))
+      }
+
+      if (!admission || admission._id !== review.admission) {
+        dispatch(getAdmissionDetails(review.admission))
+      }
+      if (!patient || patient._id !== review.patient) {
+        dispatch(getPatientDetails(review.patient))
+      }
+    }
+    if (review && team && admission && patient && members) {
+      window.print()
+      window.history.back()
+    }
+    if (!errTypeList) {
+      dispatch(listDrugErrTypes())
+    }
+  }, [review, reviewId, team, patient, admission, errTypeList])
+  return (
+    <>
+      {!team || !review || !members || !admission || !patient ? (
+        <>Takes minutes to prepare</>
+      ) : (
+        <div className="text-dark">
+          <div className="row justify-content-center">
+            <h1>CLINICAL PHARMACY RECOMMENDETIONS</h1>
+          </div>
+          <div className="row">
+            <div className="col">
+              <div className="row">
+                <h3>Patient Details</h3>
+              </div>
+              <div className="row ">
+                <div className="col">
+                  Name:{' '}
+                  {patient &&
+                    ` ${patient.firstName} ${patient.middleName} ${patient.lastName}`}
+                </div>
+              </div>
+              <div className="row ">
+                <div className="col">
+                  Birthdate:{' '}
+                  {patient &&
+                    patient.birthdate &&
+                    patient.birthdate.substring(0, 10)}
+                </div>
+              </div>
+              <div className="row ">
+                <div className="col">
+                  Admission Date: {admission.admissionDate.substring(0, 10)}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="row">
+            {review.drugErrs.map((drugErr) => (
+              <div className="col">
+                <div className="row">
+                  <h3>Medication Errors</h3>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    Type Of Error:{' '}
+                    {errTypeList &&
+                      errTypeList.find((i) => i._id === drugErr.errType) &&
+                      errTypeList.find((i) => i._id === drugErr.errType).label}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    Drug Of Error:{' '}
+                    {drugs &&
                       drugs.find((i) => i._id === drugErr.errDrug) &&
-                      drugs.find((i) => i._id === drugErr.errDrug).label
-                    }
-                  />
-                  <Form label="Notes: " value={drugErr.errNote} />
-                  {/* <Text
-                    render={() => {
-                      return (
-                        // <h1>ggg</h1>
-                        <div
-                          dangerouslySetInnerHTML={{
-                            __html: `${drugErr.errNote}`,
-                          }}
-                        />
-                      )
-                    }}
-                  /> */}
-                </>
-              ))}
-          </Page>
-        </Document>
-      </PDFViewer>
-    </Modal>
+                      drugs.find((i) => i._id === drugErr.errDrug).label}
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col">
+                    Description:
+                    <div className="col">
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: `${drugErr.errNote}`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="row ">
+            <div className="col">
+              <div className="row justify-content-end">
+                Edited by:{' '}
+                {members &&
+                  review &&
+                  members.find((m) => m._id === review.user) &&
+                  `${members.find((m) => m._id === review.user).firstName} ${
+                    members.find((m) => m._id === review.user).lastName
+                  }`}
+              </div>
+              <div className="row justify-content-end">
+                Edited at: {review.reviewDate.substring(0, 10)}
+              </div>
+              <div className="row justify-content-end">{team && team.name}</div>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   )
 }
 

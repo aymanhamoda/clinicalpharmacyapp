@@ -15,6 +15,10 @@ import {
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
   REVIEW_DELETE_RESET,
+  REVIEW_DETAILS_REQUEST,
+  REVIEW_DETAILS_SUCCESS,
+  REVIEW_DETAILS_FAIL,
+  REVIEW_DETAILS_RESET,
 } from '../constants/reviewConstants'
 
 export const reviewCreateReducer = (state = { review: '' }, action) => {
@@ -26,6 +30,21 @@ export const reviewCreateReducer = (state = { review: '' }, action) => {
     case REVIEW_CREATE_FAIL:
       return { loading: false, error: action.payload }
     case REVIEW_CREATE_RESET:
+      return {}
+    default:
+      return state
+  }
+}
+
+export const reviewDetailsReducer = (state = {}, action) => {
+  switch (action.type) {
+    case REVIEW_DETAILS_REQUEST:
+      return { loading: true }
+    case REVIEW_DETAILS_SUCCESS:
+      return { loading: false, review: action.payload }
+    case REVIEW_DETAILS_FAIL:
+      return { loading: false, error: action.payload }
+    case REVIEW_DETAILS_RESET:
       return {}
     default:
       return state

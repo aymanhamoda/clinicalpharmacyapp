@@ -13,6 +13,7 @@ import ReviewListScreen from './screens/ReviewListScreen'
 import { PrintPrescription } from './components/printPrescription'
 import TeamListScreen from './screens/TeamListScreen'
 import TeamEditScreen from './screens/TeamEditScreen'
+import ReviewPrint from './components/ReviewPrint'
 
 const App = () => {
   return (
@@ -20,7 +21,7 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
-          <Route path="/printprescription/:id" component={PrintPrescription} />
+          <Route path="/reviewprint/:id" component={ReviewPrint} />
           <Route path="/profile" component={UserProfileScreen} />
           <Route path="/register" component={RegisterScreen} />
 

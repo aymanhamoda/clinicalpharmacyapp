@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { getReviewList } from '../actions/reviewActions'
 import {
   REVIEW_CREATE_RESET,
@@ -8,12 +9,10 @@ import {
   REVIEW_UPDATE_RESET,
 } from '../constants/reviewConstants'
 import Loader from './Loader'
-import ReviewPrint from './ReviewPrint'
 import ReviewUpdateModal from './ReviewUpdateModal'
 
 const ReviewList = ({ admissionId, patientId, teamId }) => {
   const [selectedReview, setSelectedReview] = useState()
-  const [printedReview, setPrintedReview] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -77,10 +76,6 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   ])
   return (
     <div>
-      <ReviewPrint
-        printedReview={printedReview}
-        setPrintedReview={setPrintedReview}
-      />
       <ReviewUpdateModal
         setSelectedReview={setSelectedReview}
         selectedReview={selectedReview}
@@ -137,11 +132,11 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
             ))}
             <div className="row">
               <div className="col">
-                <div
+                <Link
                   className="btn btn-outline-success"
-                  onClick={() => setPrintedReview(r)}>
+                  to={`/reviewprint/${r._id}`}>
                   Print
-                </div>
+                </Link>
               </div>
               <div className="col">
                 <div className="row justify-content-end pr-5">

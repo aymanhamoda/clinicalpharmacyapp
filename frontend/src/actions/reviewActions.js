@@ -13,6 +13,9 @@ import {
   REVIEW_DELETE_RESET,
   REVIEW_DELETE_SUCCESS,
   REVIEW_DELETE_FAIL,
+  REVIEW_DETAILS_REQUEST,
+  REVIEW_DETAILS_SUCCESS,
+  REVIEW_DETAILS_FAIL,
 } from '../constants/reviewConstants'
 
 export const createReview = (review) => async (dispatch, getState) => {
@@ -47,6 +50,43 @@ export const createReview = (review) => async (dispatch, getState) => {
     // }
     dispatch({
       type: REVIEW_CREATE_FAIL,
+      payload: message,
+    })
+  }
+}
+
+export const getReviewDetails = (reviewId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: REVIEW_DETAILS_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+    const { data } = await axios.get(`/api/reviews/${reviewId}/review`, config)
+
+    dispatch({
+      type: REVIEW_DETAILS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout())
+    // }
+    dispatch({
+      type: REVIEW_DETAILS_FAIL,
       payload: message,
     })
   }

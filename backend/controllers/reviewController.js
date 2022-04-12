@@ -51,6 +51,17 @@ const getPatientReviews = asyncHandler(async (req, res) => {
   }
 })
 
+const getReviewDetails = asyncHandler(async (req, res) => {
+  const review = await Review.findById(req.params.id)
+
+  if (review) {
+    res.json(review)
+  } else {
+    res.status(404)
+    throw new Error('Patient not found')
+  }
+})
+
 const updatePatientReview = asyncHandler(async (req, res) => {
   const { reviewDate, clinicalNote, drugErrs, userId } = req.body
 
@@ -83,6 +94,7 @@ const deleteReview = asyncHandler(async (req, res) => {
 
 export {
   createPatientReview,
+  getReviewDetails,
   getPatientReviews,
   updatePatientReview,
   deleteReview,
