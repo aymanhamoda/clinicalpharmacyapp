@@ -5,13 +5,11 @@ import { getAdmissionDetails } from '../actions/admissionActions'
 import { getPatientDetails } from '../actions/patientActions'
 import { getReviewDetails } from '../actions/reviewActions'
 import { getTeamDetails, getTeamMemberDetails } from '../actions/teamActions'
-import { Col, Container, Row } from 'react-bootstrap'
 import { listDrugErrTypes } from '../actions/errTypeActions'
+import { REVIEW_DETAILS_RESET } from '../constants/reviewConstants'
 
 const ReviewPrint = ({ match }) => {
   const reviewId = match.params.id
-
-  const [reviewer, setReviewer] = useState('')
 
   const patientDetails = useSelector((state) => state.patientDetails)
   const { patient } = patientDetails
@@ -51,11 +49,14 @@ const ReviewPrint = ({ match }) => {
       if (!patient || patient._id !== review.patient) {
         dispatch(getPatientDetails(review.patient))
       }
+      if (review && team && admission && patient && members) {
+        // console.log(window)
+        window.print()
+        dispatch({ type: REVIEW_DETAILS_RESET })
+        window.history.back()
+      }
     }
-    if (review && team && admission && patient && members) {
-      window.print()
-      window.history.back()
-    }
+
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
     }

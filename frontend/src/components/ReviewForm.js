@@ -155,6 +155,16 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                 </Form.Group>
                 <FormGroup className="col-sm-6">
                   <Form.Label>Type Of Err</Form.Label>
+                  {/* <select
+                    className="custom-select"
+                    type="name"
+                    noneSelectedText="Insert Placeholder text"
+                    value={dgErr.errType}
+                    onChange={(e) => handleErrType(e, dgErr)}>
+                    {errTypeList.map((t) => (
+                      <option value={t._id}>{t.label}</option>
+                    ))}
+                  </select> */}
                   <Typeahead
                     placeholder="Enter Medication"
                     options={errTypeList}
