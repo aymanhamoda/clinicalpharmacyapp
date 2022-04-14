@@ -9,9 +9,9 @@ import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-router.route('/').post(createAdmission)
-router.route('/:id').get(getPatientAdmissions) //id of patient
-router.route('/:id/details').get(getAdmissionDetails) //id of admission
-router.route('/:id/edit').put(updatePatientAdmission) //id of admission
+router.route('/').post(protect, createAdmission)
+router.route('/:id').get(protect, getPatientAdmissions) //id of patient
+router.route('/:id/details').get(protect, getAdmissionDetails) //id of admission
+router.route('/:id/edit').put(protect, updatePatientAdmission) //id of admission
 
 export default router

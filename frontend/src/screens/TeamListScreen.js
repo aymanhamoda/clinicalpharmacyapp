@@ -1,42 +1,36 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Form, FormLabel, Button, FormGroup, Table } from 'react-bootstrap'
 import specialityList from '../data/speciality'
 import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import Message from '../components/Message'
 import { Link } from 'react-router-dom'
+import { createTeam, listUserTeams } from '../actions/teamActions'
 
 const TeamListScreen = () => {
   const [name, setName] = useState('')
   const [admin, setAdmin] = useState('')
   const [specialty, setSpecialty] = useState('')
   const [members, setMembers] = useState([])
-  const [userTeams, setUserTeams] = useState()
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
-  const [loading, setLoading] = useState(false)
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const newTeamStore = useSelector((state) => state.newTeamStore)
+  const { loading } = newTeamStore
+
+  const userTeamStore = useSelector((state) => state.userTeamStore)
+  const { userTeams } = userTeamStore
+
   const history = useHistory()
+  const dispatch = useDispatch()
 
   const submitHandler = async () => {
-    setLoading(true)
-    const newTeam = { name, admin, specialty, members }
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }
-      await axios.post('/api/teams', newTeam, config).then(setLoading(false))
-    } catch (error) {
-      setError(error)
-    }
+    dispatch(createTeam({ name, admin, specialty, members }))
   }
   useEffect(() => {
     if (!userInfo) {
@@ -45,22 +39,12 @@ const TeamListScreen = () => {
       if (!admin) {
         setAdmin(userInfo.email)
         setMembers([{ id: Math.random(), user: userInfo.email }])
-      }
-
-      try {
-        const config = {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        if (!userTeams) {
+          dispatch(listUserTeams())
         }
-        axios
-          .get(`/api/teams/?user=${userInfo.email}`, config)
-          .then((res) => setUserTeams(res.data))
-      } catch (error) {
-        setError(error)
       }
     }
-  }, [userInfo, history])
+  }, [userInfo, history, userTeams])
   return (
     <FormContainer>
       <>

@@ -9,7 +9,7 @@ import {
 } from '../controllers/teamController.js'
 const router = express.Router()
 
-router.route('/').post(createTeam)
+router.route('/').post(protect, createTeam)
 router.route('/:id').get(getTeamDetails)
 router.route('/:id/members').get(getMemberDetails)
 router.route('/').get(getUserTeams)

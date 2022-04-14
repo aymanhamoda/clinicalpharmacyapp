@@ -195,7 +195,7 @@ const TeamEditScreen = ({ match }) => {
                         onClick={() => handleMembers()}
                         className="col"
                         variant="primary">
-                        <i className="fas fa-times"></i>
+                        <i className="fas fa-plus"></i>
                       </Button>
                     </FormGroup>
                   </div>

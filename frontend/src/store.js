@@ -19,9 +19,11 @@ import {
 import { drugListReducer, drugsReducer } from './reducers/drugReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
 import {
+  newTeamReducer,
   teamDetailsReducer,
   teamMemberDetailsReducer,
   teamUpdateReducer,
+  userTeamsReducer,
 } from './reducers/teamReducers'
 import {
   admissionCreateReducer,
@@ -58,9 +60,11 @@ const reducer = combineReducers({
   updatedAdmissionStore: admissionUpdateReducer,
 
   userLogin: userLoginReducer,
+  newTeamStore: newTeamReducer,
   teamDetails: teamDetailsReducer,
   teamUpdateStore: teamUpdateReducer,
   teamMemberStore: teamMemberDetailsReducer,
+  userTeamStore: userTeamsReducer,
 
   createdReviewStore: reviewCreateReducer,
   reviewListStore: reviewListReducer,

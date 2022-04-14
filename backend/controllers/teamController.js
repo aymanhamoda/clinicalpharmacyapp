@@ -5,6 +5,7 @@ import User from '../models/userModel.js'
 
 const createTeam = asyncHandler(async (req, res) => {
   const { name, admin, specialty, members } = req.body
+
   const team = await Team.create({
     name,
     admin,
