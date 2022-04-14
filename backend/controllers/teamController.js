@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler'
+// import { ObjectId } from 'mongoose'
 import Team from '../models/teamModel.js'
 import User from '../models/userModel.js'
 
@@ -55,13 +56,17 @@ const getTeamDetails = asyncHandler(async (req, res) => {
 
 const getMemberDetails = asyncHandler(async (req, res) => {
   const team = await Team.findById(req.params.id)
+
   const teamMembers = team.members.map((m) => {
     return m.user
   })
 
-  const memberDetails = await User.find({
-    email: { $in: teamMembers },
-  })
+  const memberDetails = await User.find(
+    {
+      email: { $in: teamMembers },
+    }, //remove password
+    { password: 0 }
+  )
 
   if (memberDetails) {
     res.json(memberDetails)

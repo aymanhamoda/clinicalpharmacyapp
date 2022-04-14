@@ -202,8 +202,6 @@ export const logout = () => (dispatch) => {
   dispatch({ type: PATIENT_UPDATE_RESET })
   dispatch({ type: REVIEW_LIST_RESET })
   dispatch({ type: REVIEW_CREATE_RESET })
-  dispatch({ type: DRUG_LIST_RESET })
-  dispatch({ type: DRUG_ROOT_RESET })
 }
 
 export const updateUserProfile = (user) => async (dispatch, getState) => {
