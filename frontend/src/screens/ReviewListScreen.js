@@ -14,7 +14,6 @@ const ReviewListScreen = ({ match }) => {
   const admissionId = match.params.id
 
   const [patientId, setPatientId] = useState('')
-  const [editPermission, setEditPermission] = useState()
 
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails

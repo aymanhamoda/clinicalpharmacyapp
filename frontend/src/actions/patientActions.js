@@ -12,6 +12,9 @@ import {
   PATIENT_UPDATE_REQUEST,
   PATIENT_UPDATE_SUCCESS,
   PATIENT_UPDATE_FAIL,
+  TEAM_INPATIENTS_REQUEST,
+  TEAM_INPATIENTS_SUCCESS,
+  TEAM_INPATIENTS_FAIL,
 } from '../constants/patientConstants'
 
 export const registerPatient = (patient) => async (dispatch, getState) => {
@@ -89,6 +92,47 @@ export const listPatient =
     }
   }
 
+export const listInpatients = (teamId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: TEAM_INPATIENTS_REQUEST,
+    })
+
+    const {
+      userLogin: { userInfo },
+    } = getState()
+
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    }
+
+    const { data } = await axios.get(
+      `/api/patients/${teamId}/inpatients`,
+      config
+    )
+
+    dispatch({
+      type: TEAM_INPATIENTS_SUCCESS,
+      payload: data,
+    })
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message
+    // if (message === 'Not authorized, token failed') {
+    //   dispatch(logout())
+    // }
+    dispatch({
+      type: TEAM_INPATIENTS_FAIL,
+      payload: message,
+    })
+  }
+}
+
 export const getPatientDetails = (id) => async (dispatch, getState) => {
   try {
     dispatch({
@@ -126,7 +170,6 @@ export const getPatientDetails = (id) => async (dispatch, getState) => {
     })
   }
 }
-
 export const updatePatient =
   (patientId, firstName, middleName, lastName, birthdate) =>
   async (dispatch, getState) => {

@@ -17,18 +17,6 @@ const addDrug = asyncHandler(async (req, res) => {
   }
 })
 
-const getTradeLabels = asyncHandler(async (req, res) => {
-  const drugs = await Drug.find({})
-  const trades = drugs.map((d) => d.tradeLabels).flat()
-
-  if (trades) {
-    res.status(201).json(trades)
-  } else {
-    res.status(400)
-    throw new Error('No error found')
-  }
-})
-
 const getDrugs = asyncHandler(async (req, res) => {
   const drugs = await Drug.find({})
 
@@ -40,4 +28,4 @@ const getDrugs = asyncHandler(async (req, res) => {
   }
 })
 
-export { addDrug, getTradeLabels, getDrugs }
+export { addDrug, getDrugs }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { listDrugRoots } from '../actions/drugActions'
 import { getReviewList } from '../actions/reviewActions'
 import {
   REVIEW_CREATE_RESET,
@@ -14,6 +14,7 @@ import ReviewUpdateModal from './ReviewUpdateModal'
 
 const ReviewList = ({ admissionId, patientId, teamId }) => {
   const [selectedReview, setSelectedReview] = useState()
+  const [tradeLabels, setTradeLabels] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
@@ -24,8 +25,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const teamMemberStore = useSelector((state) => state.teamMemberStore)
   const { members } = teamMemberStore
 
-  const drugList = useSelector((state) => state.drugList)
-  const { drugs } = drugList
+  const drugRootStore = useSelector((state) => state.drugRootStore)
+  const { drugRoots } = drugRootStore
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
@@ -52,6 +53,14 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (!drugRoots) {
+      dispatch(listDrugRoots())
+    } else {
+      if (!tradeLabels) {
+        setTradeLabels(drugRoots.map((d) => d.tradeLabels).flat())
+      }
+    }
+
     if (!reviews || admission._id !== admissionId) {
       dispatch(getReviewList(admissionId))
     }
@@ -64,6 +73,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       dispatch({ type: REVIEW_LIST_RESET })
     }
   }, [
+    drugRoots,
+    tradeLabels,
     dispatch,
     reviews,
     admission,
@@ -86,7 +97,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
       />{' '}
       <h4 className="lead row justify-content-center">DAILY REVIEW DETAILS</h4>
       <hr style={{ backgroundColor: 'gold' }} />
-      {!reviews || !drugs ? (
+      {!reviews || !tradeLabels ? (
         <Loader />
       ) : (
         reviews.map((r) => (
@@ -114,7 +125,7 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
                         .label}{' '}
                   </div>
                   <div className="col-sm-6">
-                    {drugs.find((i) => i._id === drugErr.errDrug).label}{' '}
+                    {tradeLabels.find((i) => i._id === drugErr.errDrug).label}{' '}
                   </div>
                 </div>
 

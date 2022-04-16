@@ -7,9 +7,11 @@ import { getReviewDetails } from '../actions/reviewActions'
 import { getTeamDetails, getTeamMemberDetails } from '../actions/teamActions'
 import { listDrugErrTypes } from '../actions/errTypeActions'
 import { REVIEW_DETAILS_RESET } from '../constants/reviewConstants'
+import { listDrugRoots } from '../actions/drugActions'
 
 const ReviewPrint = ({ match }) => {
   const reviewId = match.params.id
+  const [tradeLabels, setTradeLabels] = useState()
 
   const patientDetails = useSelector((state) => state.patientDetails)
   const { patient } = patientDetails
@@ -29,12 +31,20 @@ const ReviewPrint = ({ match }) => {
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
 
-  const drugList = useSelector((state) => state.drugList)
-  const { drugs } = drugList
+  const drugRootStore = useSelector((state) => state.drugRootStore)
+  const { drugRoots } = drugRootStore
 
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if (!drugRoots) {
+      dispatch(listDrugRoots())
+    } else {
+      if (!tradeLabels) {
+        setTradeLabels(drugRoots.map((d) => d.tradeLabels).flat())
+      }
+    }
+
     if (!review || review._id !== reviewId) {
       dispatch(getReviewDetails(reviewId))
     } else {
@@ -60,7 +70,16 @@ const ReviewPrint = ({ match }) => {
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
     }
-  }, [review, reviewId, team, patient, admission, errTypeList])
+  }, [
+    review,
+    reviewId,
+    team,
+    patient,
+    admission,
+    errTypeList,
+    drugRoots,
+    tradeLabels,
+  ])
   return (
     <>
       {!team || !review || !members || !admission || !patient ? (
@@ -114,9 +133,9 @@ const ReviewPrint = ({ match }) => {
                 <div className="row">
                   <div className="col">
                     Drug Of Error:{' '}
-                    {drugs &&
-                      drugs.find((i) => i._id === drugErr.errDrug) &&
-                      drugs.find((i) => i._id === drugErr.errDrug).label}
+                    {tradeLabels &&
+                      tradeLabels.find((i) => i._id === drugErr.errDrug) &&
+                      tradeLabels.find((i) => i._id === drugErr.errDrug).label}
                   </div>
                 </div>
                 <div className="row">

@@ -17,6 +17,7 @@ import Loader from './Loader'
 import Message from './Message'
 import ReviewTemplateModal from './ReviewTemplateModal'
 import { deleteReview, updateReview } from '../actions/reviewActions'
+import { listDrugRoots } from '../actions/drugActions'
 
 const ReviewUpdateModal = ({
   setSelectedReview,
@@ -39,12 +40,13 @@ const ReviewUpdateModal = ({
   const [showTemplates, setShowTemplates] = useState(false)
   const [showUpdateModal, setShowUpdateModal] = useState(false)
   const [selectedDgErr, setSelectedDgErr] = useState()
+  const [tradeLabels, setTradeLabels] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const drugList = useSelector((state) => state.drugList)
-  const { drugs } = drugList
+  const drugRootStore = useSelector((state) => state.drugRootStore)
+  const { drugRoots } = drugRootStore
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes
@@ -112,6 +114,14 @@ const ReviewUpdateModal = ({
     }
   }
   useEffect(() => {
+    if (!drugRoots) {
+      dispatch(listDrugRoots())
+    } else {
+      if (!tradeLabels) {
+        setTradeLabels(drugRoots.map((d) => d.tradeLabels).flat())
+      }
+    }
+
     if (selectedReview) {
       setReviewId(selectedReview._id)
       setReviewDate(selectedReview.reviewDate.substring(0, 10))
@@ -132,7 +142,7 @@ const ReviewUpdateModal = ({
         },
       ])
     }
-  }, [selectedReview, showUpdateModal])
+  }, [selectedReview, showUpdateModal, drugRoots, tradeLabels])
   return (
     <>
       {message && <Message children={message} />}
@@ -150,7 +160,7 @@ const ReviewUpdateModal = ({
         keyboard={false}>
         <ModalBody>
           <Form>
-            {!drugs || !errTypeList ? (
+            {!tradeLabels || !errTypeList ? (
               <Loader />
             ) : (
               <>
@@ -191,11 +201,11 @@ const ReviewUpdateModal = ({
                       <Typeahead
                         defaultInputValue={
                           dgErr.errDrug &&
-                          drugs.find(
+                          tradeLabels.find(
                             (d) => d._id.toString() === dgErr.errDrug.toString()
                           ).label
                         }
-                        options={drugs}
+                        options={tradeLabels}
                         onChange={(e) => handleDrug(e, dgErr)}
                         id={dgErr.errDrug}
                       />

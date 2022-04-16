@@ -14,6 +14,10 @@ import {
   PATIENT_UPDATE_RESET,
   PATIENT_DETAILS_RESET,
   PATIENT_LIST_RESET,
+  TEAM_INPATIENTS_REQUEST,
+  TEAM_INPATIENTS_SUCCESS,
+  TEAM_INPATIENTS_FAIL,
+  TEAM_INPATIENTS_RESET,
 } from '../constants/patientConstants'
 
 export const patientRegisterReducer = (state = {}, action) => {
@@ -24,6 +28,21 @@ export const patientRegisterReducer = (state = {}, action) => {
       return { loading: false, patientInfo: action.payload, success: true }
     case PATIENT_REGISTER_FAIL:
       return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
+export const teamInpatientReducer = (state = {}, action) => {
+  switch (action.type) {
+    case TEAM_INPATIENTS_REQUEST:
+      return { loading: true }
+    case TEAM_INPATIENTS_SUCCESS:
+      return { loading: false, inpatients: action.payload }
+    case TEAM_INPATIENTS_FAIL:
+      return { loading: false, error: action.payload }
+    case TEAM_INPATIENTS_RESET:
+      return {}
     default:
       return state
   }

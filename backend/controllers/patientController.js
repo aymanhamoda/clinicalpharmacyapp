@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Patient from '../models/patientModel.js'
+import Admission from '../models/admissionModel.js'
 
 // @desc    Register a new patient
 // @route   POST /api/patient/:id
@@ -110,6 +111,27 @@ const getPatients = asyncHandler(async (req, res) => {
   }
 })
 
+const getTeamInpatients = asyncHandler(async (req, res) => {
+  const team = req.params.id
+  const teamPatients = await Admission.find({
+    team,
+    dischargeDate: null,
+  })
+  const teamInpatientIds = teamPatients.map((p) => {
+    return p.patient
+  })
+
+  const teamInpatients = await Patient.find({
+    _id: { $in: teamInpatientIds },
+  })
+
+  if (teamInpatients) {
+    res.json(teamInpatients)
+  } else {
+    res.status(404)
+    throw new Error('Patient not found')
+  }
+})
 // @desc    Update a patient
 // @route   PUT /api/products/:id
 // @access  Private/Admin
@@ -132,4 +154,10 @@ const updatePatient = asyncHandler(async (req, res) => {
   }
 })
 
-export { registerPatient, getPatientDetails, getPatients, updatePatient }
+export {
+  registerPatient,
+  getPatientDetails,
+  getPatients,
+  updatePatient,
+  getTeamInpatients,
+}

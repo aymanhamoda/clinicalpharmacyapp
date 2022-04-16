@@ -14,9 +14,10 @@ import {
   patientRegisterReducer,
   patientDetailsReducer,
   patientUpdateReducer,
+  teamInpatientReducer,
 } from './reducers/patientReducers'
 
-import { drugListReducer, drugsReducer } from './reducers/drugReducers'
+import { drugsReducer } from './reducers/drugReducers'
 import { subscribtionPayReducer } from './reducers/subscribtionReducers'
 import {
   newTeamReducer,
@@ -41,8 +42,7 @@ import {
 import { errTypeListReducer } from './reducers/errTypeReducers'
 
 const reducer = combineReducers({
-  drugList: drugListReducer,
-  drugRoots: drugsReducer,
+  drugRootStore: drugsReducer,
   errTypes: errTypeListReducer,
 
   userDetails: userDetailsReducer,
@@ -53,6 +53,7 @@ const reducer = combineReducers({
   patientDetails: patientDetailsReducer,
   patientRegister: patientRegisterReducer,
   patientUpdate: patientUpdateReducer,
+  teamInpatientStore: teamInpatientReducer,
 
   admissionList: patientadmissionListReducer,
   admissionDetails: admissionDetailsReducer,
@@ -81,9 +82,6 @@ const userInfoFromStorage = localStorage.getItem('userInfo')
   ? JSON.parse(localStorage.getItem('userInfo'))
   : null
 
-const drugLabelsFromStorage = localStorage.getItem('drugList')
-  ? JSON.parse(localStorage.getItem('drugList'))
-  : null
 const drugRootsFromStorage = localStorage.getItem('drugRoots')
   ? JSON.parse(localStorage.getItem('drugRoots'))
   : null
@@ -92,8 +90,8 @@ const initialState = {
   userLogin: {
     userInfo: userInfoFromStorage,
   },
-  drugList: { drugs: drugLabelsFromStorage },
-  drugRoots: { drugRoot: drugRootsFromStorage },
+
+  drugRootStore: { drugRoots: drugRootsFromStorage },
 }
 
 const middleware = [thunk]

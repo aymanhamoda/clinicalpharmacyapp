@@ -5,7 +5,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import Message from './Message'
 import { createAdmission } from '../actions/admissionActions'
-import { getPatientDetails } from '../actions/patientActions'
 
 const AdmissionForm = ({ patientId }) => {
   const [admissionDate, setAdmissionDate] = useState(new Date())
@@ -28,12 +27,6 @@ const AdmissionForm = ({ patientId }) => {
       })
     )
   }
-
-  // useEffect(() => {
-  //   if (!patient) {
-  //     dispatch(getPatientDetails(patientId))
-  //   }
-  // }, [dispatch, patient])
 
   return (
     <>

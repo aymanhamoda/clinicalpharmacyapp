@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler'
 import Admission from '../models/admissionModel.js'
+import Patient from '../models/patientModel.js'
 
 const createAdmission = asyncHandler(async (req, res) => {
   const { patient, admissionDate, admissionDetails, team } = req.body

@@ -13,8 +13,8 @@ const ReviewTemplateModal = ({
   const [templates, setTemplates] = useState([])
   const [message, setMesaage] = useState('')
 
-  const drugRoots = useSelector((state) => state.drugRoots)
-  const { drugRoot } = drugRoots
+  const drugRootStore = useSelector((state) => state.drugRootStore)
+  const { drugRoots } = drugRootStore
 
   const copyTemplate = (t) => {
     selectedDgErr.errNote = t.label
@@ -24,12 +24,12 @@ const ReviewTemplateModal = ({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!drugRoot) {
+    if (!drugRoots) {
       dispatch(listDrugRoots())
     } else {
       if (selectedDgErr) {
         if (selectedDgErr.errDrug !== '' && selectedDgErr.errType !== '') {
-          const templateRoot = drugRoot.find((r) =>
+          const templateRoot = drugRoots.find((r) =>
             r.tradeLabels.find((t) => t._id.toString() == selectedDgErr.errDrug)
           )
 
@@ -62,7 +62,7 @@ const ReviewTemplateModal = ({
           <Modal.Body>
             <>
               {message && <Message children={message} varient="warning" />}
-              {!drugRoot ? (
+              {!drugRoots ? (
                 <Loader />
               ) : (
                 templates.map((t) => (

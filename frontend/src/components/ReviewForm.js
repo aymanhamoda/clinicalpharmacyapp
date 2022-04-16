@@ -8,7 +8,7 @@ import { createReview } from '../actions/reviewActions'
 import Loader from './Loader'
 import Message from './Message'
 import ReviewTemplateModal from './ReviewTemplateModal'
-import { listDrugLabels } from '../actions/drugActions'
+import { listDrugRoots } from '../actions/drugActions'
 import { listDrugErrTypes } from '../actions/errTypeActions'
 
 const ReviewForm = ({ admissionId, patientId, teamId }) => {
@@ -25,12 +25,13 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const [message, setMessage] = useState('')
   const [showTemplates, setShowTemplates] = useState(false)
   const [selectedDgErr, setSelectedDgErr] = useState()
+  const [tradeLabels, setTradeLabels] = useState()
 
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const drugList = useSelector((state) => state.drugList)
-  const { drugs } = drugList
+  const drugRootStore = useSelector((state) => state.drugRootStore)
+  const { drugRoots } = drugRootStore
 
   const createdReviewStore = useSelector((state) => state.createdReviewStore)
   const { loading, newReview } = createdReviewStore
@@ -91,8 +92,12 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
     setSelectedDgErr(e)
   }
   useEffect(() => {
-    if (!drugs) {
-      dispatch(listDrugLabels())
+    if (!drugRoots) {
+      dispatch(listDrugRoots())
+    } else {
+      if (!tradeLabels) {
+        setTradeLabels(drugRoots.map((d) => d.tradeLabels).flat())
+      }
     }
     if (!errTypeList) {
       dispatch(listDrugErrTypes())
@@ -103,7 +108,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
       // setClinicalNote(' ')
       // setDrugErrs([{ idx: 1, errDrug: '', errType: '', errNote: ' ' }])
     }
-  }, [newReview])
+  }, [newReview, drugRoots, tradeLabels, errTypeList])
   return (
     <>
       <ReviewTemplateModal
@@ -112,7 +117,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
         selectedDgErr={selectedDgErr}
       />
       <Form>
-        {!drugs || !errTypeList || loading ? (
+        {!tradeLabels || !errTypeList || loading ? (
           <Loader />
         ) : (
           <>
@@ -148,7 +153,7 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
                   <Form.Label>Drug Of Err</Form.Label>
                   <Typeahead
                     placeholder="Enter Medication"
-                    options={drugs}
+                    options={tradeLabels}
                     onChange={(e) => handleDrug(e, dgErr)}
                     id={dgErr.errDrug}
                   />
