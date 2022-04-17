@@ -30,7 +30,9 @@ const ReviewTemplateModal = ({
       if (selectedDgErr) {
         if (selectedDgErr.errDrug !== '' && selectedDgErr.errType !== '') {
           const templateRoot = drugRoots.find((r) =>
-            r.tradeLabels.find((t) => t._id.toString() == selectedDgErr.errDrug)
+            r.tradeLabels.find(
+              (t) => t._id.toString() === selectedDgErr.errDrug
+            )
           )
 
           console.log(selectedDgErr)

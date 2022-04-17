@@ -142,7 +142,7 @@ const ReviewUpdateModal = ({
         },
       ])
     }
-  }, [selectedReview, showUpdateModal, drugRoots, tradeLabels])
+  }, [selectedReview, showUpdateModal, drugRoots, tradeLabels, dispatch])
   return (
     <>
       {message && <Message children={message} />}

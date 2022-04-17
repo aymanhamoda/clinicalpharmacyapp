@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Form, Button, Modal, ModalBody } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 import Message from './Message'

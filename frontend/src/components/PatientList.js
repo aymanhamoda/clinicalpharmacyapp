@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import {
   ListGroupItem,
@@ -14,9 +14,7 @@ import Loader from './Loader'
 import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 import { listInpatients } from '../actions/patientActions'
 
-const PatientList = ({ teamId }) => {
-  const [inpatient, setInpatient] = useState(false)
-
+const PatientList = ({ inpatient, setInpatient, teamId }) => {
   const patientRegister = useSelector((state) => state.patientRegister)
   const { error: registerError, loading: loadingRegister } = patientRegister
 
@@ -31,12 +29,13 @@ const PatientList = ({ teamId }) => {
     if (inpatient) {
       dispatch(listInpatients(teamId))
     }
-  }, [teamId, inpatient])
+  }, [teamId, inpatient, dispatch])
   return (
     <>
       {registerError && <Message variant="danger">{registerError}</Message>}
       {error && <Message variant="danger">{error}</Message>}
       {loadingRegister && <Loader />}
+
       <FormGroup className="col-sm-6">
         <FormCheckInput
           checked={inpatient}

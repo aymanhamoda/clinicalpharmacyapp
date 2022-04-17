@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import Paginate from '../components/Paginate'
@@ -9,6 +9,8 @@ import FormContainer from '../components/FormContainer'
 
 const PatientListScreen = ({ match }) => {
   const teamId = match.params.id
+
+  const [inpatient, setInpatient] = useState(false)
 
   const pageNumber = window.location.search.substring(1)
 
@@ -27,7 +29,12 @@ const PatientListScreen = ({ match }) => {
   return (
     <FormContainer>
       <PatientRegister teamId={teamId} />
-      <PatientList pageNumber={pageNumber} teamId={teamId} />
+      <PatientList
+        pageNumber={pageNumber}
+        teamId={teamId}
+        inpatient={inpatient}
+        setInpatient={setInpatient}
+      />
       {/* <Paginate pages={pages} page={page} /> */}
     </FormContainer>
   )

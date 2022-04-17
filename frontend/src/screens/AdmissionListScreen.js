@@ -17,7 +17,7 @@ const AdmissionListScreen = ({ match }) => {
     if (!userInfo) {
       history.push('/')
     }
-  }, [history])
+  }, [history, userInfo])
 
   return (
     <FormContainer>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Accordion, Row, Button, Col, Container } from 'react-bootstrap'
+import { Card, Accordion, Row, Col, Container } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from './Loader'
 import { listAdmissions } from '../actions/admissionActions'
@@ -31,8 +31,7 @@ const AdmissionList = ({ patientId }) => {
   const updatedAdmissionStore = useSelector(
     (state) => state.updatedAdmissionStore
   )
-  const { loading: loadingUpdateAdmission, updatedAdmission } =
-    updatedAdmissionStore
+  const { updatedAdmission } = updatedAdmissionStore
 
   const newAdmissionStore = useSelector((state) => state.newAdmissionStore)
   const { loading: loadingNewAdmission, newAdmission } = newAdmissionStore

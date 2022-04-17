@@ -44,7 +44,7 @@ const TeamListScreen = () => {
         }
       }
     }
-  }, [userInfo, history, userTeams, dispatch])
+  }, [userInfo, history, userTeams, dispatch, admin])
   return (
     <FormContainer>
       <>
