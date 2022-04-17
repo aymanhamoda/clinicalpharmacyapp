@@ -7,6 +7,7 @@ import {
   Button,
   FormGroup,
   FormLabel,
+  Container,
 } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from './Message'
@@ -14,7 +15,7 @@ import Loader from './Loader'
 import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 import { listInpatients } from '../actions/patientActions'
 
-const PatientList = ({ inpatient, setInpatient, teamId }) => {
+const PatientList = ({ setShowInpatient, showInpatient, teamId }) => {
   const patientRegister = useSelector((state) => state.patientRegister)
   const { error: registerError, loading: loadingRegister } = patientRegister
 
@@ -26,25 +27,29 @@ const PatientList = ({ inpatient, setInpatient, teamId }) => {
 
   const dispatch = useDispatch()
   useEffect(() => {
-    if (inpatient) {
+    if (showInpatient) {
       dispatch(listInpatients(teamId))
     }
-  }, [teamId, inpatient, dispatch])
+  }, [teamId, showInpatient, dispatch])
   return (
     <>
       {registerError && <Message variant="danger">{registerError}</Message>}
       {error && <Message variant="danger">{error}</Message>}
       {loadingRegister && <Loader />}
 
-      <FormGroup className="col-sm-6">
-        <FormCheckInput
-          checked={inpatient}
-          onChange={() => setInpatient(!inpatient)}
-          type="checkbox"></FormCheckInput>{' '}
-        <FormLabel>Get Inpatients Only</FormLabel>
-      </FormGroup>
+      <Container>
+        <Row>
+          <FormGroup className="col">
+            <FormCheckInput
+              checked={showInpatient}
+              onChange={() => setShowInpatient(!showInpatient)}
+              type="checkbox"></FormCheckInput>{' '}
+            <FormLabel>Stop Search and Show Inpatients Only.</FormLabel>
+          </FormGroup>
+        </Row>
+      </Container>
 
-      {inpatient ? (
+      {showInpatient ? (
         <>
           {loadInpatients ? (
             <Loader />

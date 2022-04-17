@@ -5,7 +5,7 @@ import { getTeamDetails } from '../actions/teamActions'
 
 import { registerPatient, listPatient } from '../actions/patientActions'
 
-const PatientRegister = ({ teamId, pageNumber }) => {
+const PatientRegister = ({ teamId, pageNumber, showInpatient }) => {
   const [firstName, setFirstName] = useState('')
   const [middleName, setMiddleName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -43,6 +43,7 @@ const PatientRegister = ({ teamId, pageNumber }) => {
     middleName,
     lastName,
     birthdate,
+    showInpatient,
   ])
 
   const submitHandler = (e) => {
@@ -69,6 +70,7 @@ const PatientRegister = ({ teamId, pageNumber }) => {
             <Form.Control
               className="text-center"
               type="name"
+              disabled={showInpatient}
               placeholder="اسم المريض"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}></Form.Control>
@@ -77,6 +79,7 @@ const PatientRegister = ({ teamId, pageNumber }) => {
           <Form.Group controlId="middleName" className="col-sm-4">
             <Form.Control
               type="name"
+              disabled={showInpatient}
               className="text-center"
               placeholder="الاسم الأب"
               value={middleName}
@@ -88,6 +91,7 @@ const PatientRegister = ({ teamId, pageNumber }) => {
               type="name"
               className="text-center"
               placeholder="اسم الجد"
+              disabled={showInpatient}
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}></Form.Control>
           </Form.Group>
@@ -101,6 +105,7 @@ const PatientRegister = ({ teamId, pageNumber }) => {
               </Row>
               <Form.Control
                 type="date"
+                disabled={showInpatient}
                 placeholder="Enter Birthdate"
                 value={birthdate}
                 onChange={(e) => setBirthdate(e.target.value)}></Form.Control>
@@ -108,7 +113,10 @@ const PatientRegister = ({ teamId, pageNumber }) => {
           </Col>
         </Row>
         <Form.Group className="row justify-content-end mr-2">
-          <Button className="btn btn-info" type="submit">
+          <Button
+            className="btn btn-info"
+            type="submit"
+            disabled={showInpatient}>
             Add Patient
           </Button>
         </Form.Group>

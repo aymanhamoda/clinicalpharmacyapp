@@ -10,7 +10,7 @@ import FormContainer from '../components/FormContainer'
 const PatientListScreen = ({ match }) => {
   const teamId = match.params.id
 
-  const [inpatient, setInpatient] = useState(false)
+  const [showInpatient, setShowInpatient] = useState(false)
 
   const pageNumber = window.location.search.substring(1)
 
@@ -25,15 +25,15 @@ const PatientListScreen = ({ match }) => {
     if (!userInfo) {
       history.push('/')
     }
-  }, [userInfo, history])
+  }, [userInfo, history, showInpatient])
   return (
     <FormContainer>
-      <PatientRegister teamId={teamId} />
+      <PatientRegister teamId={teamId} showInpatient={showInpatient} />
       <PatientList
         pageNumber={pageNumber}
         teamId={teamId}
-        inpatient={inpatient}
-        setInpatient={setInpatient}
+        showInpatient={showInpatient}
+        setShowInpatient={setShowInpatient}
       />
       {/* <Paginate pages={pages} page={page} /> */}
     </FormContainer>
