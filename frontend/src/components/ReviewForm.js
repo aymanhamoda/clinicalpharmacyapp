@@ -33,8 +33,8 @@ const ReviewForm = ({ admissionId, patientId, teamId }) => {
   const drugRootStore = useSelector((state) => state.drugRootStore)
   const { drugRoots } = drugRootStore
 
-  const createdReviewStore = useSelector((state) => state.createdReviewStore)
-  const { loading, newReview } = createdReviewStore
+  const newReviewStore = useSelector((state) => state.newReviewStore)
+  const { loading, newReview } = newReviewStore
 
   const errTypes = useSelector((state) => state.errTypes)
   const { errTypeList } = errTypes

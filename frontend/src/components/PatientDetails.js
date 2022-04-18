@@ -22,8 +22,8 @@ const PatientDetails = ({ patientId, screenLabel }) => {
   const patientDetails = useSelector((state) => state.patientDetails)
   const { loading, error, patient } = patientDetails
 
-  const patientUpdate = useSelector((state) => state.patientUpdate)
-  const { updatedPatient } = patientUpdate
+  const patientUpdateStore = useSelector((state) => state.patientUpdateStore)
+  const { updatedPatient } = patientUpdateStore
 
   const dispatch = useDispatch()
 

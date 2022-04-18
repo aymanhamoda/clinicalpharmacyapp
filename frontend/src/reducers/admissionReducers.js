@@ -47,10 +47,7 @@ export const admissionDetailsReducer = (state = { admission: '' }, action) => {
   }
 }
 
-export const patientadmissionListReducer = (
-  state = { admissions: [] },
-  action
-) => {
+export const admissionListReducer = (state = { admissions: [] }, action) => {
   switch (action.type) {
     case ADMISSION_LIST_REQUEST:
       return { loading: true }

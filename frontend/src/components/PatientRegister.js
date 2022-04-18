@@ -11,8 +11,8 @@ const PatientRegister = ({ teamId, pageNumber, showInpatient }) => {
   const [lastName, setLastName] = useState('')
   const [birthdate, setBirthdate] = useState('')
 
-  const patientRegister = useSelector((state) => state.patientRegister)
-  const { success } = patientRegister
+  const newPatientStore = useSelector((state) => state.newPatientStore)
+  const { success } = newPatientStore
 
   const teamDetails = useSelector((state) => state.teamDetails)
   const { team } = teamDetails
@@ -105,6 +105,7 @@ const PatientRegister = ({ teamId, pageNumber, showInpatient }) => {
               </Row>
               <Form.Control
                 type="date"
+                className="text-center"
                 disabled={showInpatient}
                 placeholder="Enter Birthdate"
                 value={birthdate}

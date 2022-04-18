@@ -16,14 +16,14 @@ import FormCheckInput from 'react-bootstrap/esm/FormCheckInput'
 import { listInpatients } from '../actions/patientActions'
 
 const PatientList = ({ setShowInpatient, showInpatient, teamId }) => {
-  const patientRegister = useSelector((state) => state.patientRegister)
-  const { error: registerError, loading: loadingRegister } = patientRegister
+  const newPatientStore = useSelector((state) => state.newPatientStore)
+  const { error: registerError, loading: loadingRegister } = newPatientStore
 
-  const patientList = useSelector((state) => state.patientList)
-  const { loading, error, patients } = patientList
+  const patientListStore = useSelector((state) => state.patientListStore)
+  const { loading, error, patients } = patientListStore
 
-  const teamInpatientStore = useSelector((state) => state.teamInpatientStore)
-  const { loading: loadInpatients, inpatients } = teamInpatientStore
+  const inpatientListStore = useSelector((state) => state.inpatientListStore)
+  const { loading: loadInpatients, inpatients } = inpatientListStore
 
   const dispatch = useDispatch()
   useEffect(() => {

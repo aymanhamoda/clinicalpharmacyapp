@@ -20,7 +20,7 @@ import {
   TEAM_INPATIENTS_RESET,
 } from '../constants/patientConstants'
 
-export const patientRegisterReducer = (state = {}, action) => {
+export const newPatientReducer = (state = {}, action) => {
   switch (action.type) {
     case PATIENT_REGISTER_REQUEST:
       return { loading: true }
@@ -33,7 +33,7 @@ export const patientRegisterReducer = (state = {}, action) => {
   }
 }
 
-export const teamInpatientReducer = (state = {}, action) => {
+export const inpatientListReducer = (state = {}, action) => {
   switch (action.type) {
     case TEAM_INPATIENTS_REQUEST:
       return { loading: true }

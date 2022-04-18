@@ -25,8 +25,8 @@ const AdmissionList = ({ patientId }) => {
   const patientDetails = useSelector((state) => state.patientDetails)
   const { patient } = patientDetails
 
-  const admissionList = useSelector((state) => state.admissionList)
-  const { loading, admissions } = admissionList
+  const admissionListStore = useSelector((state) => state.admissionListStore)
+  const { loading, admissions } = admissionListStore
 
   const updatedAdmissionStore = useSelector(
     (state) => state.updatedAdmissionStore

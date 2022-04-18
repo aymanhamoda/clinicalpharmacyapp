@@ -16,8 +16,8 @@ const ReviewPrint = ({ match }) => {
   const patientDetails = useSelector((state) => state.patientDetails)
   const { patient } = patientDetails
 
-  const reviewDetailsStore = useSelector((state) => state.reviewDetailsStore)
-  const { review } = reviewDetailsStore
+  const reviewDetails = useSelector((state) => state.reviewDetails)
+  const { review } = reviewDetails
 
   const admissionDetails = useSelector((state) => state.admissionDetails)
   const { admission } = admissionDetails

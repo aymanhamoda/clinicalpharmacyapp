@@ -17,8 +17,8 @@ const PatientListScreen = ({ match }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
-  const patientList = useSelector((state) => state.patientList)
-  const { pages, page } = patientList
+  const patientListStore = useSelector((state) => state.patientListStore)
+  const { pages, page } = patientListStore
 
   const history = useHistory()
   useEffect(() => {

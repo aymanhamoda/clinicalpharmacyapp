@@ -11,10 +11,10 @@ import {
 } from './reducers/userReducers'
 import {
   patientListReducer,
-  patientRegisterReducer,
+  newPatientReducer,
   patientDetailsReducer,
   patientUpdateReducer,
-  teamInpatientReducer,
+  inpatientListReducer,
 } from './reducers/patientReducers'
 
 import { drugsReducer } from './reducers/drugReducers'
@@ -30,7 +30,7 @@ import {
   admissionCreateReducer,
   admissionDetailsReducer,
   admissionUpdateReducer,
-  patientadmissionListReducer,
+  admissionListReducer,
 } from './reducers/admissionReducers'
 import {
   reviewCreateReducer,
@@ -49,31 +49,31 @@ const reducer = combineReducers({
   registeredUser: userRegisterReducer,
   updatedUserDetails: updateUserDetailsReducer,
 
-  patientList: patientListReducer,
+  patientListStore: patientListReducer,
+  inpatientListStore: inpatientListReducer,
   patientDetails: patientDetailsReducer,
-  patientRegister: patientRegisterReducer,
-  patientUpdate: patientUpdateReducer,
-  teamInpatientStore: teamInpatientReducer,
+  newPatientStore: newPatientReducer,
+  patientUpdateStore: patientUpdateReducer,
 
-  admissionList: patientadmissionListReducer,
+  admissionListStore: admissionListReducer,
   admissionDetails: admissionDetailsReducer,
   newAdmissionStore: admissionCreateReducer,
   updatedAdmissionStore: admissionUpdateReducer,
 
   userLogin: userLoginReducer,
+  userDelete: userDeleteReducer,
+
   newTeamStore: newTeamReducer,
   teamDetails: teamDetailsReducer,
   teamUpdateStore: teamUpdateReducer,
   teamMemberStore: teamMemberDetailsReducer,
   userTeamStore: userTeamsReducer,
 
-  createdReviewStore: reviewCreateReducer,
+  newReviewStore: reviewCreateReducer,
   reviewListStore: reviewListReducer,
-  reviewDetailsStore: reviewDetailsReducer,
+  reviewDetails: reviewDetailsReducer,
   updatedReviewStore: reviewUpdateReducer,
   deletedReviewStore: reviewDeleteReducer,
-
-  userDelete: userDeleteReducer,
 
   paySubscribtion: subscribtionPayReducer,
 })
@@ -90,7 +90,6 @@ const initialState = {
   userLogin: {
     userInfo: userInfoFromStorage,
   },
-
   drugRootStore: { drugRoots: drugRootsFromStorage },
 }
 

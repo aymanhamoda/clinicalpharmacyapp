@@ -37,8 +37,8 @@ const ReviewList = ({ admissionId, patientId, teamId }) => {
   const reviewListStore = useSelector((state) => state.reviewListStore)
   const { reviews } = reviewListStore
 
-  const createdReviewStore = useSelector((state) => state.createdReviewStore)
-  const { newReview } = createdReviewStore
+  const newReviewStore = useSelector((state) => state.newReviewStore)
+  const { newReview } = newReviewStore
 
   const deletedReviewStore = useSelector((state) => state.deletedReviewStore)
   const { deletedReview } = deletedReviewStore
